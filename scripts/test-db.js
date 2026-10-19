@@ -7,7 +7,7 @@ const path = require('path');
   const SQL = await initSqlJs({ locateFile: (f) => path.join(__dirname, '..', 'node_modules', 'sql.js', 'dist', f) });
 
   global.window = {};
-  eval(fs.readFileSync(path.join(__dirname, '..', 'renderer', 'demos.js'), 'utf8'));
+  eval(fs.readFileSync(path.join(__dirname, '..', 'app', 'renderer', 'demos.js'), 'utf8'));
   const DEMOS = global.window.DEMOS;
 
   const checks = {
@@ -50,7 +50,7 @@ const path = require('path');
   }
   try {
     global.window = {};
-    eval(fs.readFileSync(path.join(__dirname, '..', 'renderer', 'topics.js'), 'utf8'));
+    eval(fs.readFileSync(path.join(__dirname, '..', 'app', 'renderer', 'topics.js'), 'utf8'));
     const n = global.window.TOPICS.length;
     const ex = global.window.TOPICS.reduce((a, t) => a + t.examples.length, 0);
     console.log(`[OK] topics.js: ${n} konu, ${ex} örnek`);

@@ -4,11 +4,11 @@ from PIL import Image, ImageDraw, ImageFont
 import json
 
 ROOT = Path(__file__).resolve().parent.parent
-FONT = ROOT / 'renderer/assets/fonts/practisql-display/PractiSQLDisplay-Regular.ttf'
+FONT = ROOT / 'app/renderer/assets/fonts/practisql-display/PractiSQLDisplay-Regular.ttf'
 PREVIEW = ROOT / 'artifacts/installer-brand'
 PREVIEW.mkdir(exist_ok=True)
 SCALE = 4
-logo = Image.open(ROOT / 'renderer/assets/icon.png').convert('RGBA')
+logo = Image.open(ROOT / 'app/renderer/assets/icon.png').convert('RGBA')
 proof = {'typeface': 'PractiSQL Display', 'source': 'Bundled custom display typeface', 'assets': []}
 for name, size, icon_box, baseline, font_size in [
     ('header', (150, 57), (8, 10, 36), 34, 17),

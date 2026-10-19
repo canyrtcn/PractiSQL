@@ -1,6 +1,6 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
-const sdk=fs.readFileSync(path.join(__dirname,'../vendor/chatgpt-sdk.cjs'),'utf8'),start=sdk.indexOf('async function streamResponse(accessToken'),end=sdk.indexOf('// artifacts/siwc-devkit/packages/local/src/storage.ts',start);assert(start>=0&&end>start);
+const sdk=fs.readFileSync(path.join(__dirname,'../app/vendor/chatgpt-sdk.cjs'),'utf8'),start=sdk.indexOf('async function streamResponse(accessToken'),end=sdk.indexOf('// artifacts/siwc-devkit/packages/local/src/storage.ts',start);assert(start>=0&&end>start);
 class ChatGPTError extends Error{constructor(code,message){super(message);this.code=code;}}
 const item=(type,extra={})=>({type,...extra}),done=(index,value)=>({type:'response.output_item.done',output_index:index,item:value}),complete=output=>({type:'response.completed',response:{output,usage:{input_tokens:5,output_tokens:3}}});
 async function run(events,{chunks=11}={}){

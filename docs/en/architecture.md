@@ -1,10 +1,12 @@
 # How PractiSQL works
 
-PractiSQL is a local SQLite learning workspace with an optional AI tutor. The model interprets the question and chooses an SQL approach; the application supplies context, executes eligible SQL, and records what actually happened.
+PractiSQL is a local SQLite learning workspace with an optional AI tutor. Its AI harness coordinates request context, model tools, SQL execution, evidence and learning workflows. The model interprets the question and chooses an SQL approach; the application supplies context, executes eligible SQL, and records what actually happened.
 
 [Türkçe](../tr/architecture.md) · [Interactive architecture presentation](../architecture/index.html?lang=en) · [Source diagram](../architecture/ai-harness.en.svg)
 
 ![PractiSQL request and execution flow](../architecture/ai-harness.en.svg)
+
+The diagram connects three layers: source-backed context and memory, model and tool orchestration, and local SQLite execution with actual operation records. The learning workflows below share this foundation with their own data and evaluation rules. Green arrows show request/execution flow, dashed lines show source retrieval and feedback, and amber lines show the single conditional repair path.
 
 ![The current SQL workspace, local results and teaching explanation](../screenshots/leaf/01-workspace.png)
 
@@ -39,13 +41,13 @@ A repair is conditional and bounded. A successful response is not routinely sent
 
 | Responsibility | Main source |
 |---|---|
-| Workspace and request orchestration | [renderer/app.js](../../renderer/app.js), [request envelope](../../renderer/ai-request-envelope.js) |
-| Teacher and response contracts | [teacher contract](../../renderer/ai-teacher-contract.js), [answer envelope](../../renderer/ai-answer-envelope.js), [code fences](../../renderer/response-fences.js) |
-| Context capacity and saved sources | [context manager](../../renderer/ai-context-manager.js), [context sources](../../renderer/ai-context-sources.js) |
-| Native database observations | [database inspection](../../database-inspection), [tool protocol](../../renderer/ai-tool-protocol.js) |
-| SQLite reads and evidence | [read runner](../../sql-read-runner.cjs), [write evidence](../../sql-write-evidence.cjs), [seed observations](../../sql-seed-evidence.cjs) |
-| Persistence | [database store](../../database-store.cjs), [result archive](../../operation-result-store.cjs), [conversation records](../../renderer/ai-conversation.js) |
-| Account/provider transport | [main process](../../main.js), [ChatGPT bridge](../../chatgpt-account.js), [local SDK changes](../../vendor/PRACTISQL-SDK-CHANGES.md) |
+| Workspace and request orchestration | [renderer/app.js](../../app/renderer/app.js), [request envelope](../../app/renderer/ai-request-envelope.js) |
+| Teacher and response contracts | [teacher contract](../../app/renderer/ai-teacher-contract.js), [answer envelope](../../app/renderer/ai-answer-envelope.js), [code fences](../../app/renderer/response-fences.js) |
+| Context capacity and saved sources | [context manager](../../app/renderer/ai-context-manager.js), [context sources](../../app/renderer/ai-context-sources.js) |
+| Native database observations | [database inspection](../../app/database-inspection), [tool protocol](../../app/renderer/ai-tool-protocol.js) |
+| SQLite reads and evidence | [read runner](../../app/sql-read-runner.cjs), [write evidence](../../app/sql-write-evidence.cjs), [seed observations](../../app/sql-seed-evidence.cjs) |
+| Persistence | [database store](../../app/database-store.cjs), [result archive](../../app/operation-result-store.cjs), [conversation records](../../app/renderer/ai-conversation.js) |
+| Account/provider transport | [main process](../../app/main.js), [ChatGPT bridge](../../app/chatgpt-account.js), [local SDK changes](../../app/vendor/PRACTISQL-SDK-CHANGES.md) |
 
 ## Context and cancellation
 
@@ -95,7 +97,7 @@ flowchart TB
 - Provider keys use Electron safeStorage; Windows uses DPAPI. Legacy plaintext keys migrate atomically. This does not isolate secrets from all malicious software running as the same OS user.
 - The renderer CSP restricts executable scripts and permits packaged WASM/workers. Custom HTTP/HTTPS provider endpoints and existing styling remain supported; this is not a complete network sandbox.
 - Signed public builds require a genuine signing identity and publisher verification. Unsigned local builds preserve development behavior. There is currently no trusted publisher certificate.
-- Databases and conversations are not encrypted by default. Supported-runtime upgrades and other known limitations are listed in [SECURITY.md](../../SECURITY.md).
+- Databases and conversations are not encrypted by default. Supported-runtime upgrades and other known limitations are listed in [SECURITY.md](../../.github/SECURITY.md).
 
 ## Reading the presentation
 

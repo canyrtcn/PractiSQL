@@ -1,6 +1,6 @@
 'use strict';
 const {test}=require('node:test'),assert=require('node:assert/strict');
-const {initialWindowBounds,initialZoomFactor,fitPanelWidths}=require('../renderer/window-layout.js');
+const {initialWindowBounds,initialZoomFactor,fitPanelWidths}=require('../app/renderer/window-layout.js');
 const specs=require('./test-support/window-scenarios.cjs');
 for(const {width:w,height:h,scale:dpi} of specs) {
   test(w+'x'+h+' at '+dpi*100+'% fits its Windows work area',()=>{

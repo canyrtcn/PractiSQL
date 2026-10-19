@@ -9,7 +9,17 @@ function dispose(directory){
 function prepare(source){
   const directory=fs.mkdtempSync(path.join(os.tmpdir(),'practisql-security-app-')),root=path.join(directory,'app'),profile=path.join(directory,'profile'),pkg=JSON.parse(fs.readFileSync(path.join(source,'package.json')));
   fs.mkdirSync(root);fs.mkdirSync(profile);
-  for(const entry of pkg.build.files){if(entry.startsWith('node_modules/'))continue;const relative=entry.replace(/\/\*\*$/,'');assert(!relative.includes('*'));const from=path.join(source,relative),to=path.join(root,relative);fs.mkdirSync(path.dirname(to),{recursive:true});fs.cpSync(from,to,{recursive:true});}
+  for(const entry of pkg.build.files){
+    if(typeof entry==='object'){
+      assert.equal(entry.from,'app');assert.equal(entry.to,'.');
+      fs.cpSync(path.join(source,entry.from),root,{recursive:true,filter:from=>!path.relative(path.join(source,entry.from),from).split(path.sep).includes('node_modules')});
+      continue;
+    }
+    if(entry.startsWith('node_modules/'))continue;
+    const relative=entry.replace(/\/\*\*$/,'');assert(!relative.includes('*'));const from=path.join(source,relative),to=path.join(root,relative);fs.mkdirSync(path.dirname(to),{recursive:true});fs.cpSync(from,to,{recursive:true});
+  }
+  // Match the unchanged packaged entry after the source file mapping.
+  fs.writeFileSync(path.join(root,'package.json'),JSON.stringify({...pkg,...pkg.build.extraMetadata})+'\n');
   fs.symlinkSync(path.join(source,'node_modules'),path.join(root,'node_modules'),process.platform==='win32'?'junction':'dir');
   // No test window is shown or focused. Product renderer/CSP stay unchanged.
   const main=path.join(root,'main.js');fs.writeFileSync(main,"require('electron').app.on('browser-window-created',(_event,window)=>{window.show=()=>{};window.focus=()=>{};});\n"+fs.readFileSync(main,'utf8'));

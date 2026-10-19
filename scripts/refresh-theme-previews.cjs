@@ -14,7 +14,7 @@ const source=path.resolve(__dirname,'..');
     await wait(900);
     const actual=await app.evaluate('document.getElementById("ver").textContent');
     if(actual!=='v'+JSON.parse(fs.readFileSync(path.join(source,'package.json'))).version)throw Error('Preview source version mismatch');
-    const image=await app.send('Page.captureScreenshot',{format:'png'}),file=path.join(source,'renderer/assets/theme-previews',lang+'-'+theme+'.png');
+    const image=await app.send('Page.captureScreenshot',{format:'png'}),file=path.join(source,'app/renderer/assets/theme-previews',lang+'-'+theme+'.png');
     fs.writeFileSync(file,Buffer.from(image.data,'base64'));console.log(lang+' '+theme+' '+actual);
   }finally{await app?.shutdown();if(app)dispose(app.directory);}
 }})().catch(error=>{console.error(error.message);process.exitCode=1;});

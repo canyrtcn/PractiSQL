@@ -4,81 +4,117 @@
 
 ### SQL öğren. Çalıştır. Sonucu gör.
 
-Yerel SQLite çalışma alanını AI öğretmen, görsel şema, dersler ve uygulamalı görevlerle birleştiren masaüstü uygulaması.
+Yerel SQLite, AI öğretmen, görsel şema ve uygulamalı öğrenmeyi, bu akışları birlikte yöneten bir **AI harness** ile buluşturan masaüstü SQL çalışma alanı.
 
-<a href="https://github.com/canyrtcn/PractiSQL/releases"><img src="docs/assets/download-windows.tr.svg" height="44" alt="İndir"></a>
+<a href="https://github.com/canyrtcn/PractiSQL/releases"><img src="docs/assets/download-windows.tr.svg" width="328" height="64" alt="Windows için PractiSQL indir"></a>
 
-**Windows x64 · v3.4.261** &nbsp; | &nbsp; **macOS hazırlanıyor — henüz indirilebilir bir macOS paketi yok.**
+**Windows x64 · v3.4.261** · **macOS hazırlanıyor.**
 
-İndirme düğmesi Releases sayfasını açar. Repo gizliyken bu sayfayı yalnız erişimi olan kişiler görebilir.
+Düğme Releases sayfasını açar. Repo gizliyken indirmeler için repo erişimi gerekir. Henüz indirilebilir bir macOS paketi yoktur.
 
-![PractiSQL ana ekranı: SQL, yerel sonuçlar ve AI açıklaması](docs/showcase/cards/product-overview.tr.png)
+![SQL, yerel sonuçlar ve AI açıklamasını bir araya getiren PractiSQL çalışma alanı](docs/showcase/cards/product-overview.tr.png)
 
-## Bir çalışma alanında öğren ve uygula
+**Sorgun, gerçek sonuçlar ve açıklama aynı yerde kalır.** Sol panel çalışma alanlarını ve sohbetleri düzenler; orta panel SQL’i ve sonuç tablolarını öne çıkarır; sağ panel öğretmeni, şemayı, veri araçlarını ve dersleri bir araya getirir. Hazır bir örnekle başlayabilir veya kendi yerel veritabanınla çalışabilirsin.
 
-| Alan | Yapabileceklerin |
+SQL cihazında çalışır. AI bağlantısı isteğe bağlıdır; editör, görsel şema ve hazır öğrenme içeriği bağlantı olmadan da kullanılabilir.
+
+## Kendi çalışma ortamını oluştur
+
+![SQL çalışma alanının Açık, Yaprak ve Koyu temaları](docs/showcase/cards/themes-workspace.tr.png)
+
+**Çalışma biçimini koruyarak Açık, Yaprak veya Koyu temayı seç.** SQL renklendirmesi, Markdown, sonuç tabloları ve öğrenme kontrolleri seçilen temaya uyar. Türkçe ve İngilizce arayüz, ayarlanabilir panel genişlikleri, arayüz yazı tipleri ve %75–150 ölçek seçimi aynı üç panelli alanı ekranına uyarlamanı sağlar.
+
+Maskot, XP, rozetler ve öğrenme profili ilerlemeyi görünür kılar. Orta alan sorgu yazmaya ve tabloları incelemeye ayrılmıştır.
+
+## Sohbetin arkasındaki AI harness
+
+![PractiSQL AI harness: istek kapsamı, bağlam belleği, model araçları, yürütme kontrolleri, sonuç arşivleri ve öğrenme akışları](docs/architecture/ai-harness.tr.svg)
+
+**Harness, sorudan gözlemlenen sonuca uzanan süreci koordine eder.** Her istek; çalışma alanını, sohbeti, veritabanı kimliğini, revizyonu ve seçilen arayüz işlemini taşır. Öğretmen yönergeleri, gerçek şema, ilgili geçmiş ve seçili metin, öğrencinin güncel sorusundan ayrı bir bağlam olarak birleştirilir.
+
+Model, `read_context` ile önceki bir kaynağı geri getirebilir veya salt okuma aracı `inspect_database` ile yakalanmış veritabanını inceleyebilir. Seçilen modelin bağlam kapasitesi ve yanıt payı yönetilir. Eski içerik sıkıştırıldığında özgün mesajlar, SQL ve sonuç kaynakları daha sonra erişilmek üzere saklanır.
+
+| Katman | PractiSQL’in yönettiği iş |
 |---|---|
-| **SQL** | SQLite sorgularını cihazında çalıştır; sonuçları, sorgu planını ve tablo kayıtlarını incele. |
-| **AI öğretmen** | Soru sor, seçili SQL’i veya bir açıklamayı tartış; kendi sağlayıcını ya da uygun ChatGPT hesabını bağla. |
-| **Görsel şema** | Tabloları, sütunları, anahtarları ve ilişkileri etkileşimli diyagramda keşfet. |
-| **Ders ve pratik** | Dersleri izle; challenge, sınav ve 10/15/20 soruluk şemasız SQL alıştırmalarıyla çalış. |
-| **Veri projeleri** | Ayrı çalışma alanlarında gerçek UCI veri kaynaklarıyla çalış; sayısal sonuçları ve iş yorumunu değerlendir. |
-| **Kişisel çalışma alanı** | Sohbetler, PDF çalışma notları, XP, rozetler, kıyafetli maskot ve üç tema. |
+| **İstek yaşam döngüsü** | Kapsam, iptal, süre sınırları ve geç gelen yanıtın başka bir çalışma alanına veya veritabanı revizyonuna uygulanmasını önleme. |
+| **Model ve araçlar** | Sağlayıcı protokolleri, hesap bağlantısı, araç çağrısı kimlikleri, salt okuma gözlemleri ve aynı isteğin devamı. |
+| **SQL yürütmesi** | Çalıştırılacak SQL’i öğretim örneklerinden ayırma; okuma worker’ları, normal otomatik yazmalarda savepoint, SQLite kısıtları ve uygun veri koruma kontrolleri. |
+| **Kanıt ve bellek** | Gerçek sonuç tabloları, tam SQL, hatalar, değişiklikler ve kaynak kimlikleri; sonraki sorular için tam sonuç arşivleri. |
+| **Öğrenme akışları** | Kendi yürütme ve değerlendirme kurallarıyla dersler, challenge’lar, sınavlar, şemasız alıştırmalar ve veri projeleri. |
 
-SQL editörü ve hazır öğrenme içeriği AI bağlantısı olmadan kullanılabilir. Türkçe ve İngilizce arayüz, üç panel ve %75–150 arayüz ölçeği desteklenir.
+Uygun hatalarda özgün istek ve gerçek hata ya da işlem kanıtıyla tek, ortak ve koşullu bir düzeltme denemesi kullanılabilir. Okuma, otomatik yazma ve manuel işlemler ayrı yürütme sözleşmelerine sahiptir. Yerel kontroller tanımlı kapsamı denetler; öğretici açıklamalar ve iş yorumlarında model değerlendirmesi de yer alır.
 
-![Açık, Yaprak ve Koyu tema](docs/showcase/cards/themes-workspace.tr.png)
+[Mimariyi ve kaynak eşlemesini incele](docs/tr/architecture.md) · [Sekiz görünümde 48 bileşen](docs/architecture/index.html?lang=tr) — kaynakları indirdikten sonra HTML gezginini yerel olarak açabilirsin.
 
-<details>
-<summary><strong>Daha fazla ekran görüntüsü</strong></summary>
+## SQL yaz, ne yaptığını incele
 
-![Tablolar ve ilişkiler](docs/showcase/cards/table-explorer.tr.png)
+![Tam bir perakende sorgusu ve ürettiği sonuç tablosu](docs/showcase/cards/query-results.tr.png)
 
-![Dersler ve öğrenme yolu](docs/showcase/cards/guided-learning.tr.png)
+**Sorguyu sonuç satırlarına kadar takip et.** Bu örnekte ürünler, sipariş kalemleri ve siparişler birleştirilir; tamamlanan satışlar gruplanarak miktar ve gelir hesaplanır. Alttaki tablo, uygulamadaki gerçek SQLite yürütmesinin sonucudur.
 
-![SQL sınavları](docs/showcase/cards/sql-exams.tr.png)
+Kendi SQL’ini yaz, sorgu planını incele, geçmiş sorgulara dön veya sohbet içindeki bir kod bloğunu editöre aktar. Kopyalama ve aktarma SQL metnini korur. Modelin açıklaması çalışmanın yanında durduğu için söylediklerini görünen sonuçla karşılaştırabilirsin.
 
-![Veri projeleri](docs/showcase/cards/data-projects.tr.png)
+## JOIN yazmadan önce tabloları anla
 
-</details>
+![Beş tabloluk perakende şemasının eksiksiz ilişki diyagramı](docs/showcase/cards/table-view.tr.png)
 
-[84 ekran görüntüsü](docs/tr/screenshots.md) · [Sunum görselleri](docs/assets/README.md)
+**İlişkilerin tamamını tek diyagramda gör.** Şema gezgini tabloları, gerçek sütun adlarını, birincil ve dış anahtarları, tanımlı ilişkileri ve satır sayılarını gösterir. Yakınlaştırma, kaydırma ve tablo seçimi bir bağlantıyı JOIN yazmadan önce takip etmene yardımcı olur. Yukarıdaki görsel beş demo tablosunun tamamını çerçeve içinde tutar.
 
-Görsellerde geliştiricinin adı ve fotoğrafı kendi açık izniyle kullanılır. Çalışma alanları, sohbetler ve perakende kayıtları örnektir; kişisel veritabanı veya konuşma içermez. Ekranlar gerçek uygulamadan alınır. Tanıtımdaki öğretim/sınav metinleri hazırlanmış örneklerdir; SQL sonuçları ve yerel denetimler uygulamada çalıştırılır.
+![Dört sütunu ve sekiz ürün kaydıyla tablo önizlemesi](docs/showcase/cards/table-data.tr.png)
 
-## AI harness
+**Tabloyu aç, kayıtlarını incele.** Burada sentetik ürün kataloğu gerçek sorgu sonucu olarak gösterilir; dört sütunun ve sekiz satırın tamamı görünür. Değerleri hem şemayla hem onları okuyan SQL ile karşılaştırabilirsin.
 
-PractiSQL’in AI harness sistemi; isteğin kapsamını, modele giden bağlamı, araç çağrılarını, yerel SQL yürütmesini ve gerçek işlem kaydını birlikte yönetir. Model SQL yaklaşımını seçer; uygulama ilgili şemayı ve geçmişi sağlar, yürütülebilir SQL’i öğretici açıklamadan ayırır ve gerçekleşen sonucu kaynağıyla saklar.
+Yerel SQLite veritabanları ve dosya içe aktarımları öğrenme alanına dönüşebilir. Desteklenen sunucu içe aktarımları da yerel bir öğrenme kopyası oluşturur; bu kopya üzerinde sorgu çalıştırmak ayrı bir işlemdir.
 
-![PractiSQL AI harness: istekten yerel sonuca ve sonraki sorunun bağlamına](docs/architecture/ai-harness.tr.svg)
+## Bir kavram öğren, sonra dene
 
-Salt okuma araçları güncel veriyi inceleyebilir ve kaydedilmiş bağlamı geri çağırabilir. Okumalar worker’da, normal otomatik yazma partileri uygun bütünlük kontrolleriyle çalışır. İptal ve eski çalışma alanına gelen geç yanıtlar ayrı izlenir. Bu kontroller modelin her açıklamasının doğru olduğunu garanti etmez.
+![Açıklamalar ve SQL örnekleriyle SELECT dersi](docs/showcase/cards/guided-learning.tr.png)
 
-[Mimari ve kaynak eşlemesi](docs/tr/architecture.md) · [Mimari gezgini — yerel olarak aç](docs/architecture/index.html?lang=tr)
+**Hazır dersler her SQL kavramı için bir başlangıç sunar.** Öğrenme yolunu takip et, açıklamayı oku, örnekleri incele ve ayrı bir ders çalışma alanında dene. Yol; seçim, filtreleme, sıralama, JOIN, gruplama ve daha ileri SQL konularını kapsar.
 
-## Kendi AI bağlantını seç
+Challenge’lar bu kavramları şema ve örnek kayıtlar içeren görevlere dönüştürür. Cevaplar üç farklı deneme verisinde kontrol edilir. PDF çalışma notları ders içeriğini ve SQL gözlemlerini saklayabileceğin bir belgede, PractiSQL logo yazısı ve maskotuyla bir araya getirir.
 
-**ChatGPT hesabı:** Ayarlar → Sağlayıcı → ChatGPT Account → ChatGPT ile giriş yap. Desteklenen hesap akışıyla oturum aç; bu yol için ayrıca API anahtarı yapıştırman gerekmez. Kullanılabilen modeller, plan uygunluğu ve kullanım limitleri hesabına bağlıdır.
+## SQL’in yapısını çalış
 
-**API sağlayıcıları:** OpenAI, Anthropic Claude, Google AI Studio, DeepSeek, OpenCode Zen & Go, xAI, Moonshot, Zhipu, Cohere, Mistral, Groq, OpenRouter, Together AI, Alibaba Qwen, Perplexity.
+![Şema gerektirmeyen SQL ifadesi alıştırması](docs/showcase/cards/sql-exercises.tr.png)
 
-Özel sağlayıcı seçeneği desteklenen uyumlu HTTP/HTTPS uç noktalarını da bağlar. Sağlayıcını ve modelini sen seçersin; uygulamayla ortak bir ücretli anahtar dağıtılmaz. Erişim ve fiyatlar sağlayıcıya aittir.
+**Sorguyu oku, eksik ifadeyi tamamla.** 10, 15 veya 20 soru ve zorluk seviyesi seç. Seçtiğin AI sağlayıcısı sentetik sorguları hazırlar; arayüz bir SQL ifadesini boşluğa dönüştürür, sorgunun dil bilgisini doğrular ve anahtar kelime cevabını yerel olarak inceler.
 
-## Kaydedilmiş model kontrolleri
+Bu alıştırma bir ifadenin veya fonksiyonun nerede kullanılacağını tanımaya odaklanır. Kişisel şemanı veya tablo kayıtlarını soru üreticisine göndermez. Tur bittiğinde cevapları ve açıklamaları görebilirsin.
 
-Aşağıdaki küçük ortak TR/EN değerlendirmesi, tarihsel yerel test sonuçlarını gösterir; 3.4.261 için yeni bir benchmark veya genel model doğruluğu iddiası değildir.
+## Bilgini sına ve geri dönüp incele
 
-| Model | Güncel veri üzerinde SQL görevi | Önemli anlatım kusuru saptanmayan yanıt |
-|---|---:|---:|
-| GPT-6 Luna | 6 / 6 | 8 / 8 |
-| Muse Spark 1.3 Contributor | 6 / 6 | 8 / 8 |
-| DeepSeek v4.1 Flash | 6 / 6 | 6 / 8 |
+![Renkli SQL ve isteğe bağlı tam sorgu cevabıyla sınav sorusu](docs/showcase/cards/sql-exams.tr.png)
 
-Daha geniş testlerde model açıklamalarında ve bazı SQL görevlerinde hatalar da gözlendi. Farklı değerlendirme setlerinin sonuçları ayrı gösterilir. [Kapsam, diğer modeller ve yöntem](docs/tr/benchmarks.md).
+**Sınavlar soruyu, SQL kanıtını ve incelemeyi birleştirir.** Şema gezgini sınavın sabit veritabanı kopyasını kullanır. Soruyu oku, eksik SQL’i tamamla veya seçilen soru türünü yanıtla; ardından sonucu ve geri bildirimi incele. Öğrenci SQL’i veritabanı kopyasında kontrol edilir ve notlandırmada AI değerlendirmesi de kullanılır.
 
-## Geliştirme
+Boşluk doldurma sorusunda doğru, isteğe bağlı tam sorgu cevabı ek 25 XP kazandırır. Kayıtlı sınav geçmişi ve çalışma defterleri eski çalışmana dönmeyi sağlar; ödül takibi aynı soru setinden tekrar ödül alınmasını önler.
 
-Node.js 22 veya üzeri ve npm gerekir.
+## Gerçek veriden işe yarayan bir rapora
+
+![SQL, rapor sonuçları ve geri bildirim içeren veri projesi](docs/showcase/cards/data-projects.tr.png)
+
+**Belgelenmiş bir kaynaktan iş sorusuna ilerle.** Proje akışı resmî UCI kataloğunu tarayabilir, kaynağı inceleyebilir ve ölçülebilir bir görevi netleştirebilir. Kaynak ayrı bir çalışma alanına aktarılır; SQL’ini ve yorumunu burada teslim edersin.
+
+Beklenen sayısal sonuçlar, özgün CSV kayıtlarından ve ölçüm tanımından bağımsız olarak hesaplanır. Ardından AI, eldeki kanıtlarla iş yorumunu değerlendirir. Proje bağlamı, teslimler, kontroller ve geri bildirim birbirine bağlı kalır; sonraki konuşma gerçekten değerlendirilen çalışmaya başvurabilir.
+
+## Tercih ettiğin AI sağlayıcısını bağla
+
+**ChatGPT hesabı:** Ayarlar → Sağlayıcı → ChatGPT Account → ChatGPT ile giriş yap. Hesap akışıyla oturum aç; bu yol için ayrıca API anahtarı yapıştırman gerekmez. Kullanılabilen modeller, plan uygunluğu ve kullanım limitleri hesabına bağlıdır.
+
+**API sağlayıcıları:** OpenAI, Anthropic Claude, Google AI Studio, DeepSeek, OpenCode Zen & Go, xAI, Moonshot, Zhipu, Cohere, Mistral, Groq, OpenRouter, Together AI, Alibaba Qwen ve Perplexity.
+
+Uyumlu özel HTTP/HTTPS uç noktaları da desteklenir. Sağlayıcını ve modelini sen seçersin; uygulamayla ortak bir ücretli anahtar dağıtılmaz. AI’a sorun, ilgili konuşma, şema ve gerekli gözlem veya sonuç satırları gönderilebilir. İlk kurulum bu paylaşımı bağlantıdan önce açıklar. [Gizlilik ayrıntıları](docs/PRIVACY.md).
+
+## Daha fazla ekran ve belge
+
+[84 uygulama ekranını incele](docs/tr/screenshots.md) · [Türkçe ve İngilizce sunum görselleri](docs/assets/README.md) · [Mimari](docs/tr/architecture.md)
+
+Geliştiricinin adı ve fotoğrafı izniyle kullanılır. Tanıtım çalışma alanları, sohbetler, perakende kayıtları ve öğrenme istatistikleri sentetiktir. Ekranlar gerçek uygulamadan alınır; öğretim ve sınav metinleri hazırlanmış demo içeriğidir. SQL sonuçları ve yerel kontroller uygulamada çalıştırılmıştır.
+
+## Geliştirme ve repo düzeni
+
+Node.js 22 veya üzerini ve npm kullan.
 
 ```sh
 npm ci
@@ -90,23 +126,28 @@ npm run test:db
 npm run test:security
 npm run test:security:integration
 npm run test:ui
+npm run test:layout
 npm run test:docs
 ```
 
-Windows kurucusu: `npm run dist:win:unsigned`. İmzalı yayın yapılandırması ayrıca geçerli sertifika gerektirir. Güncel çıktı düzeni `release/win-unpacked/`, kurucu ve güncelleme dosyaları için `release/` olarak korunur.
+```text
+app/       Electron uygulaması, arayüz, SQLite worker’ları ve öğrenme modülleri
+config/    İmzalı yayın için build yapılandırması
+docs/      İki dilde mimari, ekran görüntüleri ve sunum görselleri
+scripts/   Taşınabilir doğrulama ve görsel üretim araçları
+.github/   CI, katkı/güvenlik belgeleri ve hata şablonları
+```
 
-[CONTRIBUTING.md](CONTRIBUTING.md) · [PRIVACY.md](PRIVACY.md) · [SECURITY.md](SECURITY.md) · [Sürüm ve güncelleme yayını](docs/RELEASING.md)
+Kaynak modülleri `app/` altında toplanır; paketleme bunları mevcut çalışma yollarına yerleştirir. `npm ci`, yerel SQLite worker dosyalarını otomatik hazırlar. İmzasız Windows kurucusu için `npm run dist:win:unsigned` kullan; imzalı build ayrıca geçerli yayıncı kimliği gerektirir. Güncel çıktı `release/win-unpacked/`, kurucu ve güncelleme dosyaları doğrudan `release/` altında kalır.
+
+[Katkı](.github/CONTRIBUTING.md) · [Güvenlik ve bilinen sınırlar](.github/SECURITY.md) · [Sürüm ve güncellemeler](docs/RELEASING.md)
 
 ## Windows güvenlik uyarısı
 
-Mevcut Windows kurucusu imzasızdır. Ticari kod imzalamanın maliyeti bu ücretsiz projenin mevcut bütçesini aştığı için henüz yayıncı sertifikası alınmadı. Windows, uygulamanın tanınmaması veya doğrulanmış yayıncı kimliğinin olmaması nedeniyle SmartScreen uyarısı gösterebilir.
+Mevcut kurucu imzasızdır. Ticari kod imzalama maliyeti bu ücretsiz projenin mevcut bütçesini aştığı için henüz yayıncı sertifikası alınmadı. Windows, uygulamanın tanınmaması veya doğrulanmış yayıncı kimliği bulunmaması nedeniyle SmartScreen uyarısı gösterebilir.
 
-Kurucuyu yalnız bu reponun Releases sayfasından al, yayımlanan SHA-256 değeriyle karşılaştır ve istersen antivirüsünle tara. Resmî indirmeyi doğrulayıp çalıştırmaya karar verirsen, Windows izin verdiğinde **Ek bilgi → Yine de çalıştır** yolunu kullanabilirsin. Antivirüsü kapatman gerekmez. Bir tanınmama uyarısı tek başına zararlı yazılım tespiti değildir; kaynak kodu ve dağıtım dosyaları incelemeye ve taramaya açıktır.
-
-[Microsoft SmartScreen](https://learn.microsoft.com/en-us/windows/security/operating-system-security/virus-and-threat-protection/microsoft-defender-smartscreen/)
+Kurucuyu bu reponun Releases sayfasından al, yayımlanan SHA-256 değeriyle karşılaştır ve istersen antivirüsünle tara. Resmî indirmeyi doğrulayıp çalıştırmaya karar verirsen Windows **Ek bilgi → Yine de çalıştır** yolunu sunabilir. Antivirüsü kapatman gerekmez. Tanınmama uyarısı tek başına zararlı yazılım tespiti değildir; kaynaklar ve dağıtım dosyaları incelemeye ve taramaya açıktır. [Microsoft SmartScreen](https://learn.microsoft.com/en-us/windows/security/operating-system-security/virus-and-threat-protection/microsoft-defender-smartscreen/).
 
 ## Lisans
 
-PractiSQL’e ait kaynak kodu [MIT](LICENSE). Üçüncü taraf bileşenler kendi lisanslarını korur.
-
-Birlikte dağıtılan Sign in with ChatGPT DevKit’in ayrı, ticari olmayan kullanım koşulları vardır; tüm paketi yalnız MIT olarak değerlendirme. [LICENSE](vendor/CHATGPT-SDK-LICENSE.txt) · [Notices](vendor/CHATGPT-SDK-NOTICES.md) · [Local changes](vendor/PRACTISQL-SDK-CHANGES.md).
+PractiSQL’e ait kaynak kodu [MIT](LICENSE) kapsamındadır. Üçüncü taraf bileşenler kendi lisanslarını korur. Birlikte dağıtılan Sign in with ChatGPT DevKit’in ayrı ticari olmayan kullanım koşulları vardır; tüm paket yalnız MIT olarak değerlendirilmemelidir. [SDK lisansı](app/vendor/CHATGPT-SDK-LICENSE.txt) · [Bildirimler](app/vendor/CHATGPT-SDK-NOTICES.md) · [Yerel uyarlamalar](app/vendor/PRACTISQL-SDK-CHANGES.md).

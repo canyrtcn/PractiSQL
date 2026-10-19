@@ -1,8 +1,12 @@
 # PractiSQL nasıl çalışır?
 
-PractiSQL, cihazda çalışan bir SQLite çalışma alanını isteğe bağlı bir AI öğretmenle birleştirir. Öğrenci sorusunu doğal dille anlatır; model SQL yöntemini seçer. Uygulama doğru bağlamı taşır, uygun SQL’i çalıştırır ve gerçekleşen sonucu konuşmaya geri bağlar.
+PractiSQL, cihazda çalışan bir SQLite çalışma alanını isteğe bağlı bir AI öğretmenle birleştirir. AI harness; istek bağlamını, model araçlarını, SQL yürütmesini, işlem kanıtlarını ve öğrenme akışlarını koordine eder. Öğrenci sorusunu doğal dille anlatır; model SQL yöntemini seçer. Uygulama doğru bağlamı taşır, uygun SQL’i çalıştırır ve gerçekleşen sonucu konuşmaya geri bağlar.
 
 [Etkileşimli mimari sunumu](../architecture/index.html?lang=tr) · [English architecture](../en/architecture.md) · [Akış görseli](../architecture/ai-harness.tr.svg)
+
+![PractiSQL AI harness: bağlam, model araçları, SQL kontrolleri ve öğrenme akışları](../architecture/ai-harness.tr.svg)
+
+Şema üç ana katmanı birlikte gösterir: kaynak kimliğiyle saklanan bağlam ve bellek, model ile araç orkestrasyonu, yerel SQLite yürütmesi ve gerçekleşen işlem kayıtları. Alt sıradaki öğrenme yolları bu temeli kendi veri ve değerlendirme kurallarıyla kullanır. Yeşil oklar istek/yürütme yolunu, kesikli çizgiler kaynak getirmeyi ve geri beslemeyi, kehribar çizgiler tek ve koşullu düzeltmeyi gösterir.
 
 ![Güncel SQL çalışma alanı, yerel sonuçlar ve öğretici açıklama](../screenshots/leaf/01-workspace.png)
 
@@ -33,6 +37,24 @@ flowchart LR
 
 Başarılı her cevap ikinci bir modele gönderilmez. Araç devamı, özetleme ve uygun hatada sınırlı onarım koşulludur. Manuel editör, açık transaction/bağlantı komutları, sınav ve proje ayrı yürütme sözleşmelerine sahiptir.
 
+## Bağlam, bellek ve iptal
+
+Bağlam kapasitesi ve yanıt payı seçilen modele göre yönetilir. Gerekli olduğunda eski içerik sıkıştırılır; özgün mesajlar, SQL ve sonuç kaynakları kimlikleriyle saklanır. `read_context` bu kaynakları sayfalar halinde geri getirebilir. Güncel veritabanı gözlemleriyle geçmiş sonuçlar ayrı kaynaklardır; geçmiş bir soruyu yanıtlamak için sorgu güncel veride sessizce yeniden çalıştırılmaz.
+
+Yanıtın çalışma alanı, sohbeti ve veritabanı revizyonu ilk istekle karşılaştırılır. İptal, bekleyen model ve araç işlerini durdurur; zaten uygulanmış bir işlem sonradan iptal edilmiş sayılmaz. Bu kurallar istek yaşam döngüsünün sınırlarını korur; modelin her açıklamasının doğruluğunu garanti etmez.
+
+## Sorumluluklar ve kaynak kod
+
+| Sorumluluk | Ana kaynak |
+|---|---|
+| İstek kapsamı ve orkestrasyon | [İstek zarfı](../../app/renderer/ai-request-envelope.js), [ana arayüz akışı](../../app/renderer/app.js) |
+| Öğretmen ve yanıt sözleşmeleri | [Öğretmen sözleşmesi](../../app/renderer/ai-teacher-contract.js), [yanıt zarfı](../../app/renderer/ai-answer-envelope.js) |
+| Bağlam kapasitesi ve kaynak belleği | [Bağlam yöneticisi](../../app/renderer/ai-context-manager.js), [kaynaklar](../../app/renderer/ai-context-sources.js) |
+| Model araçları ve salt okuma | [Araç protokolü](../../app/renderer/ai-tool-protocol.js), [veritabanı inceleme](../../app/database-inspection) |
+| SQL yürütmesi ve işlem kanıtı | [Okuma yürütücüsü](../../app/sql-read-runner.cjs), [yazma kanıtı](../../app/sql-write-evidence.cjs) |
+| Kalıcı kayıtlar | [Veritabanı deposu](../../app/database-store.cjs), [sonuç arşivi](../../app/operation-result-store.cjs), [sohbet kayıtları](../../app/renderer/ai-conversation.js) |
+| Hesap ve sağlayıcı bağlantısı | [Ana süreç](../../app/main.js), [ChatGPT köprüsü](../../app/chatgpt-account.js) |
+
 ## Öğretim ve değerlendirme
 
 Modelin görevi yalnız SQL üretmek değildir: kavramı açıklamak, örneği adımlandırmak ve uygun karşılaştırmalarda tablo kullanmaktır. Başlık ve Markdown desteği anlatımı okunur kılar; yöntem ve açıklamanın kapsamı tek bir sabit şablona sıkıştırılmaz.
@@ -57,7 +79,7 @@ SQL cihazda çalışır. AI özellikleri kullanıldığında soru, ilgili sohbet
 
 Kaydedilen API anahtarları OS korumalı kasada tutulur; Windows’ta DPAPI kullanılır. DB ve sohbet dosyaları varsayılan olarak şifrelenmez. CSP paketli kodu, WASM ve worker’ları desteklerken enjekte edilen JavaScript’i sınırlar; özel HTTP/HTTPS sağlayıcı adreslerini kapatmaz.
 
-İmzalı yayın hattı hazırdır ancak gerçek yayıncı sertifikası henüz yoktur. Mevcut yerel kurucu imzasızdır. [Gizlilik açıklaması](../../PRIVACY.md), [teknik sınırlar](../../SECURITY.md) ve [yayın hazırlığı](../PUBLICATION.md) bu ayrımları açıklar.
+İmzalı yayın hattı hazırdır ancak gerçek yayıncı sertifikası henüz yoktur. Mevcut yerel kurucu imzasızdır. [Gizlilik açıklaması](../PRIVACY.md), [teknik sınırlar](../../.github/SECURITY.md) ve [yayın hazırlığı](../PUBLICATION.md) bu ayrımları açıklar.
 
 ## Sunumu kullanmak
 

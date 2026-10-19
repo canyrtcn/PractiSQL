@@ -29,7 +29,9 @@ jobs:
       - run: npm run test:workshop
       - run: npm run test:interface-details
       - run: npm run docs:build
+      - run: npm run docs:assets
       - run: npm run docs:showcase
       - run: npm run docs:showcase:render
       - run: npm run test:docs
+      - run: npm run test:repository-docs
       - run: node scripts/scan-source.cjs

@@ -261,241 +261,241 @@
   "nodes": {
     "input": {
       "sources": [
-        "renderer/app.js",
-        "renderer/ai-request-envelope.js"
+        "app/renderer/app.js",
+        "app/renderer/ai-request-envelope.js"
       ]
     },
     "context": {
       "sources": [
-        "renderer/app.js",
-        "renderer/ai-request-envelope.js",
-        "renderer/ai-teacher-contract.js",
-        "renderer/relationship-roles.js",
-        "sql-seed-evidence.cjs"
+        "app/renderer/app.js",
+        "app/renderer/ai-request-envelope.js",
+        "app/renderer/ai-teacher-contract.js",
+        "app/renderer/relationship-roles.js",
+        "app/sql-seed-evidence.cjs"
       ]
     },
     "model": {
       "sources": [
-        "renderer/app.js",
-        "renderer/ai-tool-protocol.js"
+        "app/renderer/app.js",
+        "app/renderer/ai-tool-protocol.js"
       ]
     },
     "answer": {
       "sources": [
-        "renderer/response-fences.js",
-        "renderer/ai-answer-envelope.js",
-        "renderer/app.js"
+        "app/renderer/response-fences.js",
+        "app/renderer/ai-answer-envelope.js",
+        "app/renderer/app.js"
       ]
     },
     "execute": {
       "sources": [
-        "renderer/app.js",
-        "sql-read-runner.cjs"
+        "app/renderer/app.js",
+        "app/sql-read-runner.cjs"
       ]
     },
     "feedback": {
       "sources": [
-        "renderer/ai-conversation.js",
-        "operation-result-store.cjs",
-        "renderer/app.js"
+        "app/renderer/ai-conversation.js",
+        "app/operation-result-store.cjs",
+        "app/renderer/app.js"
       ]
     },
     "schema": {
       "sources": [
-        "renderer/ai-native-schema.js"
+        "app/renderer/ai-native-schema.js"
       ]
     },
     "history": {
       "sources": [
-        "renderer/ai-conversation.js",
-        "renderer/ai-database-observations.js",
-        "renderer/app.js"
+        "app/renderer/ai-conversation.js",
+        "app/renderer/ai-database-observations.js",
+        "app/renderer/app.js"
       ]
     },
     "envelope": {
       "sources": [
-        "renderer/ai-request-envelope.js"
+        "app/renderer/ai-request-envelope.js"
       ]
     },
     "capacity": {
       "sources": [
-        "renderer/ai-context-budget.js",
-        "renderer/app.js"
+        "app/renderer/ai-context-budget.js",
+        "app/renderer/app.js"
       ]
     },
     "compaction": {
       "sources": [
-        "renderer/ai-context-manager.js",
-        "renderer/ai-context-budget.js"
+        "app/renderer/ai-context-manager.js",
+        "app/renderer/ai-context-budget.js"
       ]
     },
     "sources": {
       "sources": [
-        "renderer/ai-context-sources.js",
-        "operation-result-store.cjs"
+        "app/renderer/ai-context-sources.js",
+        "app/operation-result-store.cjs"
       ]
     },
     "tooldecision": {
       "sources": [
-        "renderer/app.js"
+        "app/renderer/app.js"
       ]
     },
     "readcontext": {
       "sources": [
-        "renderer/ai-context-sources.js"
+        "app/renderer/ai-context-sources.js"
       ]
     },
     "inspectdb": {
       "sources": [
-        "renderer/ai-database-reader.js",
-        "renderer/ai-database-capture.js",
-        "database-inspection/runner.cjs"
+        "app/renderer/ai-database-reader.js",
+        "app/renderer/ai-database-capture.js",
+        "app/database-inspection/runner.cjs"
       ]
     },
     "toolprotocol": {
       "sources": [
-        "renderer/ai-tool-protocol.js"
+        "app/renderer/ai-tool-protocol.js"
       ]
     },
     "observation": {
       "sources": [
-        "renderer/ai-database-observations.js",
-        "renderer/ai-tool-protocol.js"
+        "app/renderer/ai-database-observations.js",
+        "app/renderer/ai-tool-protocol.js"
       ]
     },
     "toolbudget": {
       "sources": [
-        "renderer/app.js",
-        "renderer/ai-tool-protocol.js",
-        "renderer/ai-database-reader.js",
-        "renderer/project-request.js",
-        "renderer/project-review-request.js",
-        "renderer/project-context.js"
+        "app/renderer/app.js",
+        "app/renderer/ai-tool-protocol.js",
+        "app/renderer/ai-database-reader.js",
+        "app/renderer/project-request.js",
+        "app/renderer/project-review-request.js",
+        "app/renderer/project-context.js"
       ]
     },
     "answerroles": {
       "sources": [
-        "renderer/response-fences.js",
-        "renderer/ai-answer-envelope.js",
-        "renderer/ai-teacher-contract.js"
+        "app/renderer/response-fences.js",
+        "app/renderer/ai-answer-envelope.js",
+        "app/renderer/ai-teacher-contract.js"
       ]
     },
     "limits": {
       "sources": [
-        "renderer/explicit-request-limits.js",
-        "renderer/app.js",
-        "renderer/request-action-policy.js"
+        "app/renderer/explicit-request-limits.js",
+        "app/renderer/app.js",
+        "app/renderer/request-action-policy.js"
       ]
     },
     "readworker": {
       "sources": [
-        "sql-read-runner.cjs",
-        "sql-read-worker.cjs",
-        "renderer/sql-read-contract.js",
-        "renderer/app.js"
+        "app/sql-read-runner.cjs",
+        "app/sql-read-worker.cjs",
+        "app/renderer/sql-read-contract.js",
+        "app/renderer/app.js"
       ]
     },
     "atomic": {
       "sources": [
-        "renderer/app.js"
+        "app/renderer/app.js"
       ]
     },
     "audit": {
       "sources": [
-        "renderer/app.js",
-        "renderer/sqlite-values.js"
+        "app/renderer/app.js",
+        "app/renderer/sqlite-values.js"
       ]
     },
     "repair": {
       "sources": [
-        "renderer/app.js",
-        "renderer/ai-request-snapshot.js"
+        "app/renderer/app.js",
+        "app/renderer/ai-request-snapshot.js"
       ]
     },
     "provider": {
       "sources": [
-        "renderer/app.js",
-        "chatgpt-account.js",
-        "preload.js",
-        "secure-config.cjs"
+        "app/renderer/app.js",
+        "app/chatgpt-account.js",
+        "app/preload.js",
+        "app/secure-config.cjs"
       ]
     },
     "protocol": {
       "sources": [
-        "renderer/app.js",
-        "ai-rate-limit.js",
-        "chatgpt-account.js",
-        "vendor/chatgpt-sdk.cjs",
-        "vendor/PRACTISQL-SDK-CHANGES.md"
+        "app/renderer/app.js",
+        "app/ai-rate-limit.js",
+        "app/chatgpt-account.js",
+        "app/vendor/chatgpt-sdk.cjs",
+        "app/vendor/PRACTISQL-SDK-CHANGES.md"
       ]
     },
     "cancel": {
       "sources": [
-        "renderer/ai-request-control.js",
-        "renderer/app.js",
-        "renderer/ai-wait-progress.js"
+        "app/renderer/ai-request-control.js",
+        "app/renderer/app.js",
+        "app/renderer/ai-wait-progress.js"
       ]
     },
     "stale": {
       "sources": [
-        "renderer/app.js",
-        "renderer/ai-database-capture.js",
-        "renderer/ai-tool-protocol.js"
+        "app/renderer/app.js",
+        "app/renderer/ai-database-capture.js",
+        "app/renderer/ai-tool-protocol.js"
       ]
     },
     "storage": {
       "sources": [
-        "database-store.cjs",
-        "operation-result-store.cjs",
-        "renderer/ai-conversation.js",
-        "profile-bootstrap.cjs",
-        "secure-config.cjs"
+        "app/database-store.cjs",
+        "app/operation-result-store.cjs",
+        "app/renderer/ai-conversation.js",
+        "app/profile-bootstrap.cjs",
+        "app/secure-config.cjs"
       ]
     },
     "observability": {
       "sources": [
-        "renderer/ai-usage.js",
-        "renderer/operation-results.js",
-        "renderer/ai-request-control.js"
+        "app/renderer/ai-usage.js",
+        "app/renderer/operation-results.js",
+        "app/renderer/ai-request-control.js"
       ]
     },
     "editor": {
       "sources": [
-        "renderer/app.js"
+        "app/renderer/app.js"
       ]
     },
     "teaching": {
       "sources": [
-        "renderer/teaching-grounding.js",
-        "renderer/physical-fk-tuples.js",
-        "renderer/app.js"
+        "app/renderer/teaching-grounding.js",
+        "app/renderer/physical-fk-tuples.js",
+        "app/renderer/app.js"
       ]
     },
     "exam": {
       "sources": [
-        "renderer/exam-sql.js",
-        "renderer/app.js",
-        "renderer/exam-study.js",
-        "renderer/sql-exercises.js",
-        "renderer/exam-presentation.js"
+        "app/renderer/exam-sql.js",
+        "app/renderer/app.js",
+        "app/renderer/exam-study.js",
+        "app/renderer/sql-exercises.js",
+        "app/renderer/exam-presentation.js"
       ]
     },
     "project": {
       "sources": [
-        "learning-projects/engine.cjs",
-        "learning-projects/rubrics.cjs",
-        "renderer/project-review.js",
-        "learning-projects/discovery/project-ipc.cjs",
-        "renderer/project-discovery-ui.js"
+        "app/learning-projects/engine.cjs",
+        "app/learning-projects/rubrics.cjs",
+        "app/renderer/project-review.js",
+        "app/learning-projects/discovery/project-ipc.cjs",
+        "app/renderer/project-discovery-ui.js"
       ]
     },
     "learnpdf": {
       "sources": [
-        "renderer/app.js",
-        "renderer/lesson-pdf.js",
-        "renderer/learn-detail.js",
-        "renderer/study-notes.js",
-        "pdf-print.js"
+        "app/renderer/app.js",
+        "app/renderer/lesson-pdf.js",
+        "app/renderer/learn-detail.js",
+        "app/renderer/study-notes.js",
+        "app/pdf-print.js"
       ]
     },
     "evaluation": {
@@ -509,76 +509,76 @@
     },
     "projectsource": {
       "sources": [
-        "learning-projects/discovery/uci-catalogue.cjs",
-        "learning-projects/discovery/verified-csv.cjs",
-        "learning-projects/discovery/discovery-session.cjs"
+        "app/learning-projects/discovery/uci-catalogue.cjs",
+        "app/learning-projects/discovery/verified-csv.cjs",
+        "app/learning-projects/discovery/discovery-session.cjs"
       ]
     },
     "projectbrief": {
       "sources": [
-        "learning-projects/discovery/project-planner.cjs",
-        "learning-projects/discovery/report-brief.cjs",
-        "renderer/project-conversation.js",
-        "renderer/project-request.js",
-        "renderer/project-context.js"
+        "app/learning-projects/discovery/project-planner.cjs",
+        "app/learning-projects/discovery/report-brief.cjs",
+        "app/renderer/project-conversation.js",
+        "app/renderer/project-request.js",
+        "app/renderer/project-context.js"
       ]
     },
     "projectworkspace": {
       "sources": [
-        "learning-projects/discovery/project-store.cjs",
-        "learning-projects/discovery/project-ipc.cjs",
-        "learning-projects/discovery/workspace-source.cjs",
-        "renderer/project-discovery-ui.js"
+        "app/learning-projects/discovery/project-store.cjs",
+        "app/learning-projects/discovery/project-ipc.cjs",
+        "app/learning-projects/discovery/workspace-source.cjs",
+        "app/renderer/project-discovery-ui.js"
       ]
     },
     "projectnumeric": {
       "sources": [
-        "learning-projects/discovery/report-worker.cjs",
-        "learning-projects/discovery/report-measures.cjs",
-        "learning-projects/discovery/row-measures.cjs",
-        "learning-projects/discovery/report-assessment.cjs"
+        "app/learning-projects/discovery/report-worker.cjs",
+        "app/learning-projects/discovery/report-measures.cjs",
+        "app/learning-projects/discovery/row-measures.cjs",
+        "app/learning-projects/discovery/report-assessment.cjs"
       ]
     },
     "projectreview": {
       "sources": [
-        "learning-projects/discovery/business-review.cjs",
-        "renderer/project-review-request.js",
-        "renderer/project-review-completion.js",
-        "renderer/project-context.js"
+        "app/learning-projects/discovery/business-review.cjs",
+        "app/renderer/project-review-request.js",
+        "app/renderer/project-review-completion.js",
+        "app/renderer/project-context.js"
       ]
     },
     "projectaward": {
       "sources": [
-        "learning-projects/discovery/project-completion.cjs",
-        "learning-projects/discovery/project-store.cjs",
-        "renderer/project-awards.js",
-        "renderer/project-discovery-ui.js"
+        "app/learning-projects/discovery/project-completion.cjs",
+        "app/learning-projects/discovery/project-store.cjs",
+        "app/renderer/project-awards.js",
+        "app/renderer/project-discovery-ui.js"
       ]
     },
     "privacy": {
       "sources": [
-        "renderer/profile-setup.js",
-        "PRIVACY.md"
+        "app/renderer/profile-setup.js",
+        "docs/PRIVACY.md"
       ]
     },
     "csp": {
       "sources": [
-        "renderer/index.html",
-        "renderer/theme-init.js",
+        "app/renderer/index.html",
+        "app/renderer/theme-init.js",
         "scripts/test-security-integration.cjs"
       ]
     },
     "credentials": {
       "sources": [
-        "secure-config.cjs",
-        "chatgpt-account.js",
+        "app/secure-config.cjs",
+        "app/chatgpt-account.js",
         "scripts/test-security.cjs"
       ]
     },
     "signing": {
       "sources": [
-        "electron-builder.release.cjs",
-        "verified-updater.cjs",
+        "config/electron-builder.release.cjs",
+        "app/verified-updater.cjs",
         "docs/RELEASING.md"
       ]
     },
@@ -592,8 +592,8 @@
     },
     "boundaries": {
       "sources": [
-        "SECURITY.md",
-        "vendor/CHATGPT-SDK-LICENSE.txt",
+        ".github/SECURITY.md",
+        "app/vendor/CHATGPT-SDK-LICENSE.txt",
         "docs/ARCHITECTURE.md"
       ]
     }
@@ -1157,95 +1157,95 @@
     }
   },
   "references": {
+    ".github/SECURITY.md": "e6fb3434cd1c699c61a41494c1dd38e8f3f1f9b5fe70194394ed0aef4a3c4e5d",
     "LICENSE": "c03af9304b8b44d8f65921a325a7f2077ebb89e5c64fc309106b3c547ef02d09",
-    "PRIVACY.md": "3d10cd1350b30f57dedac7ca46c2e5dfa3284150305d9f32054b1b75f1a20093",
-    "README.md": "3c82dd6a39a3fe7b331f589df6629f197a74a111ffd63a043c9ef52a2c23d145",
-    "SECURITY.md": "20a40ff8086b8700bd6d2aba89b3d72abd85725e944e070e87a5835a476bd9c1",
-    "ai-rate-limit.js": "fdf24873dfb664444f28728abe483a3f363e3aa61d16201a2cb1429ef67a2ff8",
-    "chatgpt-account.js": "1ea42388b92788b93804a9f0b6fc3441039ce26af2b837e9e5e732c160a99f32",
-    "database-inspection/runner.cjs": "32265046ec123e4248845436a523f67ff069bb7ebd8bb83102fc43e249d11d20",
-    "database-store.cjs": "ac6794afcf426255aced41ff1679931855d26641b29d084041b780714ce8b78f",
-    "docs/ARCHITECTURE.md": "07aa8c5603bf4e23ac874e9ad458e2ec127385d25ba6b6bc4771f4329d72989f",
+    "README.md": "e81dbbe5de19faa6b889f72f68aa2401431b610dbf3f8f0daaa84367bdf1ed1b",
+    "app/ai-rate-limit.js": "fdf24873dfb664444f28728abe483a3f363e3aa61d16201a2cb1429ef67a2ff8",
+    "app/chatgpt-account.js": "1ea42388b92788b93804a9f0b6fc3441039ce26af2b837e9e5e732c160a99f32",
+    "app/database-inspection/runner.cjs": "32265046ec123e4248845436a523f67ff069bb7ebd8bb83102fc43e249d11d20",
+    "app/database-store.cjs": "ac6794afcf426255aced41ff1679931855d26641b29d084041b780714ce8b78f",
+    "app/learning-projects/discovery/business-review.cjs": "7d565f898ddec4f6695eeb253c4289f051f5bae117f7aca498bf3b2f7cedd8f6",
+    "app/learning-projects/discovery/discovery-session.cjs": "bde2d170e81a0f567e03f6a8431d2d8d1bdea5be19526564cb835ed0ae8ba4d5",
+    "app/learning-projects/discovery/project-completion.cjs": "f60c3f9abb8650dec4ab7561223eb3acc656d08fb049fc329ad4e5a64e417eac",
+    "app/learning-projects/discovery/project-ipc.cjs": "178f68a2715b317a1e6fb76822738579545f5f4b156b42a3502c51b3c1f676d7",
+    "app/learning-projects/discovery/project-planner.cjs": "cf868b206246ce25620512ee9cc7af714cfdd49eb2eba26b5bda18fce9608524",
+    "app/learning-projects/discovery/project-store.cjs": "d0598a3ea5750528a3dcbe07c5ba3e7a832a53f3fdbb5a3c215a2997737f4ac6",
+    "app/learning-projects/discovery/report-assessment.cjs": "3975fcd3aaa258da8444890472cfba9472f0378a085d7f1e974667f4390d30cd",
+    "app/learning-projects/discovery/report-brief.cjs": "0f26f0bceade80eddff7657ec5c0c8ff56edea163014a6d597c6e808908fdb08",
+    "app/learning-projects/discovery/report-measures.cjs": "ac6b9270e9847d78db623419cd0180c2bf1dd665f6ff96c93e9c8940ced7b3c7",
+    "app/learning-projects/discovery/report-worker.cjs": "ac74c8abc8647729cc96bbb2cf034e8fdcae2d6a8eae9850ad4488df764e04c5",
+    "app/learning-projects/discovery/row-measures.cjs": "d4b12b650679aa75047a255e26dd514d6348de023bb3e90fd868e7c4daff75fb",
+    "app/learning-projects/discovery/uci-catalogue.cjs": "fabbe5892b25a44ab10e21705172bbdc941aa035ff3cc575aff5606c254eb38e",
+    "app/learning-projects/discovery/verified-csv.cjs": "0f5df427d980f304abe7b6a8d92c922c0409c789ecfe66d6b1db80ee926d1722",
+    "app/learning-projects/discovery/workspace-source.cjs": "1093df132c9e913dc8fd327d63b2139d49e38c73450b904564a3f02029523977",
+    "app/learning-projects/engine.cjs": "2471fd8b06119445a750b70e1cdbf2c1c45e1105f7b54aa1c86a8c2b4b448d8e",
+    "app/learning-projects/rubrics.cjs": "607f4bc44dc7a757ec23c7e23c5f86ef5a78f85ba83b1971c80a54cf0c22eab8",
+    "app/operation-result-store.cjs": "9d5ce3ad6f2f8a19c9c7a595ab99d7b675035d91b6e59e40b7feb48011e96cc2",
+    "app/pdf-print.js": "cedb546349d7cf56e49e64681c081fce76063f625f2bcdef4123a3e5a78a79f2",
+    "app/preload.js": "e50ff4f5fc9e63347ef5a2eaf73735433026afe76a4e1cb7bbe51d31b9905dc4",
+    "app/profile-bootstrap.cjs": "72f93f3b82a868e576bbef0382ea2ac66c38aee073064b00a46a9c4a3102efac",
+    "app/renderer/ai-answer-envelope.js": "cbf26e8d5d763a1c8a57684923f3283e93c55c2f51775552a821e0ec3aab81a8",
+    "app/renderer/ai-context-budget.js": "f455938b98388c95798ea50847e166f570309563b88d9408d13da5bef0191c85",
+    "app/renderer/ai-context-manager.js": "8d36e2d9536b0ed799e6f1f12c50f36b4e8b841cbde83e2d18e2132a92f75613",
+    "app/renderer/ai-context-sources.js": "6d391625301d3442c8bc002084e98c1c89ebef79075a40c5b265423a79b7375d",
+    "app/renderer/ai-conversation.js": "3a9b9a7ff8cac1e79ec8b064cd7c2c3c4607e4cf386c36ca2dd8f6ccbb543568",
+    "app/renderer/ai-database-capture.js": "8bd49056d56d6ec41c0e4e035cf4f53a9060fe70512b4b4c0f13de27fccf0e27",
+    "app/renderer/ai-database-observations.js": "7c56eccdeb6decc6c4c9c0913d7bcb5a737824ad73e401269701dc29cd4e995d",
+    "app/renderer/ai-database-reader.js": "c0fdf0cd26bc4edccf59bbc825c595aa5363064fed1dc1bcf0744d949fd9dba5",
+    "app/renderer/ai-native-schema.js": "3f31e67f619fdc546efa0b47a242d415b1682199fb353e9b2eed8f2a3fefac61",
+    "app/renderer/ai-request-control.js": "04ddcd2b89930dd9a32f7857e62045ded8d8f2d7ac8b94c60bdcc861435ef08e",
+    "app/renderer/ai-request-envelope.js": "a55d4f28197089d8f3e58f1394c9d0b20f7749cdf952d425f547cbc20415edaf",
+    "app/renderer/ai-request-snapshot.js": "28e842b2d7e18daef8a30c3946d8b1490da3cd7dcdaf219ffe1997ba2da650a5",
+    "app/renderer/ai-teacher-contract.js": "0734da665b127678b0b356f88a244f1a671d99710230da2df5d0fb91fcea9d48",
+    "app/renderer/ai-tool-protocol.js": "f223e067cab9e967db279fc9d433d73883b81e6fbfa857a56edb4982e33e3a78",
+    "app/renderer/ai-usage.js": "8e563d1f9910f880292790b5fdbb58893b1b759f7be9fc798f9337fe7ff36c0f",
+    "app/renderer/ai-wait-progress.js": "8a4f9c4937837db81be0a25fffc2484e880beff30af05fe740049b3dd999a632",
+    "app/renderer/app.js": "fe14baec799ae407f4fa65b0a3adfcaeb33927831399747584d47dbb3106cd98",
+    "app/renderer/exam-presentation.js": "aacd1cfad8ebad25c8b7236909e3196a9211a881c6fd6014d5504c7331758919",
+    "app/renderer/exam-sql.js": "d1794fa904f172beb057ae769563dcf3869d70156cf99f749ea806801a54030b",
+    "app/renderer/exam-study.js": "2bc44c11e6aff964d87d0669e1e46321dfcc371a1702747386dd10e1f7f6e966",
+    "app/renderer/explicit-request-limits.js": "b3943db6a9b651577ac844da1e759252e6af2d7010e3d1e592b2f0017c5d863a",
+    "app/renderer/index.html": "ee27be3b6de670148e6fc7ddb85e10a41cde71029e52b8d1ec6d1cd8ed50a49b",
+    "app/renderer/learn-detail.js": "62d53a49f524f304c08546c96fe9d0651d204f861288a2479cdcfa0eb98ac116",
+    "app/renderer/lesson-pdf.js": "b19528b264411269ec4b5781914143d881cf49f30c4834817b5505abac205657",
+    "app/renderer/operation-results.js": "e8fc7e712dfcb042e1c5c2c5c36adcff6a1b01fb3ca0ded7b7b93c67ecf2d0f5",
+    "app/renderer/physical-fk-tuples.js": "6806b97c6a9efca0378067fc5f626ced86e816b49aa2362cde3f7756aa121c7a",
+    "app/renderer/profile-setup.js": "b1fa3b7e3f170da2e4012da8b65a0f8df9b201d822e2366286b7207f3f004905",
+    "app/renderer/project-awards.js": "0fa598a9e57ed25cef125500cdcccc61ffcedfb41a6cc570b78bd016aa9fd506",
+    "app/renderer/project-context.js": "27c15b1bca0d49a8d795779df74ca5f2fca7bc12d5e2eb0df9d493be8b9694c0",
+    "app/renderer/project-conversation.js": "1c978c6834bbe1412c9c8745f2359ad9898e3187f8c542a98ddce1a5a0ffff7c",
+    "app/renderer/project-discovery-ui.js": "2a9131b7ef4c1c9068ac42ed62d6108d3033a4bf9c6d8c2f360672fcac4f4044",
+    "app/renderer/project-request.js": "ee80720473dcd5c17ca59bc9ac3d6314a3759c4c14eb5470e5b98a1ee76b4d33",
+    "app/renderer/project-review-completion.js": "9772542121298a1fc9e3f251a958c6907cff77893bf7695f07a5f37bcbcd39ef",
+    "app/renderer/project-review-request.js": "71882e40a04f15c6172db672c1653f3c6477c264a840209f7e21f06af4ba8484",
+    "app/renderer/project-review.js": "25234dd738cf250c85a9312a183f3e9528bf0265932cbcea5e5fa825008812c6",
+    "app/renderer/relationship-roles.js": "bfbc41afbcb0668597b0a7af29e8878d80ffe784eaa1dad90ab6af68094ba39d",
+    "app/renderer/request-action-policy.js": "a0e23085c0715992055a497116a968cacd0102f2dbdff5061a1f0cea0103eaf1",
+    "app/renderer/response-fences.js": "cc6686e3b54ba681026c332d43cd756a8eeddfa55386cf3c59e1bec3282eaea0",
+    "app/renderer/sql-exercises.js": "a8e292f9617b8889825cf2ed94966687ca566ea9d75c414e361a68189a89ba70",
+    "app/renderer/sql-read-contract.js": "07db00ff4db0ae9de6c55d134e2a07e4d10a2f089944c5bc3ffc4e63e3b7d90c",
+    "app/renderer/sqlite-values.js": "7c798f001a06588a6d67b61cc970c92f0a0c2985b554a2af17ca1107b3c879c7",
+    "app/renderer/study-notes.js": "d64cfe283947d1ddd9bf08218c848cb0dced8830e5cd6ad0327dcc4b1d55ea3f",
+    "app/renderer/teaching-grounding.js": "d926be46ee601c68a664d9b85b41b2bea4bcaae3681245e104f10661f14c8e2f",
+    "app/renderer/theme-init.js": "5fd77c15488a2fe2d0d6d7f0c8bbc0e26c5eef590e4da2d699ce65661c3691fa",
+    "app/secure-config.cjs": "f6b31eac44c752dd488980c02ab4122f28231b4ca007770756178cd2f8c1ea80",
+    "app/sql-read-runner.cjs": "2f8a524866fb5bfb4c6317a37dcad5d281565e46b64145b8efed12c26a1caa2b",
+    "app/sql-read-worker.cjs": "ecbae43d53059091f6d7052fab9cd58da706b6c9e1d720dd44b92b10e6d4c421",
+    "app/sql-seed-evidence.cjs": "0ccddebdc7da6951e199faa5be115d40470e67e9a6847ca5537cec29ecdf7c18",
+    "app/vendor/CHATGPT-SDK-LICENSE.txt": "d9e6108614830cd36b06f475960cfd3bae7236db5d67d615874ec0d3646a4e5d",
+    "app/vendor/PRACTISQL-SDK-CHANGES.md": "3a09d4c7f63f04965a5f0a3f267ecb45744809dccd3be59a4d63940d6e3c1460",
+    "app/vendor/chatgpt-sdk.cjs": "0f2cc975c0333afaec05f92801b4ab3925e0b9ac76842b9800b9691bc0c3e5e0",
+    "app/verified-updater.cjs": "831b5a803d5fe2e95824ff2cfe057c42b2202b874c8d12c89f0bf8def24da270",
+    "config/electron-builder.release.cjs": "187b247aedab465548acaa6737c8c4f79dbbb0f44ad99f4f2568661b528d4b03",
+    "docs/ARCHITECTURE.md": "4d30b38a892eee24be0a64f3184e110886129dbf3d7663ec202bf372f06f38bd",
+    "docs/PRIVACY.md": "2b62397cf317235bbafd9676f40745efc83205c7a17fac115199489902e3c9f8",
     "docs/PUBLICATION.md": "bf52b57c8dbcdfd2d33dfe65b7c18e5c3e082a95e8fabed4ec5dccfca01f436f",
-    "docs/RELEASING.md": "54b3c15bd43a27500e78adf94f0d59e0a4524185abb79f7a409a6b9fe0edc971",
-    "electron-builder.release.cjs": "876c5a1958b379ae85c171f52bfb9160905ea142033bfdd7a7e72b8242c8e388",
-    "learning-projects/discovery/business-review.cjs": "7d565f898ddec4f6695eeb253c4289f051f5bae117f7aca498bf3b2f7cedd8f6",
-    "learning-projects/discovery/discovery-session.cjs": "bde2d170e81a0f567e03f6a8431d2d8d1bdea5be19526564cb835ed0ae8ba4d5",
-    "learning-projects/discovery/project-completion.cjs": "f60c3f9abb8650dec4ab7561223eb3acc656d08fb049fc329ad4e5a64e417eac",
-    "learning-projects/discovery/project-ipc.cjs": "178f68a2715b317a1e6fb76822738579545f5f4b156b42a3502c51b3c1f676d7",
-    "learning-projects/discovery/project-planner.cjs": "cf868b206246ce25620512ee9cc7af714cfdd49eb2eba26b5bda18fce9608524",
-    "learning-projects/discovery/project-store.cjs": "d0598a3ea5750528a3dcbe07c5ba3e7a832a53f3fdbb5a3c215a2997737f4ac6",
-    "learning-projects/discovery/report-assessment.cjs": "3975fcd3aaa258da8444890472cfba9472f0378a085d7f1e974667f4390d30cd",
-    "learning-projects/discovery/report-brief.cjs": "0f26f0bceade80eddff7657ec5c0c8ff56edea163014a6d597c6e808908fdb08",
-    "learning-projects/discovery/report-measures.cjs": "ac6b9270e9847d78db623419cd0180c2bf1dd665f6ff96c93e9c8940ced7b3c7",
-    "learning-projects/discovery/report-worker.cjs": "ac74c8abc8647729cc96bbb2cf034e8fdcae2d6a8eae9850ad4488df764e04c5",
-    "learning-projects/discovery/row-measures.cjs": "d4b12b650679aa75047a255e26dd514d6348de023bb3e90fd868e7c4daff75fb",
-    "learning-projects/discovery/uci-catalogue.cjs": "fabbe5892b25a44ab10e21705172bbdc941aa035ff3cc575aff5606c254eb38e",
-    "learning-projects/discovery/verified-csv.cjs": "0f5df427d980f304abe7b6a8d92c922c0409c789ecfe66d6b1db80ee926d1722",
-    "learning-projects/discovery/workspace-source.cjs": "1093df132c9e913dc8fd327d63b2139d49e38c73450b904564a3f02029523977",
-    "learning-projects/engine.cjs": "2471fd8b06119445a750b70e1cdbf2c1c45e1105f7b54aa1c86a8c2b4b448d8e",
-    "learning-projects/rubrics.cjs": "607f4bc44dc7a757ec23c7e23c5f86ef5a78f85ba83b1971c80a54cf0c22eab8",
-    "operation-result-store.cjs": "9d5ce3ad6f2f8a19c9c7a595ab99d7b675035d91b6e59e40b7feb48011e96cc2",
-    "pdf-print.js": "cedb546349d7cf56e49e64681c081fce76063f625f2bcdef4123a3e5a78a79f2",
-    "preload.js": "e50ff4f5fc9e63347ef5a2eaf73735433026afe76a4e1cb7bbe51d31b9905dc4",
-    "profile-bootstrap.cjs": "72f93f3b82a868e576bbef0382ea2ac66c38aee073064b00a46a9c4a3102efac",
-    "renderer/ai-answer-envelope.js": "cbf26e8d5d763a1c8a57684923f3283e93c55c2f51775552a821e0ec3aab81a8",
-    "renderer/ai-context-budget.js": "f455938b98388c95798ea50847e166f570309563b88d9408d13da5bef0191c85",
-    "renderer/ai-context-manager.js": "8d36e2d9536b0ed799e6f1f12c50f36b4e8b841cbde83e2d18e2132a92f75613",
-    "renderer/ai-context-sources.js": "6d391625301d3442c8bc002084e98c1c89ebef79075a40c5b265423a79b7375d",
-    "renderer/ai-conversation.js": "3a9b9a7ff8cac1e79ec8b064cd7c2c3c4607e4cf386c36ca2dd8f6ccbb543568",
-    "renderer/ai-database-capture.js": "8bd49056d56d6ec41c0e4e035cf4f53a9060fe70512b4b4c0f13de27fccf0e27",
-    "renderer/ai-database-observations.js": "7c56eccdeb6decc6c4c9c0913d7bcb5a737824ad73e401269701dc29cd4e995d",
-    "renderer/ai-database-reader.js": "c0fdf0cd26bc4edccf59bbc825c595aa5363064fed1dc1bcf0744d949fd9dba5",
-    "renderer/ai-native-schema.js": "3f31e67f619fdc546efa0b47a242d415b1682199fb353e9b2eed8f2a3fefac61",
-    "renderer/ai-request-control.js": "04ddcd2b89930dd9a32f7857e62045ded8d8f2d7ac8b94c60bdcc861435ef08e",
-    "renderer/ai-request-envelope.js": "a55d4f28197089d8f3e58f1394c9d0b20f7749cdf952d425f547cbc20415edaf",
-    "renderer/ai-request-snapshot.js": "28e842b2d7e18daef8a30c3946d8b1490da3cd7dcdaf219ffe1997ba2da650a5",
-    "renderer/ai-teacher-contract.js": "0734da665b127678b0b356f88a244f1a671d99710230da2df5d0fb91fcea9d48",
-    "renderer/ai-tool-protocol.js": "f223e067cab9e967db279fc9d433d73883b81e6fbfa857a56edb4982e33e3a78",
-    "renderer/ai-usage.js": "8e563d1f9910f880292790b5fdbb58893b1b759f7be9fc798f9337fe7ff36c0f",
-    "renderer/ai-wait-progress.js": "8a4f9c4937837db81be0a25fffc2484e880beff30af05fe740049b3dd999a632",
-    "renderer/app.js": "fe14baec799ae407f4fa65b0a3adfcaeb33927831399747584d47dbb3106cd98",
-    "renderer/exam-presentation.js": "aacd1cfad8ebad25c8b7236909e3196a9211a881c6fd6014d5504c7331758919",
-    "renderer/exam-sql.js": "d1794fa904f172beb057ae769563dcf3869d70156cf99f749ea806801a54030b",
-    "renderer/exam-study.js": "2bc44c11e6aff964d87d0669e1e46321dfcc371a1702747386dd10e1f7f6e966",
-    "renderer/explicit-request-limits.js": "b3943db6a9b651577ac844da1e759252e6af2d7010e3d1e592b2f0017c5d863a",
-    "renderer/index.html": "ee27be3b6de670148e6fc7ddb85e10a41cde71029e52b8d1ec6d1cd8ed50a49b",
-    "renderer/learn-detail.js": "62d53a49f524f304c08546c96fe9d0651d204f861288a2479cdcfa0eb98ac116",
-    "renderer/lesson-pdf.js": "b19528b264411269ec4b5781914143d881cf49f30c4834817b5505abac205657",
-    "renderer/operation-results.js": "e8fc7e712dfcb042e1c5c2c5c36adcff6a1b01fb3ca0ded7b7b93c67ecf2d0f5",
-    "renderer/physical-fk-tuples.js": "6806b97c6a9efca0378067fc5f626ced86e816b49aa2362cde3f7756aa121c7a",
-    "renderer/profile-setup.js": "b1fa3b7e3f170da2e4012da8b65a0f8df9b201d822e2366286b7207f3f004905",
-    "renderer/project-awards.js": "0fa598a9e57ed25cef125500cdcccc61ffcedfb41a6cc570b78bd016aa9fd506",
-    "renderer/project-context.js": "27c15b1bca0d49a8d795779df74ca5f2fca7bc12d5e2eb0df9d493be8b9694c0",
-    "renderer/project-conversation.js": "1c978c6834bbe1412c9c8745f2359ad9898e3187f8c542a98ddce1a5a0ffff7c",
-    "renderer/project-discovery-ui.js": "2a9131b7ef4c1c9068ac42ed62d6108d3033a4bf9c6d8c2f360672fcac4f4044",
-    "renderer/project-request.js": "ee80720473dcd5c17ca59bc9ac3d6314a3759c4c14eb5470e5b98a1ee76b4d33",
-    "renderer/project-review-completion.js": "9772542121298a1fc9e3f251a958c6907cff77893bf7695f07a5f37bcbcd39ef",
-    "renderer/project-review-request.js": "71882e40a04f15c6172db672c1653f3c6477c264a840209f7e21f06af4ba8484",
-    "renderer/project-review.js": "25234dd738cf250c85a9312a183f3e9528bf0265932cbcea5e5fa825008812c6",
-    "renderer/relationship-roles.js": "bfbc41afbcb0668597b0a7af29e8878d80ffe784eaa1dad90ab6af68094ba39d",
-    "renderer/request-action-policy.js": "a0e23085c0715992055a497116a968cacd0102f2dbdff5061a1f0cea0103eaf1",
-    "renderer/response-fences.js": "cc6686e3b54ba681026c332d43cd756a8eeddfa55386cf3c59e1bec3282eaea0",
-    "renderer/sql-exercises.js": "a8e292f9617b8889825cf2ed94966687ca566ea9d75c414e361a68189a89ba70",
-    "renderer/sql-read-contract.js": "07db00ff4db0ae9de6c55d134e2a07e4d10a2f089944c5bc3ffc4e63e3b7d90c",
-    "renderer/sqlite-values.js": "7c798f001a06588a6d67b61cc970c92f0a0c2985b554a2af17ca1107b3c879c7",
-    "renderer/study-notes.js": "d64cfe283947d1ddd9bf08218c848cb0dced8830e5cd6ad0327dcc4b1d55ea3f",
-    "renderer/teaching-grounding.js": "d926be46ee601c68a664d9b85b41b2bea4bcaae3681245e104f10661f14c8e2f",
-    "renderer/theme-init.js": "5fd77c15488a2fe2d0d6d7f0c8bbc0e26c5eef590e4da2d699ce65661c3691fa",
-    "scripts/scan-source.cjs": "1b2c1351aebc59f51ef6b5f30d4e1c78278cec705e995167dc9dd899f0680ac6",
-    "scripts/test-db.js": "76d155bf6b2564b7142dff09261d73d0afdd6dae98920aa10ac14b460f58ff80",
-    "scripts/test-ipc.js": "908197a2e5a9fb7b7c255e3d5f20f43dfc67961e9d8c3b4b46308a207c578e33",
-    "scripts/test-publication-ui.cjs": "abd8801183f4d37da761f8aa2e392f52dc5f5aac14b1507029e471ef8331055e",
-    "scripts/test-security-integration.cjs": "b0ae09cbd79acb3f627ac4a74a5cfcb4743fb5063543eb461699286852de2031",
-    "scripts/test-security.cjs": "588f79611166cd1a81ede8750c9dfcfc37df6347c4d90afc4df701db82741068",
-    "secure-config.cjs": "f6b31eac44c752dd488980c02ab4122f28231b4ca007770756178cd2f8c1ea80",
-    "sql-read-runner.cjs": "2f8a524866fb5bfb4c6317a37dcad5d281565e46b64145b8efed12c26a1caa2b",
-    "sql-read-worker.cjs": "ecbae43d53059091f6d7052fab9cd58da706b6c9e1d720dd44b92b10e6d4c421",
-    "sql-seed-evidence.cjs": "0ccddebdc7da6951e199faa5be115d40470e67e9a6847ca5537cec29ecdf7c18",
-    "vendor/CHATGPT-SDK-LICENSE.txt": "d9e6108614830cd36b06f475960cfd3bae7236db5d67d615874ec0d3646a4e5d",
-    "vendor/PRACTISQL-SDK-CHANGES.md": "3a09d4c7f63f04965a5f0a3f267ecb45744809dccd3be59a4d63940d6e3c1460",
-    "vendor/chatgpt-sdk.cjs": "0f2cc975c0333afaec05f92801b4ab3925e0b9ac76842b9800b9691bc0c3e5e0",
-    "verified-updater.cjs": "831b5a803d5fe2e95824ff2cfe057c42b2202b874c8d12c89f0bf8def24da270"
+    "docs/RELEASING.md": "b0d1dd89888f605bbb7ad4aa25531c74d0b0864821c5329011e366ffcaa7bef1",
+    "scripts/scan-source.cjs": "6ba6a60112dc3c777df16f996d262a0cefcbc13bda8e0dd898f534c91be6f660",
+    "scripts/test-db.js": "4dfc5cf14336e25e98f779ec4d06bf5bbf6ba31180c880e3dc87c2d64757a3a7",
+    "scripts/test-ipc.js": "eff34576d0d6fb851b3644937232afd99b7b574e5137743ff8521970831348bf",
+    "scripts/test-publication-ui.cjs": "8c8bbd45f85fb51482f3f39ef6f521f1e5189f7fddc8287c4d48dad995898252",
+    "scripts/test-security-integration.cjs": "8c68e3ebde71214e2bc88596b049b20e252c9c85470c9e5160a1bf2532a90edf",
+    "scripts/test-security.cjs": "fca935892421eb22987f34e17ad9c81cd57be18be6d35ef00062c177f964a59b"
   }
 }

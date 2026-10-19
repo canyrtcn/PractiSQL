@@ -1,7 +1,7 @@
 'use strict';
 const {test}=require('node:test'),assert=require('node:assert/strict'),{EventEmitter}=require('node:events');
-const {createWindowInterface}=require('../window-interface.cjs');
-const {initialZoomFactor,interfaceScales}=require('../renderer/window-layout.js');
+const {createWindowInterface}=require('../app/window-interface.cjs');
+const {initialZoomFactor,interfaceScales}=require('../app/renderer/window-layout.js');
 const wait=()=>new Promise(resolve=>setTimeout(resolve,110));
 function fixture(config={},display={bounds:{width:1920,height:1080},scaleFactor:1}){
   const screen=new EventEmitter();let primary=display,stored=structuredClone(config),zoom=initialZoomFactor(display.bounds,display.scaleFactor,config.uiScale),fail=false;

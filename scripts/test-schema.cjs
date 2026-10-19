@@ -2,7 +2,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const ELK = require('elkjs');
-const { graph } = require('../renderer/schema-layout');
+const { graph } = require('../app/renderer/schema-layout');
 const qid = s => '"' + s.replaceAll('"', '""') + '"';
 function guess(col, tables) {
   if (!/_id$/i.test(col)) return null;

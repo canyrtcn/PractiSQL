@@ -37,11 +37,11 @@ const os = require('os');
     }
     return origLoad.call(this, req, ...rest);
   };
-  require('../main.js');
+  require('../app/main.js');
   await new Promise(r => setTimeout(r, 100));
   Module._load = origLoad;
 
-  const databaseDirectory=require('../database-store.cjs').directoryName;
+  const databaseDirectory=require('../app/database-store.cjs').directoryName;
   const call = (ch, ...a) => handlers[ch]({}, ...a);
   let fail = 0;
   const ok = (c, msg) => { console.log((c ? '[OK] ' : '[FAIL] ') + msg); if (!c) fail++; };
@@ -70,7 +70,7 @@ const os = require('os');
   const initSqlJs = require('sql.js');
   const SQL = await initSqlJs({ locateFile: (f) => path.join(__dirname, '..', 'node_modules', 'sql.js', 'dist', f) });
   global.window = {};
-  eval(fs.readFileSync(path.join(__dirname, '..', 'renderer', 'demos.js'), 'utf8'));
+  eval(fs.readFileSync(path.join(__dirname, '..', 'app', 'renderer', 'demos.js'), 'utf8'));
   const db = new SQL.Database();
   db.exec(global.window.DEMOS.satis.sql);
   const saved = await call('db:save', 'test-kayit', Array.from(db.export()));

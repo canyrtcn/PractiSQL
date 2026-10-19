@@ -1,0 +1,185 @@
+{
+  "version": "3.4.261",
+  "sections": {
+    "context": {
+      "components": [
+        "input",
+        "context",
+        "envelope",
+        "schema",
+        "history"
+      ],
+      "sources": [
+        "app/renderer/app.js",
+        "app/renderer/ai-request-envelope.js",
+        "app/renderer/ai-teacher-contract.js",
+        "app/renderer/relationship-roles.js",
+        "app/sql-seed-evidence.cjs",
+        "app/renderer/ai-native-schema.js",
+        "app/renderer/ai-conversation.js",
+        "app/renderer/ai-database-observations.js"
+      ]
+    },
+    "memory": {
+      "components": [
+        "capacity",
+        "compaction",
+        "sources"
+      ],
+      "sources": [
+        "app/renderer/ai-context-budget.js",
+        "app/renderer/app.js",
+        "app/renderer/ai-context-manager.js",
+        "app/renderer/ai-context-sources.js",
+        "app/operation-result-store.cjs"
+      ]
+    },
+    "archive": {
+      "components": [
+        "readcontext",
+        "feedback",
+        "storage"
+      ],
+      "sources": [
+        "app/renderer/ai-context-sources.js",
+        "app/renderer/ai-conversation.js",
+        "app/operation-result-store.cjs",
+        "app/renderer/app.js",
+        "app/database-store.cjs",
+        "app/profile-bootstrap.cjs",
+        "app/secure-config.cjs"
+      ]
+    },
+    "model": {
+      "components": [
+        "model",
+        "provider",
+        "protocol",
+        "toolprotocol"
+      ],
+      "sources": [
+        "app/renderer/app.js",
+        "app/renderer/ai-tool-protocol.js",
+        "app/chatgpt-account.js",
+        "app/preload.js",
+        "app/secure-config.cjs",
+        "app/ai-rate-limit.js",
+        "app/vendor/chatgpt-sdk.cjs",
+        "app/vendor/PRACTISQL-SDK-CHANGES.md"
+      ]
+    },
+    "answer": {
+      "components": [
+        "answerroles",
+        "limits"
+      ],
+      "sources": [
+        "app/renderer/response-fences.js",
+        "app/renderer/ai-answer-envelope.js",
+        "app/renderer/ai-teacher-contract.js",
+        "app/renderer/explicit-request-limits.js",
+        "app/renderer/app.js",
+        "app/renderer/request-action-policy.js"
+      ]
+    },
+    "repair": {
+      "components": [
+        "repair",
+        "teaching"
+      ],
+      "sources": [
+        "app/renderer/app.js",
+        "app/renderer/ai-request-snapshot.js",
+        "app/renderer/teaching-grounding.js",
+        "app/renderer/physical-fk-tuples.js"
+      ]
+    },
+    "read": {
+      "components": [
+        "readworker",
+        "inspectdb"
+      ],
+      "sources": [
+        "app/sql-read-runner.cjs",
+        "app/sql-read-worker.cjs",
+        "app/renderer/sql-read-contract.js",
+        "app/renderer/app.js",
+        "app/renderer/ai-database-reader.js",
+        "app/renderer/ai-database-capture.js",
+        "app/database-inspection/runner.cjs"
+      ]
+    },
+    "write": {
+      "components": [
+        "atomic"
+      ],
+      "sources": [
+        "app/renderer/app.js"
+      ]
+    },
+    "checks": {
+      "components": [
+        "audit",
+        "stale",
+        "cancel"
+      ],
+      "sources": [
+        "app/renderer/app.js",
+        "app/renderer/sqlite-values.js",
+        "app/renderer/ai-database-capture.js",
+        "app/renderer/ai-tool-protocol.js",
+        "app/renderer/ai-request-control.js",
+        "app/renderer/ai-wait-progress.js"
+      ]
+    },
+    "result": {
+      "components": [
+        "feedback",
+        "observability",
+        "storage"
+      ],
+      "sources": [
+        "app/renderer/ai-conversation.js",
+        "app/operation-result-store.cjs",
+        "app/renderer/app.js",
+        "app/renderer/ai-usage.js",
+        "app/renderer/operation-results.js",
+        "app/renderer/ai-request-control.js",
+        "app/database-store.cjs",
+        "app/profile-bootstrap.cjs",
+        "app/secure-config.cjs"
+      ]
+    },
+    "flows": {
+      "components": [
+        "learnpdf",
+        "exam",
+        "projectnumeric",
+        "projectreview",
+        "projectsource"
+      ],
+      "sources": [
+        "app/renderer/app.js",
+        "app/renderer/lesson-pdf.js",
+        "app/renderer/learn-detail.js",
+        "app/renderer/study-notes.js",
+        "app/pdf-print.js",
+        "app/renderer/exam-sql.js",
+        "app/renderer/exam-study.js",
+        "app/renderer/sql-exercises.js",
+        "app/renderer/exam-presentation.js",
+        "app/learning-projects/discovery/report-worker.cjs",
+        "app/learning-projects/discovery/report-measures.cjs",
+        "app/learning-projects/discovery/row-measures.cjs",
+        "app/learning-projects/discovery/report-assessment.cjs",
+        "app/learning-projects/discovery/business-review.cjs",
+        "app/renderer/project-review-request.js",
+        "app/renderer/project-review-completion.js",
+        "app/renderer/project-context.js",
+        "app/learning-projects/discovery/uci-catalogue.cjs",
+        "app/learning-projects/discovery/verified-csv.cjs",
+        "app/learning-projects/discovery/discovery-session.cjs"
+      ]
+    }
+  }
+}

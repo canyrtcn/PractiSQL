@@ -2,7 +2,7 @@
   "name": "practisql",
   "version": "3.4.261",
   "description": "PractiSQL — A simple, AI-powered SQL playground.",
-  "main": "main.js",
+  "main": "app/main.js",
   "build": {
     "appId": "com.canyrtcn.practisql",
     "productName": "PractiSQL",
@@ -11,38 +11,20 @@
       "output": "release"
     },
     "files": [
-      "main.js",
-      "window-interface.cjs",
-      "secure-config.cjs",
-      "verified-updater.cjs",
-      "database-store.cjs",
-      "ai-rate-limit.js",
-      "sql-read-runner.cjs",
-      "sql-read-worker.cjs",
-      "sql-write-evidence.cjs",
-      "sql-write-evidence-runner.cjs",
-      "sql-write-evidence-worker.cjs",
-      "sql-seed-evidence.cjs",
-      "sql-seed-evidence-runner.cjs",
-      "sql-seed-evidence-worker.cjs",
-      "database-transfer.cjs",
-      "database-transfer-worker.cjs",
-      "profile-bootstrap.cjs",
-      "learning-projects/**",
-      "pdf-print.js",
-      "preload.js",
-      "assets/**",
-      "renderer/**",
+      {
+        "from": "app",
+        "to": ".",
+        "filter": [
+          "**/*",
+          "!node_modules/**"
+        ]
+      },
       "package.json",
-      "node_modules/sql.js/dist/**",
-      "chatgpt-account.js",
-      "vendor/**",
-      "operation-result-store.cjs",
-      "database-inspection/**"
+      "node_modules/sql.js/dist/**"
     ],
     "asar": false,
     "win": {
-      "icon": "assets/icon.ico",
+      "icon": "app/assets/icon.ico",
       "target": [
         {
           "target": "nsis",
@@ -59,17 +41,20 @@
       "createDesktopShortcut": true,
       "createStartMenuShortcut": true,
       "shortcutName": "PractiSQL",
-      "installerIcon": "assets/icon.ico",
-      "uninstallerIcon": "assets/icon.ico",
-      "installerHeaderIcon": "assets/icon.ico",
-      "installerHeader": "assets/nsis-header.bmp",
-      "installerSidebar": "assets/nsis-sidebar.bmp",
-      "include": "assets/installer.nsh"
+      "installerIcon": "app/assets/icon.ico",
+      "uninstallerIcon": "app/assets/icon.ico",
+      "installerHeaderIcon": "app/assets/icon.ico",
+      "installerHeader": "app/assets/nsis-header.bmp",
+      "installerSidebar": "app/assets/nsis-sidebar.bmp",
+      "include": "app/assets/installer.nsh"
     },
     "publish": {
       "provider": "github",
       "owner": "canyrtcn",
       "repo": "practisql"
+    },
+    "extraMetadata": {
+      "main": "main.js"
     }
   },
   "author": "PractiSQL contributors",
@@ -86,7 +71,7 @@
     "test:docs": "node scripts/test-public-docs.cjs",
     "scan:source": "node scripts/scan-source.cjs",
     "docs:build": "node scripts/build-public-docs.cjs",
-    "dist:win": "electron-builder --config electron-builder.release.cjs --win --publish never",
+    "dist:win": "electron-builder --config config/electron-builder.release.cjs --win --publish never",
     "dist:win:unsigned": "electron-builder --win --publish never",
     "docs:showcase": "node scripts/build-showcase.cjs",
     "docs:showcase:render": "node scripts/render-showcase.cjs",
@@ -94,7 +79,10 @@
     "test:companion": "node scripts/test-companion-ui.cjs",
     "test:workshop": "node scripts/test-home-workshop.cjs",
     "test:interface-details": "node scripts/test-interface-details.cjs",
-    "test:layout": "node --test scripts/test-window-layout.cjs scripts/test-interface-scale.cjs"
+    "test:layout": "node --test scripts/test-window-layout.cjs scripts/test-interface-scale.cjs",
+    "postinstall": "node scripts/prepare-runtime.cjs",
+    "docs:assets": "node scripts/build-repository-assets.cjs",
+    "test:repository-docs": "node scripts/test-repository-docs.cjs"
   },
   "dependencies": {
     "electron-updater": "^6.8.9",
