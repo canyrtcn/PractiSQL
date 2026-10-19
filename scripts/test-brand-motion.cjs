@@ -28,13 +28,20 @@ const check=(ok,name)=>{assert(ok,name);proof.checks.push(name);};let app,worksp
   await app.evaluate('Object.defineProperty(document,"hidden",{configurable:true,get:()=>false});window.__pg.roaming.target({x:850,y:10000,tx:850,ty:10000,stopped:true});window.PractiMascotMotion.stop();');
   await wait(700);
   const restingFeet=await app.evaluate('document.querySelector("#roamFace .mascot-foot-left rect").getBoundingClientRect().bottom');
-  await app.evaluate('window.PractiMascotMotion.play("wave")');await wait(350);
+  // Seek native Web Animations for geometry checks. Wall-clock sampling can
+  // miss a short performance on a loaded CI runner.
+  await app.evaluate('(async()=>{window.PractiMascotMotion.play("wave");for(const a of document.getElementById("roamFace").getAnimations()){a.pause();await a.ready;a.currentTime=Number(a.effect.getTiming().duration)*.25;}await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));})()');
   check(await app.evaluate('!document.querySelector(".mascot-arm")&&getComputedStyle(document.getElementById("roamFace")).rotate!=="none"'),theme+': greeting animates the arm-free character');
-  await app.evaluate('window.PractiMascotMotion.stop();window.PractiMascotMotion.play("happy-hop")');
-  let lowestFeet=restingFeet;for(let i=0;i<8;i++){await wait(80);lowestFeet=Math.min(lowestFeet,await app.evaluate('document.querySelector("#roamFace .mascot-foot-left rect").getBoundingClientRect().bottom'));}
-  proof.hopDebug=await app.evaluate('({bottom:document.querySelector("#roamFace .mascot-foot-left rect").getBoundingClientRect().bottom,motion:window.PractiMascotMotion.inspect(),translate:getComputedStyle(document.getElementById("roamFace")).translate,scale:getComputedStyle(document.getElementById("roamFace")).scale,actor:document.getElementById("roamMascot").className,bubble:!!document.getElementById("roamWrap").querySelector(".mbubble"),roaming:window.__pg.roaming.state()})');proof.hopDebug.restingFeet=restingFeet;
+  const hopStarted=await app.evaluate('(()=>{window.PractiMascotMotion.stop();const started=window.PractiMascotMotion.play("happy-hop");window.__hopAnimations=document.getElementById("roamFace").getAnimations({subtree:true});return started&&window.__hopAnimations.some(a=>a.playState==="running");})()');
+  check(hopStarted,theme+': hop starts an enabled native animation');
+  let lowestFeet=restingFeet;const hopSamples=[];
+  for(const fraction of Array.from({length:21},(_,i)=>i/20)){
+    const sample=await app.evaluate('(async()=>{const face=document.getElementById("roamFace");for(const a of window.__hopAnimations){a.pause();await a.ready;a.currentTime=Number(a.effect.getTiming().duration)*'+fraction+';}await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));return {bottom:face.querySelector(".mascot-foot-left rect").getBoundingClientRect().bottom,translate:getComputedStyle(face).translate};})()');
+    hopSamples.push({fraction,...sample});lowestFeet=Math.min(lowestFeet,sample.bottom);
+  }
+  proof.hopDebug=await app.evaluate('({bottom:document.querySelector("#roamFace .mascot-foot-left rect").getBoundingClientRect().bottom,motion:window.PractiMascotMotion.inspect(),translate:getComputedStyle(document.getElementById("roamFace")).translate,scale:getComputedStyle(document.getElementById("roamFace")).scale,actor:document.getElementById("roamMascot").className,bubble:!!document.getElementById("roamWrap").querySelector(".mbubble"),roaming:window.__pg.roaming.state()})');proof.hopDebug.restingFeet=restingFeet;proof.hopDebug.samples=hopSamples;
   check(lowestFeet<restingFeet-5,theme+': hop has visible lift');
-  await wait(650);
+  await app.evaluate('Promise.all(window.__hopAnimations.map(a=>{const completed=a.finished;a.finish();return completed;})).then(()=>{delete window.__hopAnimations;})');
   check(Math.abs(await app.evaluate('document.querySelector("#roamFace .mascot-foot-left rect").getBoundingClientRect().bottom')-restingFeet)<1,theme+': hop returns precisely to its resting floor');
   const motionKinds=['wave','stretch','peek','toe-tap','sway','proud','sleepy','happy-hop','wink','double-hop','wiggle','balance','tiptoe','curious','breathe','shuffle','bow','shiver','celebrate','delight','twirl','nod','blink'];
   for(const kind of motionKinds){
