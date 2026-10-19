@@ -14,84 +14,9 @@ This demonstration uses synthetic retail data. The SQL editor and result table s
 
 ## The request lifecycle
 
-```mermaid
-sequenceDiagram
-    autonumber
-    actor Student
-    participant App as PractiSQL harness
-    participant Sources as Context and archives
-    participant Model as Selected model
-    participant SQL as Local SQLite
+![The complete numbered request flow, retaining context, tools, SQL paths, conditional repair and archives](../architecture/request-lifecycle.en.svg)
 
-    Student->>App: Question, selected SQL or quotation
-    App->>App: Capture workspace, conversation,<br/>database identity, revision and action limits
-    App->>Sources: Retrieve relevant history, schema,<br/>observations and original source identities
-    Sources-->>App: Assemble the exact current request<br/>with teacher rules and relevant context
-    opt Context pressure exceeds the model budget
-        App->>Sources: Compact older material conditionally<br/>Reserve output capacity, retain original archives
-        Sources-->>App: Bounded context with retrievable source IDs
-    end
-    App->>Model: Send through the selected account or API<br/>Chat Completions, Messages or Responses
-    loop Model/tool continuation within request budgets
-        Model-->>App: Native read_context or inspect_database call
-        App->>App: Check ownership, cancellation,<br/>deadline and read-only tool limits
-        alt read_context
-            App->>Sources: Read the requested page of original sources
-            Sources-->>App: Messages, SQL, operations or full-result archives
-        else inspect_database
-            App->>SQL: Read-only observations from the captured database
-            SQL-->>App: Actual observations with scope and limits
-        end
-        App->>Model: Return the tool result to the same request
-    end
-    Model-->>App: Final response
-    App->>App: Separate explanation, teaching examples<br/>and one complete executable SQL batch
-    opt Eligible format failure and shared repair budget unused
-        App->>Model: One conditional repair using the original request<br/>and the actual format error
-        Model-->>App: Complete corrected answer
-        App->>App: Validate the full answer contract again
-    end
-    alt Request cancelled, stale or action not permitted
-        App-->>Student: Explain why the action stopped<br/>Do not apply delayed SQL
-    else Request is current and action is permitted
-        alt Explanation only
-            App->>App: Keep teaching examples non-runnable
-        else Read-only query
-            App->>SQL: Read worker with snapshot or connection<br/>Deadline and result limits
-            SQL-->>App: Actual result tables or execution error
-        else AI write batch
-            App->>SQL: Open SAVEPOINT and execute the complete batch
-            SQL->>SQL: Check constraints, triggers and<br/>applicable scoped preservation guarantees
-            alt Checks pass
-                SQL-->>App: RELEASE with actual results and changes
-            else Execution or guarantee failure
-                SQL-->>App: ROLLBACK this batch and return the actual error
-            end
-        end
-        App->>Sources: Persist conversation and actual SQL outcomes<br/>Keep complete SQL, tables, errors, changes and source IDs
-        opt Eligible SQL or narrow teaching failure and shared repair budget unused
-            App->>Model: One conditional repair with the original request<br/>and actual error or evidence
-            Model-->>App: Complete corrected answer or SQL batch
-            App->>App: Recheck the contract, current scope and limits
-            opt Corrected runnable SQL is required
-                App->>SQL: Use the applicable read or write contract
-                SQL-->>App: Actual corrected result or error
-            end
-            App->>Sources: Record what the corrected attempt actually did
-        end
-        App-->>Student: Show the explanation beside actual outcomes<br/>Make errors and changes visible
-    end
-    Note over App,Model: The two eligible repair points share ONE budget.<br/>There is no unconditional second model review.
-    opt Student writes SQL manually in the editor
-        Student->>App: Run manual SQL or an explicit transaction
-        App->>SQL: Use the separate manual execution contract
-        SQL-->>App: Actual results, partial outcome or transaction state
-        App->>Sources: Store the actual operation and its provenance
-        App-->>Student: Show the observed manual outcome
-    end
-    Student->>App: Follow-up question about the work
-    App->>Sources: Retrieve the relevant original context<br/>and complete result archives for the next request
-```
+**Read the numbered path from top to bottom.** The side branches retain conditional context compaction, request-scoped read-only tools, stale-request rejection, separate read/AI-write/manual execution and the single shared repair budget. Actual result archives return as sources for later questions. The separate manual-editor entry does not pass through a model.
 
 1. Capture the active workspace, conversation, database revision and explicit UI action.
 2. Assemble the teacher contract, actual SQLite schema, relevant history, observations and selected text. Preserve the current question.

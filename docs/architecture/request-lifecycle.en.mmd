@@ -1,0 +1,48 @@
+flowchart TB
+    INPUT["01 · Student request<br/>Question, selected SQL or quotation"]
+    SCOPE["02 · Capture request ownership<br/>Workspace, conversation, database identity and revision"]
+    CONTEXT["03 · Assemble the context<br/>Teacher rules, actual schema, relevant history and exact current question"]
+    CAPACITY{"04 · Does the context fit<br/>the model window?"}
+    COMPACT["Compact older material only when needed<br/>Keep original source IDs and complete archives"]
+    MODEL["05 · Call the selected model<br/>Chat Completions, Messages or Responses; account/API transport"]
+    TOOL{"06 · Did the model request<br/>a read-only tool?"}
+    READTOOL["Read sources within request scope and budgets<br/>read_context: archived sources<br/>inspect_database: captured database observations"]
+    ANSWER["07 · Validate the answer contract<br/>Separate explanation, teaching examples and one complete runnable SQL batch"]
+    GUARD{"08 · Is the request still current<br/>and the action permitted?"}
+    STOP["Cancel or reject stale work<br/>Do not apply delayed SQL to another workspace or revision"]
+    ROUTE{"09 · Choose the permitted<br/>execution path"}
+    TEXT["Explanation only<br/>Display text and non-runnable teaching examples"]
+    READ["Read-only worker<br/>Snapshot or connection; deadline and result limits"]
+    WRITE["AI write batch<br/>SAVEPOINT; constraints, triggers and applicable preservation checks"]
+    EDITOR["Independent entry: manual SQL editor"]
+    MANUAL["Manual SQL / explicit transaction<br/>Separate execution contract and actual partial or transaction state"]
+    RESULT["10 · Record the observed outcome<br/>Actual tables, complete SQL, errors and changes with source identities"]
+    REPAIR{"Eligible failure and shared<br/>repair budget still unused?"}
+    CORRECT["One conditional repair<br/>Use the original request and actual error or evidence; check the complete answer again"]
+    SHOW["11 · Show the outcome<br/>Actual results beside the explanation; expose errors and changes"]
+    MEMORY["12 · Keep evidence for follow-up questions<br/>Conversation, operation records and complete result archives"]
+    INPUT --> SCOPE --> CONTEXT --> CAPACITY
+    CAPACITY -- Yes --> MODEL
+    CAPACITY -- Pressure --> COMPACT --> MODEL
+    MODEL --> TOOL
+    TOOL -- Yes --> READTOOL --> MODEL
+    TOOL -- No --> ANSWER --> GUARD
+    GUARD -- No --> STOP
+    GUARD -- Yes --> ROUTE
+    ROUTE -- Explanation only --> TEXT --> SHOW
+    ROUTE -- Read --> READ --> RESULT
+    ROUTE -- AI write --> WRITE --> RESULT
+    GUARD ~~~ EDITOR
+    EDITOR --> MANUAL --> RESULT
+    ANSWER -. Format failure .-> REPAIR
+    RESULT -. Eligible execution or teaching failure .-> REPAIR
+    REPAIR -- Yes --> CORRECT --> ANSWER
+    REPAIR -- No --> SHOW
+    RESULT --> SHOW --> MEMORY
+    MEMORY -. Next question retrieves its sources .-> CONTEXT
+    classDef scope fill:#e8f0df,stroke:#6a8c4f,color:#1f351d;
+    classDef model fill:#263e21,stroke:#6a8c4f,color:#ffffff;
+    classDef boundary fill:#f4ead8,stroke:#a37b43,color:#604923;
+    class SCOPE,CONTEXT,COMPACT,RESULT,MEMORY scope;
+    class MODEL,READTOOL model;
+    class GUARD,STOP,REPAIR,CORRECT boundary;

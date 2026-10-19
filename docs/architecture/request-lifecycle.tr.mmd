@@ -1,0 +1,48 @@
+flowchart TB
+    INPUT["01 · Öğrencinin isteği<br/>Soru, seçilen SQL veya alıntı"]
+    SCOPE["02 · İstek kapsamını kaydet<br/>Çalışma alanı, sohbet, veritabanı kimliği ve revizyon"]
+    CONTEXT["03 · Bağlamı birleştir<br/>Öğretmen kuralları, gerçek şema, ilgili geçmiş ve özgün soru"]
+    CAPACITY{"04 · Bağlam modelin<br/>kapasitesine sığıyor mu?"}
+    COMPACT["Yalnız gerektiğinde eski içeriği özetle<br/>Özgün kaynak kimliklerini ve eksiksiz arşivleri koru"]
+    MODEL["05 · Seçilen modele gönder<br/>Chat Completions, Messages veya Responses; hesap/API bağlantısı"]
+    TOOL{"06 · Model salt okunur<br/>bir araç istedi mi?"}
+    READTOOL["İstek kapsamı ve araç bütçesi içinde kaynak oku<br/>read_context: arşivlenen kaynaklar<br/>inspect_database: ilgili veritabanından gözlemler"]
+    ANSWER["07 · Yanıtın kurallara uygunluğunu denetle<br/>Açıklamayı, öğretim örneklerini ve çalıştırılabilir tam SQL bütününü ayır"]
+    GUARD{"08 · İstek hâlâ güncel<br/>ve işleme izin var mı?"}
+    STOP["İptal et veya eski yanıtı reddet<br/>Gecikmiş SQL’i başka çalışma alanına ya da revizyona uygulama"]
+    ROUTE{"09 · İzin verilen<br/>işlem yolunu seç"}
+    TEXT["Yalnız açıklama<br/>Metni ve çalıştırılmayacak öğretim örneklerini göster"]
+    READ["Salt okunur SQL işlemi<br/>Kopya veya bağlantı; süre ve sonuç sınırları"]
+    WRITE["AI yazma işlemi<br/>SAVEPOINT; kısıtlar, tetikleyiciler ve ilgili veri koruma denetimleri"]
+    EDITOR["Bağımsız giriş: elle SQL yazılan editör"]
+    MANUAL["Elle SQL / açık transaction<br/>Ayrı yürütme kuralları; gerçek kısmi durum ve transaction kaydı"]
+    RESULT["10 · Gerçek sonucu kaydet<br/>Tabloları, tam SQL’i, hataları ve değişiklikleri kaynak kimliğiyle sakla"]
+    REPAIR{"Hata uygun ve ortak düzeltme<br/>hakkı henüz kullanılmamış mı?"}
+    CORRECT["Bir kez koşullu düzeltme<br/>Özgün soru ve gerçek hata/gözlemi kullan; düzeltilmiş yanıtın bütününü yeniden denetle"]
+    SHOW["11 · Sonucu görünür kıl<br/>Gerçek sonuçları açıklamayla birlikte, hata ve değişiklikleri açıkça göster"]
+    MEMORY["12 · Takip soruları için kaynakları sakla<br/>Sohbet, işlem kayıtları ve eksiksiz sonuç arşivi"]
+    INPUT --> SCOPE --> CONTEXT --> CAPACITY
+    CAPACITY -- Evet --> MODEL
+    CAPACITY -- Yer gerekiyor --> COMPACT --> MODEL
+    MODEL --> TOOL
+    TOOL -- Evet --> READTOOL --> MODEL
+    TOOL -- Hayır --> ANSWER --> GUARD
+    GUARD -- Hayır --> STOP
+    GUARD -- Evet --> ROUTE
+    ROUTE -- Yalnız açıklama --> TEXT --> SHOW
+    ROUTE -- Okuma --> READ --> RESULT
+    ROUTE -- AI yazma --> WRITE --> RESULT
+    GUARD ~~~ EDITOR
+    EDITOR --> MANUAL --> RESULT
+    ANSWER -. Biçim hatası .-> REPAIR
+    RESULT -. Uygun yürütme veya anlatım hatası .-> REPAIR
+    REPAIR -- Evet --> CORRECT --> ANSWER
+    REPAIR -- Hayır --> SHOW
+    RESULT --> SHOW --> MEMORY
+    MEMORY -. Sonraki soruda kaynakları geri getir .-> CONTEXT
+    classDef scope fill:#e8f0df,stroke:#6a8c4f,color:#1f351d;
+    classDef model fill:#263e21,stroke:#6a8c4f,color:#ffffff;
+    classDef boundary fill:#f4ead8,stroke:#a37b43,color:#604923;
+    class SCOPE,CONTEXT,COMPACT,RESULT,MEMORY scope;
+    class MODEL,READTOOL model;
+    class GUARD,STOP,REPAIR,CORRECT boundary;
