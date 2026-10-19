@@ -1,0 +1,30 @@
+/* Conversation typography is independent of the model and SQL execution. */
+.bubble .md-h{display:block;position:relative;padding-left:12px;border-left:3px solid var(--accent);font-size:15px;font-weight:800;line-height:1.5;margin:21px 0 10px;letter-spacing:-.15px}
+.bubble .md-h:first-child{margin-top:2px}
+.bubble .md-h-1{font-size:17px}.bubble .md-h-2{font-size:15px}.bubble .md-h-3{font-size:14px}.bubble .md-h-4{font-size:13px}
+.bubble b{font-weight:800}
+.bubble ul,.bubble ol{margin:10px 0 13px 20px;padding-left:2px}
+.bubble li{padding-left:3px;margin:7px 0;line-height:1.7}
+.bubble li::marker{color:var(--accent);font-weight:800}
+.bubble .md-q{margin:12px 0;padding:10px 12px;border-left:3px solid var(--accent);border-radius:0 10px 10px 0;background:var(--accent-soft);color:var(--text);line-height:1.7}
+.bubble hr{height:1px;border:0;background:var(--border);margin:19px 0}
+.bubble code{display:inline-block;max-width:100%;box-sizing:border-box;vertical-align:baseline;white-space:normal;overflow-wrap:anywhere;padding:1px 5px;border:1px solid color-mix(in srgb,var(--accent) 13%,var(--border));border-radius:5px;background:var(--accent-soft);color:var(--text)}
+.bubble .md-table-wrap{border-radius:14px;border-bottom-width:3px;box-shadow:0 3px 10px #12291c05;margin:13px 0 16px;background:var(--panel)}
+.bubble .md-table-wrap table.md-t{font-size:12px;line-height:1.6}
+.bubble .md-table-wrap table.md-t th{padding:10px 12px;background:linear-gradient(135deg,var(--table-head-bg),color-mix(in srgb,var(--table-head-bg) 78%,var(--panel)));color:var(--table-head-ink);font-size:11.5px;font-weight:800;border-right-color:color-mix(in srgb,var(--accent) 14%,var(--border))}
+.bubble .md-table-wrap table.md-t td{padding:9px 12px;border-right:1px solid var(--border);vertical-align:top;font-variant-numeric:tabular-nums;transition:background 150ms ease}
+.bubble .md-table-wrap table.md-t tr>:last-child{border-right:0}
+.bubble .md-table-wrap table.md-t tbody tr:nth-child(even){background:color-mix(in srgb,var(--accent-soft) 45%,var(--panel))}
+.bubble .md-table-wrap table.md-t tbody tr:hover>td{background:var(--accent-soft)}
+.bubble .md-table-wrap table.md-t code{background:color-mix(in srgb,var(--panel) 80%,transparent);font-size:11px;white-space:nowrap}
+.bubble .code-wrap{border:1px solid var(--border);border-bottom-width:3px;border-radius:13px;background:var(--chat-code-surface,var(--panel2));overflow:hidden;margin:13px 0 16px}
+.bubble .code-wrap .code-head{padding:8px 10px;border-bottom:1px solid var(--border);background:color-mix(in srgb,var(--panel) 65%,var(--chat-code-surface,var(--panel2)));gap:8px}
+.bubble .code-label{display:inline-flex;align-items:center;flex:none;min-height:21px;padding:1px 7px;border:1px solid color-mix(in srgb,var(--accent) 20%,var(--border));border-radius:6px;background:var(--accent-soft);color:var(--accent);font-size:9px;font-weight:800;letter-spacing:.03em}
+.bubble .code-wrap pre{padding:12px 13px;font-weight:400;line-height:1.8;tab-size:2;color:var(--text);background:var(--chat-code-surface,var(--panel2))}
+.bubble .code-wrap .sql-kw{color:var(--sql-kw);font-weight:700}
+.bubble .code-wrap .sql-fn{color:var(--sql-fn)}.bubble .code-wrap .sql-str{color:var(--sql-str)}.bubble .code-wrap .sql-num{color:var(--sql-num)}.bubble .code-wrap .sql-com{color:var(--sql-com)}.bubble .code-wrap .sql-ty{color:var(--sql-ty)}
+[data-theme="light"] .bubble .code-wrap{--sql-kw:#1558ba;--sql-fn:#9b2169;--sql-str:#04744c;--sql-num:#a34b0a;--sql-com:#606d61;--sql-ty:#076b73}
+[data-theme="leaf"] .bubble .code-wrap{--chat-code-surface:color-mix(in srgb,var(--panel) 85%,var(--panel2));--sql-kw:#1a55a0;--sql-fn:#95245f;--sql-str:#1a653b;--sql-num:#92431c;--sql-com:#54634f;--sql-ty:#156e78}
+[data-theme="dark"] .bubble .code-wrap{--sql-kw:#a7daf2;--sql-fn:#d1baf2;--sql-str:#b4d995;--sql-num:#efc78e;--sql-com:#97a58a;--sql-ty:#9fdaca}
+.no-anim .bubble .md-table-wrap table.md-t td{transition:none}
+@media(prefers-reduced-motion:reduce){.bubble .md-table-wrap table.md-t td{transition:none}}

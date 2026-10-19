@@ -1,0 +1,98 @@
+/* Existing theme tokens; elevation belongs outside the rounded surface. */
+.modal,.identity-dialog,.project-dialog{clip-path:none;box-shadow:0 24px 64px #11251d38,0 5px 16px #11251d1c}
+[data-theme=dark] :is(.modal,.identity-dialog,.project-dialog){box-shadow:0 28px 76px #0009,0 6px 20px #0006}
+.quiz-modal,body:not(.classic-ui) .quiz-modal{padding:0;overflow:hidden;scrollbar-gutter:auto;border:1px solid var(--border);border-radius:24px;max-height:min(90vh,calc(100dvh - 40px));box-shadow:inset 0 4px 0 var(--accent),0 24px 64px #11251d38,0 5px 16px #11251d1c}
+[data-theme=dark] .quiz-modal{box-shadow:inset 0 4px 0 var(--accent),0 28px 76px #0009,0 6px 20px #0006}
+#quizBody{box-sizing:border-box;width:100%;padding:28px 24px 24px 28px;overflow-y:auto;overflow-x:hidden;scrollbar-gutter:stable;overscroll-behavior:contain}
+#quizBody::-webkit-scrollbar-track{margin-block:22px}
+.qz-editor{position:relative;margin-top:8px;border-radius:12px;background:var(--input);overflow:hidden}
+.qz-editor :is(.qz-ans,.qz-editor-highlight){box-sizing:border-box;width:100%;margin:0;padding:15px;font:13px/1.7 Consolas,"Cascadia Code",monospace;letter-spacing:normal;white-space:pre-wrap;overflow-wrap:break-word;tab-size:4}
+.qz-editor .qz-editor-highlight{position:absolute;inset:0;border:1px solid transparent;border-radius:inherit;color:var(--text);overflow:hidden;pointer-events:none}
+.qz-editor .qz-ans{position:relative;display:block;min-height:160px;resize:vertical;background:transparent;color:transparent;-webkit-text-fill-color:transparent;caret-color:var(--text)}
+.qz-editor .qz-ans::placeholder{color:var(--muted);-webkit-text-fill-color:var(--muted)}
+.qz-editor .qz-ans::selection{background:color-mix(in srgb,var(--accent) 23%,transparent)}
+#qzBlankPreview,.qz-lite>pre{font:13px/1.7 Consolas,"Cascadia Code",monospace;white-space:pre-wrap;overflow-wrap:anywhere;color:var(--text)}
+.dd-item{display:flex;align-items:center;gap:10px;min-width:0}
+.dd-item-name{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1}
+.model-recommended{flex:none;white-space:nowrap;font-family:inherit;font-size:10px;line-height:1.5;font-weight:650;color:var(--accent);background:var(--accent-soft);border-radius:6px;padding:2px 6px}
+.dd-item .model-recommended{margin-left:auto;font-size:11px}
+.dd-btn .model-recommended{font-size:10px;padding:2px 5px}
+#roamMascot.thinking .roam-wrap::after{content:none;animation:none}
+.project-title-line{display:flex;align-items:center;flex-wrap:wrap;gap:10px}
+.project-dialog[open]{display:flex;flex-direction:column}
+.project-dialog>.project-head,.project-dialog>.project-modes{flex:none}
+.project-dialog>.project-content{flex:1;min-height:0}
+.project-head .project-title-line h2{margin-bottom:0}
+.project-title-line+p{margin-top:5px}
+.project-beta{display:inline-flex;align-items:center;flex:none;border:1px solid color-mix(in srgb,var(--accent) 28%,var(--border));background:var(--accent-soft);color:var(--accent);border-radius:6px;padding:2px 7px;font-size:10px;line-height:1.5;font-weight:700;letter-spacing:.2px;vertical-align:middle}
+.project-launch b .project-beta{margin-left:7px;font-size:9px}
+.project-modes{display:flex;align-items:center;gap:4px;padding:12px 26px 0}
+.project-mode-current,.project-modes .project-explore-launch{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 15px;border-radius:11px;font-family:inherit;font-size:13px;line-height:1.4;font-weight:650;min-height:40px;box-sizing:border-box}
+.project-mode-current{background:var(--accent-soft);color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 25%,var(--border))}
+/* Soft elevation plus a contact shadow separate notices from busy content. */
+.toast,.badge-toast,body:not(.classic-ui) :is(.toast,.badge-toast){box-shadow:0 12px 30px #142c2538,0 3px 9px #142c2529,inset 0 1px 0 #fff5}
+[data-theme=dark] :is(.toast,.badge-toast),[data-theme=dark] body:not(.classic-ui) :is(.toast,.badge-toast){box-shadow:0 14px 34px #0009,0 3px 10px #0007,inset 0 1px 0 #fff1}
+#challengeModal .quiz-modal{padding-block:6px}
+#challengeBody{box-sizing:border-box;width:100%;min-height:0;padding:20px 24px 20px 26px;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;scrollbar-gutter:stable}
+#challengeBody::-webkit-scrollbar-track{margin-block:22px}
+.challenge-schema>summary{cursor:pointer;font-weight:650;padding:2px 0}
+.challenge-schema-intro{margin-top:14px;color:var(--text);line-height:1.6}
+.challenge-tables{display:grid;gap:16px;margin-top:16px}
+.challenge-table{border:1px solid var(--border);border-radius:14px;background:var(--panel);padding:16px;min-width:0}
+.challenge-table h3{display:flex;align-items:baseline;flex-wrap:wrap;gap:8px;margin:0 0 12px;font-size:14px}
+.challenge-table h3 span{font-size:12px;color:var(--muted);font-weight:500}
+.challenge-table code{font-family:Consolas,"Cascadia Code",monospace;color:var(--accent)}
+.challenge-fields{margin:0;display:grid;gap:0}
+.challenge-fields>div{display:grid;grid-template-columns:minmax(125px,1fr) minmax(0,1.2fr);gap:10px;padding:7px 0;border-top:1px solid var(--border)}
+.challenge-fields dt{display:flex;align-items:center;flex-wrap:wrap;gap:6px;min-width:0}
+.challenge-fields dd{margin:0;color:var(--text)}
+.challenge-fields dd small{display:block;color:var(--muted);font-size:10px;margin-top:2px}
+.challenge-key{font-size:9px;line-height:1.5;color:var(--accent);background:var(--accent-soft);padding:1px 5px;border-radius:5px;white-space:nowrap}
+.challenge-links{background:var(--panel2);border-radius:9px;padding:10px 12px;margin-top:10px;font-size:11px}
+.challenge-links strong{font-size:11px}.challenge-links ul{padding:0;margin:5px 0 0;list-style:none}.challenge-links li{padding:3px 0;overflow-wrap:anywhere}.challenge-links small{display:block;color:var(--muted);margin-top:4px}
+.challenge-table h4{font-size:11px;margin:15px 0 6px;color:var(--muted);font-weight:600}.challenge-table h4 span{font-variant-numeric:tabular-nums;margin-left:5px;color:var(--accent)}
+.challenge-data-scroll{overflow-x:auto;border:1px solid var(--border);border-radius:9px}
+.challenge-data-scroll table{width:100%;border-collapse:collapse;font-size:11px;text-align:left;white-space:nowrap}
+.challenge-data-scroll th,.challenge-data-scroll td{padding:8px 10px;border-bottom:1px solid var(--border)}
+.challenge-data-scroll th{font:600 11px Consolas,"Cascadia Code",monospace;background:var(--panel2);color:var(--text)}
+.challenge-data-scroll tbody tr:last-child td{border-bottom:0}.challenge-data-scroll tbody tr:nth-child(even){background:color-mix(in srgb,var(--panel2) 60%,var(--panel))}
+.challenge-null{font:10px Consolas,monospace;color:var(--muted);font-style:italic}
+.challenge-ddl{margin-top:10px;color:var(--muted);font-size:11px}.challenge-ddl summary{cursor:pointer}.challenge-ddl pre{background:var(--panel2);padding:12px;border-radius:8px;line-height:1.7;overflow-wrap:anywhere}
+.mbubble:not(.ai-wait-progress){padding-right:28px}
+.mascot-tip-copy{display:block}
+.mascot-tip-close{position:absolute;right:5px;top:5px;display:grid;place-items:center;width:18px;height:18px;padding:2px;border:0;border-radius:5px;background:transparent;color:var(--muted);box-shadow:none;font:inherit;line-height:1;cursor:pointer}
+.mascot-tip-close svg{display:block;width:11px;height:11px}
+.mascot-tip-close:hover{background:var(--panel2);color:var(--text)}
+.mascot-tip-close:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+/* Keep the actor's depth on its body; text bubbles stay on a flat pixel grid. */
+#roamMascot .roam-wrap{perspective:none}
+#roamMascot .roam-volume{transform:perspective(240px) rotateY(var(--look-turn,0deg))}
+#roamMascot .mbubble{transform:none;animation:mascotBubbleAppear 180ms ease;filter:none;backdrop-filter:none}
+#roamMascot .ai-wait-copy p{font-size:12px;line-height:1.55}
+@keyframes mascotBubbleAppear{from{opacity:0}to{opacity:1}}
+.bubble .md-h{font-size:14px;font-weight:750;line-height:1.5;margin:16px 0 7px}
+.bubble .md-h:first-child{margin-top:0}
+.bubble ul,.bubble ol{margin-top:7px;margin-bottom:9px}
+.bubble li{margin:4px 0;line-height:1.65}
+#quizHist{gap:12px}
+#profileStatsBig .pstat.pstat-streak{grid-column:1/-1;display:flex;align-items:center;justify-content:center;gap:10px;min-height:54px;box-sizing:border-box;padding:12px 16px}
+#profileStatsBig .pstat-streak span{font-size:12px}
+.dg-head{pointer-events:none}.dg-head .dg-arr{opacity:.5}svg.focusing .dg-head{opacity:.055}svg.focusing .dg-head.focus{opacity:1}.dg-head.focus .dg-arr{opacity:1}
+.dg-halo{pointer-events:none}svg.focusing .dg-halo{opacity:.055}svg.focusing .dg-halo.focus{opacity:1}
+.quiz-history-card{min-width:0;border:1px solid var(--border);border-radius:16px;padding:17px 18px;background:var(--panel)}
+.quiz-history-head{display:flex;align-items:center;justify-content:space-between;gap:18px}
+.quiz-history-label{display:block;font-size:10px;font-weight:650;color:var(--muted);margin-bottom:5px}
+.quiz-history-head time{display:block;font-size:12px;line-height:1.5;color:var(--text)}
+.quiz-history-score{text-align:right;flex:none}.quiz-history-score strong{display:block;font-size:25px;line-height:1.2;color:var(--accent);font-variant-numeric:tabular-nums}.quiz-history-score small{font-size:14px;font-weight:500;color:var(--muted)}.quiz-history-score>span{font-size:10px;color:var(--muted)}
+.quiz-history-progress{display:block;width:100%;height:6px;margin:13px 0 7px;appearance:none;border:0;border-radius:4px;overflow:hidden;background:var(--panel2);accent-color:var(--accent)}
+.quiz-history-progress::-webkit-progress-bar{background:var(--panel2);border-radius:4px}.quiz-history-progress::-webkit-progress-value{background:var(--accent);border-radius:4px}
+.quiz-history-meta{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:11px;font-variant-numeric:tabular-nums}.quiz-history-meta>span:last-child{margin-left:auto}
+.quiz-history-pdf{margin-top:13px;font-size:11px}
+.quiz-history-review{margin-top:14px;border-top:1px solid var(--border);padding-top:11px}.quiz-history-review>summary{cursor:pointer;color:var(--accent);font-size:12px;font-weight:650;padding:3px 0}.quiz-history-review>summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+.quiz-history-item{border-top:1px solid var(--border);padding-top:14px;margin-top:14px;min-width:0}.quiz-history-item h4{font-size:12px;color:var(--text);margin:0 0 7px}.quiz-history-item>p{margin:0 0 12px;line-height:1.65;overflow-wrap:anywhere}.quiz-history-item>pre{padding:12px;border:1px solid var(--border);border-radius:10px;background:var(--panel2);font:12px/1.7 Consolas,"Cascadia Code",monospace;white-space:pre-wrap;overflow-wrap:anywhere;margin:5px 0 14px}
+.quiz-history-feedback.bubble{max-width:none;min-width:0;margin:0;background:var(--panel2);border:0;box-shadow:none;border-radius:10px;padding:12px}.quiz-history-feedback .code-wrap{max-width:100%}
+.quiz-history-empty{padding:20px;border:1px dashed var(--border);border-radius:14px;color:var(--muted);text-align:center;margin:0}
+.project-modes .project-explore-launch{margin:0;border:1px solid transparent;box-shadow:none;background:transparent;color:var(--muted)}
+.project-modes .project-explore-launch:hover,.project-modes .project-explore-launch:focus-visible{background:var(--panel2);color:var(--text);border-color:var(--border);transform:none}
+.project-modes svg{width:18px;height:18px;flex:none}
+@media(max-width:760px){#quizBody{padding:24px 16px 18px 20px}.project-modes{padding:12px 18px 0}.project-modes .project-explore-launch,.project-mode-current{padding:9px 11px}.dd-btn .model-recommended{font-size:9px;padding-inline:4px}}

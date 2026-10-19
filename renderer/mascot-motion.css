@@ -1,0 +1,5 @@
+#roamMascot .roam-face{transform-origin:50% 87.5%}
+#roamMascot :is(.mascot-eyes,.mascot-pupils,.mascot-eye-left,.mascot-eye-right){transform-box:fill-box;transform-origin:50% 50%}
+.mascot-foot{transform-box:fill-box;transform-origin:center}
+.mascot-foot{transform-origin:50% 15%}
+.splash-name>span:first-child{color:var(--text)}

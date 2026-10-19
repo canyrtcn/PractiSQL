@@ -1,0 +1,22 @@
+'use strict';
+const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
+const sdk=fs.readFileSync(path.join(__dirname,'../vendor/chatgpt-sdk.cjs'),'utf8'),start=sdk.indexOf('async function streamResponse(accessToken'),end=sdk.indexOf('// artifacts/siwc-devkit/packages/local/src/storage.ts',start);assert(start>=0&&end>start);
+class ChatGPTError extends Error{constructor(code,message){super(message);this.code=code;}}
+const item=(type,extra={})=>({type,...extra}),done=(index,value)=>({type:'response.output_item.done',output_index:index,item:value}),complete=output=>({type:'response.completed',response:{output,usage:{input_tokens:5,output_tokens:3}}});
+async function run(events,{chunks=11}={}){
+ let request;
+ const bytes=new TextEncoder().encode(events.map(event=>'data: '+JSON.stringify(event)+'\r\n\r\n').join(''));
+ const response=new Response(new ReadableStream({start(controller){for(let i=0;i<bytes.length;i+=chunks)controller.enqueue(bytes.slice(i,i+chunks));controller.close();}}),{headers:{'content-type':'text/event-stream'}});
+ const context={TextDecoder,Map,Number,ChatGPTError,isObject:value=>value&&typeof value==='object'&&!Array.isArray(value),apiError:()=>new ChatGPTError('fixture_api_error','Fixture failure'),jsonResponse:r=>r.json(),fetchRemote:async(url,options)=>{request={url,body:JSON.parse(options.body)};return response;}};
+ vm.createContext(context);vm.runInContext(sdk.slice(start,end)+'\nglobalThis.readStream=streamResponse;',context);
+ const options={model:'fixture-model',input:[{role:'user',content:'A synthetic SQL question'}],instructions:'Fixture instructions',tools:[{type:'function',name:'read_context',parameters:{type:'object'}}]};
+ const result=await context.readStream('fixture-token',options,new AbortController().signal);return {result:JSON.parse(JSON.stringify(result)),request,options};
+}
+test('completed streamed tool call survives an empty terminal output',async()=>{const call=item('function_call',{id:'item-one',call_id:'call-one',name:'read_context',arguments:'{"question":"fixture"}'}),r=await run([done(0,call),complete([])]);assert.deepEqual(r.result.output,[call]);assert.equal(r.result.text,'');assert.deepEqual(r.request.body.input,r.options.input);assert.deepEqual(r.request.body.tools,r.options.tools);assert.equal(r.request.body.instructions,r.options.instructions);});
+test('reasoning and tool items retain complete content and output order',async()=>{const reasoning=item('reasoning',{id:'reason-one',encrypted_content:'fixture-encrypted-state'}),call=item('function_call',{call_id:'call-two',name:'inspect_database',arguments:'{"sql":"SELECT 1"}'}),r=await run([done(1,call),done(0,reasoning),complete([])]);assert.deepEqual(r.result.output,[reasoning,call]);});
+test('text deltas remain unchanged and are not duplicated by terminal text',async()=>{const message=item('message',{content:[{type:'output_text',text:'SELECT 1;'}]}),r=await run([{type:'response.output_text.delta',delta:'SELECT '},{type:'response.output_text.delta',delta:'1;'},done(0,message),complete([message])]);assert.equal(r.result.text,'SELECT 1;');assert.deepEqual(r.result.output,[message]);});
+test('completed message text works when no delta event was sent',async()=>{const message=item('message',{content:[{type:'output_text',text:'SELECT 2;'}]}),r=await run([done(0,message),complete([])]);assert.equal(r.result.text,'SELECT 2;');});
+test('nonempty final output remains authoritative without duplicate items',async()=>{const old=item('function_call',{call_id:'old',name:'read_context',arguments:'{}'}),final=item('message',{content:[{type:'output_text',text:'Final answer'}]}),r=await run([done(0,old),complete([final])]);assert.deepEqual(r.result.output,[final]);assert.equal(r.result.text,'Final answer');});
+test('interrupted tool stream remains an error and cannot become partial success',async()=>{await assert.rejects(run([done(0,item('function_call',{call_id:'one',arguments:'{}'}))]),{code:'stream_interrupted'});});
+test('provider failure remains a failure',async()=>{await assert.rejects(run([{type:'response.failed',response:{error:{message:'fixture'}}}]),{code:'fixture_api_error'});});
+test('arbitrary byte boundaries and CRLF keep Unicode SQL text intact',async()=>{const message=item('message',{content:[{type:'output_text',text:'SELECT \'Öğrenci\';'}]}),r=await run([done(0,message),complete([])],{chunks:1});assert.equal(r.result.text,"SELECT 'Öğrenci';");});

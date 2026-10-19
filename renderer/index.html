@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; font-src 'self' data:; connect-src 'self' https: http:; worker-src 'self'; object-src 'none'; frame-src 'none'; base-uri 'none'; form-action 'none'">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PractiSQL</title>
+<link rel="preload" as="image" href="./assets/mascot.png">
+<link rel="preload" as="font" type="font/ttf" crossorigin href="./assets/fonts/practisql-display/PractiSQLDisplay-Regular.ttf">
+<script src="./theme-init.js"></script>
+<link rel="stylesheet" href="./styles.css">
+<link rel="stylesheet" href="./interface.css">
+<link id="upgradeStyles" rel="stylesheet" href="./upgrade.css">
+<link rel="stylesheet" href="./profile-setup.css">
+<link rel="stylesheet" href="./learning-polish.css">
+<link rel="stylesheet" href="./project-ui.css">
+<link rel="stylesheet" href="./project-discovery-ui.css">
+<link rel="stylesheet" href="./refinements.css">
+<link id="workspaceNavigationStyles" rel="stylesheet" href="./workspace-navigation.css">
+<link rel="stylesheet" href="./typography.css">
+<link rel="stylesheet" href="./mascot-motion.css">
+<link rel="stylesheet" href="./notifications.css">
+<link rel="stylesheet" href="./interface-polish.css">
+<link rel="stylesheet" href="./home-workshop.css">
+<link rel="stylesheet" href="./chat-typography.css">
+<link rel="stylesheet" href="./assessment-ui.css">
+<link rel="stylesheet" href="./startup-screen.css">
+<link rel="stylesheet" href="./window-layout.css">
+</head>
+<body>
+<div class="titlebar">
+  <div class="tb-drag" id="tbDrag">
+    <span class="tb-brandmark"><img id="appIcon" src="./assets/icon.png" alt=""><span class="brand" aria-label="PractiSQL"><span>Practi</span><span class="brand-sql">SQL</span></span></span>
+    <span id="ver" class="hint"></span>
+    <span class="slogan" data-i18n="slogan">A simple, AI-powered SQL playground</span>
+    <span id="dbBadge" class="db-badge">…</span>
+  </div>
+  <div class="tb-btns">
+    <button type="button" id="streakChip" class="streak-chip" title="">🔥 0</button>
+    <button id="btnGuide" data-i18n-title="guideBtn" title="Nasıl Kullanılır"><span data-i18n="guideBtn">Nasıl Kullanılır</span><img src="./assets/mascot.png" alt="" width="22" height="22"></button>
+    <button id="btnSettings" data-i18n-title="settings" title="Ayarlar"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="6.6" stroke="currentColor" stroke-width="4.4"/><g fill="currentColor"><rect x="10.1" y="1.2" width="3.8" height="5" rx="1.2"/><rect x="10.1" y="1.2" width="3.8" height="5" rx="1.2" transform="rotate(45 12 12)"/><rect x="10.1" y="1.2" width="3.8" height="5" rx="1.2" transform="rotate(90 12 12)"/><rect x="10.1" y="1.2" width="3.8" height="5" rx="1.2" transform="rotate(135 12 12)"/><rect x="10.1" y="1.2" width="3.8" height="5" rx="1.2" transform="rotate(180 12 12)"/><rect x="10.1" y="1.2" width="3.8" height="5" rx="1.2" transform="rotate(225 12 12)"/><rect x="10.1" y="1.2" width="3.8" height="5" rx="1.2" transform="rotate(270 12 12)"/><rect x="10.1" y="1.2" width="3.8" height="5" rx="1.2" transform="rotate(315 12 12)"/></g></svg></button>
+    <span id="winControls">
+      <button id="btnMin" data-i18n-title="winMin"><svg width="11" height="11" viewBox="0 0 10 10"><line x1="1" y1="5" x2="9" y2="5" stroke="currentColor" stroke-width="1.3"/></svg></button><button id="btnMax" data-i18n-title="winMax"><svg width="11" height="11" viewBox="0 0 10 10"><rect x="1.6" y="1.6" width="6.8" height="6.8" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></button><button id="btnClose" data-i18n-title="winClose"><svg width="11" height="11" viewBox="0 0 10 10"><path d="M1.2 1.2l7.6 7.6M8.8 1.2l-7.6 7.6" stroke="currentColor" stroke-width="1.3"/></svg></button>
+    </span>
+  </div>
+</div>
+
+<div class="layout" id="layout">
+  <aside class="col side">
+    <div class="side-head">
+      <span data-i18n="workspaceNav">Çalışma alanları</span>
+      <span class="side-btns"><button id="btnNewChat" class="btn small" data-i18n-title="hintNewChat" aria-label="New chat"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h16v12H9l-5 4zM9 10h6M12 7v6"/></svg></button></span>
+    </div>
+    <div class="workspace-search" role="search">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" stroke="currentColor" stroke-width="1.8"/><path d="m16 16 4 4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      <input id="workspaceSearch" type="search" autocomplete="off" spellcheck="false" data-i18n-placeholder="workspaceSearch" data-i18n-title="workspaceSearch" aria-label="Search workspaces and chats" aria-controls="projectList">
+      <button id="workspaceSearchClear" type="button" class="hidden" data-i18n-title="workspaceSearchClear" aria-label="Clear search">×</button>
+    </div>
+    <div id="workspaceSearchStatus" class="workspace-search-status hidden" role="status" aria-live="polite"></div>
+    <div id="projectList" class="project-list"></div>
+    <button id="btnNewProject" class="btn small dashed full" data-i18n="newProjectBtn">＋ Çalışma Alanı</button>
+    <div class="side-db-row">
+      <span class="database-label" id="sideDbLabel" data-i18n="sideDbH">Veritabanı</span>
+      <div class="database-picker">
+      <label class="fld side-db"><span class="sr-only" data-i18n="sideDbH">Veritabanı</span><select id="sideDb" aria-labelledby="sideDbLabel"></select></label>
+      <button id="btnSideLoad" class="btn small" data-i18n="load">Yükle</button>
+      </div>
+    </div>
+    <section class="learning-passport" aria-labelledby="profileName">
+    <div class="profile-card">
+      <div class="profile-avatar"><div id="avatar" class="avatar" data-i18n-title="avatarTitle" title="Upload photo">?</div></div>
+      <div class="profile-meta"><button id="profileName" class="profile-name">…</button><span id="profileLevel" class="hint"></span></div>
+      <button id="profileReward" class="profile-reward" type="button"></button>
+      <input id="avatarFile" type="file" accept="image/*" class="hidden">
+    </div>
+    <div id="profileTrail" class="profile-trail"><span class="profile-trail-head"><strong id="profileXp"></strong><span id="profileStars"></span></span><span id="profileTrack" class="profile-track" role="progressbar" aria-valuemin="0" aria-valuemax="100"><span id="profileTrackFill"></span></span><span id="profileNext" class="hint"></span></div>
+    <div id="profileStats" class="profile-stats"></div>
+    <button id="weeklyGoal" class="weekly-goal" type="button"><span class="weekly-head"><span class="weekly-label"><svg class="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><path d="m12 12 8-8M16 4h4v4"/></svg><span data-i18n="weekH">Haftalık hedef</span></span><strong id="weeklyCount"></strong></span><span class="xpbar"><span id="weeklyFill" class="xpfill"></span></span></button>
+    </section>
+    <div class="side-btnrow"><button id="btnQuizSide" class="quiz-fun"><b data-i18n="quizBtnSide">Sınav</b><small data-i18n="quizSub">AI Sınavı</small></button><button id="btnPdf" class="btn small sidebtn"><b data-i18n="pdfBtn">Özet PDF</b><small data-i18n="ntTitle">Çalışma Notu</small></button></div>
+  </aside>
+  <div id="ctxMenu" class="ctx-menu hidden"></div>
+  <div class="gutter" id="gutL"></div>
+  <main class="col center workshop">
+    <div class="workspace-heading"><h1 data-i18n="sqlWorkshop">SQL atölyesi</h1><span id="workspaceMeta" class="hint"></span></div>
+    <div id="lessonSession" class="lesson-session hidden"><span id="lessonSessionName"></span><button id="btnBackLesson" class="btn small" data-i18n="backLesson">Derse dön</button></div>
+    <div class="editor-wrap">
+      <div class="ed-box"><pre id="edHi" aria-hidden="true"></pre><textarea id="editor" spellcheck="false"></textarea><div id="selMenu" class="hidden"><button id="btnAskSel" data-i18n="askAiSel">AI'a Sor</button><button id="btnAddChat" data-i18n="addToChat">Sohbete Ekle</button></div></div>
+      <div class="editor-bar">
+        <span class="editor-shortcut hint" data-i18n-title="runHint"><kbd>Ctrl</kbd><span>+</span><kbd>Enter</kbd></span>
+        <label class="assist-switch" data-i18n-title="assistTitle" title="Asistan: yazarken öner"><input type="checkbox" id="assistTgl" checked><span data-i18n="assistLbl">Asistan</span></label>
+        <span class="bar-btns">
+          <span id="runMeta" class="hint"></span>
+          <button id="btnEdZoomOut" class="btn small" data-i18n-title="zoomOut" title="Shrink text (Ctrl+Scroll)">A−</button>
+          <button id="btnEdZoomIn" class="btn small" data-i18n-title="zoomIn" title="Enlarge text (Ctrl+Scroll)">A＋</button>
+          <button id="btnRun" class="btn primary small" title="Ctrl+Enter"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4v16l14-8z"/></svg><span data-i18n="run">Çalıştır</span></button>
+          <button id="btnPlan" class="btn small" data-i18n="explainPlan">Plan</button>
+          <button id="btnClear" class="btn small" data-i18n="clear">Temizle</button>
+        </span>
+      </div>
+    </div>
+    <div id="error" class="error hidden"></div>
+    <div id="results" class="results"></div>
+    <details class="history">
+      <summary><span data-i18n="history">Geçmiş</span> <span id="histCount" class="hint"></span></summary>
+      <div id="history" class="history-list"></div>
+    </details>
+  </main>
+  <div class="gutter" id="gutR"></div>
+  <aside class="col right" id="colRight">
+    <div class="tabs" role="tablist" aria-label="PractiSQL">
+      <button id="nav-ai" data-tab="ai" class="active" role="tab" aria-selected="true" aria-controls="tab-ai"><svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="6" y="6" width="12" height="12" rx="3"/><path d="M9 3v3m6-3v3M9 18v3m6-3v3M3 9h3m-3 6h3m12-6h3m-3 6h3M9 12h6m-3-3v6"/></svg><span>AI</span></button>
+      <button id="nav-schema" data-tab="schema" role="tab" aria-selected="false" aria-controls="tab-schema" tabindex="-1"><svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 10h18M9 10v10m6-10v10"/></svg><span data-i18n="tabTables">Tablolar</span></button>
+      <button id="nav-data" data-tab="data" role="tab" aria-selected="false" aria-controls="tab-data" tabindex="-1"><svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 4 16 4 16 0V5M4 12c0 4 16 4 16 0"/></svg><span data-i18n="tabData">Veri</span></button>
+      <button id="nav-learn" data-tab="learn" role="tab" aria-selected="false" aria-controls="tab-learn" tabindex="-1"><svg class="tab-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M3 5c3-1 6-1 9 1 3-2 6-2 9-1v14c-3-1-6-1-9 1-3-2-6-2-9-1zM12 6v14"/></svg><span data-i18n="learn">Öğren</span></button>
+    </div>
+
+    <div id="tab-ai" class="tabpane">
+      <div class="ai-model-bar">
+        <div class="model-picker">
+        <label class="model-control"><span class="sr-only" data-i18n="modelLbl">Model</span><select id="aiModel" aria-label="Model"></select></label>
+        <button id="btnModels" class="btn small" data-i18n-title="refreshModels" title="Modelleri yenile" aria-label="Modelleri yenile"><svg class="ui-icon" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 11a8 8 0 1 0-2 6M20 4v7h-7"/></svg></button>
+        </div>
+        <div class="ai-head"><span id="aiDot" class="dot off"></span><span id="aiStatus" class="hint" aria-live="polite"></span></div>
+      </div>
+      <div id="chatQuote" class="chat-quote hidden"><div><strong id="chatQuoteLabel"></strong><p id="chatQuoteText"></p></div><button id="btnClearQuote" class="sample-close" type="button">×</button></div>
+      <textarea id="aiPrompt"></textarea>
+      <div class="send-row">
+        <button id="btnSamples" class="btn small" data-i18n="samplesBtn">💡 Örnekler</button>
+        <div class="send-actions"><button id="btnCancelAi" class="btn small hidden" type="button" data-i18n="aiStop" data-i18n-title="aiStopTitle">Durdur</button><button id="btnGen" class="btn primary small" data-i18n="send">Gönder</button></div>
+      </div>
+      <div id="samplePanel" class="hidden"><div class="sample-heading"><strong data-i18n="samplesBtn">Örnekler</strong><button id="btnSampleClose" class="sample-close" aria-label="Close">×</button></div><div id="sampleFilters" class="sample-filters"></div><div id="sampleList" class="sample-list"></div><button id="btnDice" class="btn small sample-dice" data-i18n-title="diceTitle" title="Rastgele sor">🎲</button></div>
+      <div id="chatLog" class="chat-log" aria-label="Sohbet geçmişi" tabindex="0"></div>
+      <button id="btnChatLatest" class="btn small chat-latest hidden" data-i18n="chatLatest">Yeni mesaja git</button>
+      <div class="row wrap">
+        <button id="btnFallback" class="btn small accent hidden">↻ <span id="fallbackModel"></span> <span data-i18n="tryWith">İle Dene</span></button>
+      </div>
+    </div>
+
+    <div id="tab-schema" class="tabpane hidden">
+      <div class="schema-bar"><span class="hint" data-i18n="schemaHint">Tablo seç → ilişkileri izle. Çift tık → önizle.</span><span class="dg-tools" data-dg="diagram"><button class="btn small" data-dg-act="fit" data-i18n="dgFit">Sığdır</button><button class="btn small" data-dg-act="read" data-i18n="dgReadScale" data-i18n-title="dgReadScaleHint">Okuma ölçeği</button><button class="btn small" data-dg-act="zout" data-i18n-title="dgZoomOut" title="Uzaklaş">−</button><span class="dg-zoom-label">100%</span><button class="btn small" data-dg-act="zin" data-i18n-title="dgZoomIn" title="Yakınlaş">+</button><button id="btnDiagram" class="btn small" data-i18n="expandDiagram">Büyüt</button></span></div>
+      <div class="diagram-wrap"><div id="diagram" class="diagram"></div><div id="diagramGrip" class="diagram-grip"></div></div>
+      <div id="schema" class="schema"></div>
+    </div>
+
+    <div id="tab-data" class="tabpane hidden">
+      <h3 data-i18n="importH">İçe aktar</h3>
+      <label class="fld"><span data-i18n="csvToTable">CSV → yeni tablo</span>
+        <span class="model-row"><input id="csvName"><input id="csvFile" type="file" accept=".csv"></span>
+      </label>
+      <label class="fld"><span data-i18n="sqlFileLbl">SQL dosyası çalıştır (.sql)</span><input id="sqlFile" type="file" accept=".sql"></label>
+      <h3 data-i18n="seedH">Sentetik veri (AI)</h3>
+      <div class="model-row"><select id="seedTable"></select><input id="seedN" type="number" value="20" min="1" max="500" style="width:70px"></div>
+      <button id="btnSeed" class="btn small" style="margin-top:8px" data-i18n="seedBtn">Seçili tabloya üret</button>
+      <h3 data-i18n="workspaceH">Çalışma alanım</h3>
+      <div class="save-row"><input id="saveName" maxlength="40"><button id="btnSave" class="btn small" data-i18n="saveDbBtn">Kaydet</button></div>
+      <div id="savedList" class="saved-list"></div>
+      <div id="dbInfo" class="hint"></div>
+      <button id="btnOpenDir" class="btn small" style="margin-top:8px" data-i18n="openFolder">Klasörü aç</button>
+      <button id="btnReset" class="btn small danger-ghost" style="margin-top:8px" data-i18n="resetDb">Alanı boşalt</button>
+    </div>
+    <div id="tab-learn" class="tabpane hidden">
+      <div class="learning-heading"><div><h2 data-i18n="learnPath">SQL öğrenme yolu</h2><p id="learnSubtitle" data-i18n="learnSub">Dersler · Her tamamlanan ders +5 XP</p></div><img src="./assets/mascot.png" width="64" height="64" alt=""></div>
+      <div class="learn-progress-row"><span id="learnProgress"></span><span id="learnPercent"></span></div>
+      <div id="learnProgressBar" class="xpbar learn-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100"><div id="learnFill" class="xpfill"></div></div>
+      <button id="learnContinue" class="btn primary learn-continue" type="button"></button>
+      <p class="learn-scope hint" data-i18n="learnSafe">Örnekler ayrı bir ders alanında açılır.</p>
+      <div id="learnList" class="learn-list"></div>
+    </div>
+  </aside>
+</div>
+
+<div id="roamMascot"><div class="roam-wrap" id="roamWrap"><div class="roam-volume"><div class="roam-face" id="roamFace">
+<svg class="rm mascot-model" viewBox="0 0 256 256" fill="none" aria-hidden="true">
+  <defs>
+    <linearGradient id="mascot-body-light" x1="46" y1="115" x2="211" y2="137" gradientUnits="userSpaceOnUse"><stop stop-color="#91d553"/><stop offset=".2" stop-color="#80ce41"/><stop offset=".65" stop-color="#79c638"/><stop offset="1" stop-color="#65aa2b"/></linearGradient>
+    <linearGradient id="mascot-rim-light" x1="77" y1="47" x2="173" y2="94" gradientUnits="userSpaceOnUse"><stop stop-color="#76a638"/><stop offset=".55" stop-color="#5d8d2b"/><stop offset="1" stop-color="#466f20"/></linearGradient>
+    <linearGradient id="mascot-foot-light" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#669d2b"/><stop offset="1" stop-color="#41671a"/></linearGradient>
+  </defs>
+  <g class="mascot-foot mascot-foot-left"><rect x="81" y="196" width="33" height="28" rx="9" fill="url(#mascot-foot-light)"/><path d="M89 207h16" stroke="#88b548" stroke-width="2" stroke-linecap="round"/></g>
+  <g class="mascot-foot mascot-foot-right"><rect x="144" y="196" width="33" height="28" rx="9" fill="url(#mascot-foot-light)"/><path d="M152 207h16" stroke="#88b548" stroke-width="2" stroke-linecap="round"/></g>
+  <path d="M46 70c0-14 163-14 163 0v109c0 14-7 23-22 23H68c-15 0-22-9-22-23V70Z" fill="url(#mascot-body-light)" stroke="#548f26" stroke-width="1.5"/>
+  <path d="M58 108v24" stroke="#cef3a2" stroke-width="10" stroke-linecap="round" opacity=".85"/>
+  <path d="M199 97v71c0 14-4 22-12 25" stroke="#4d8b20" stroke-opacity=".3" stroke-width="4" stroke-linecap="round"/>
+  <ellipse cx="127.5" cy="70" rx="81.5" ry="24" fill="url(#mascot-rim-light)"/>
+  <ellipse cx="127.5" cy="68.5" rx="58" ry="10.5" fill="#f6faef"/>
+  <path d="M66 56c29-11 91-12 122-2" stroke="#b4d978" stroke-opacity=".7" stroke-width="2.5" stroke-linecap="round"/>
+  <g class="mascot-eyes"><g class="mascot-pupils"><g class="mascot-eye-left"><circle cx="95" cy="145" r="9" fill="#1b2d20"/><circle cx="97" cy="142" r="2.6" fill="white"/></g><g class="mascot-eye-right"><circle cx="160" cy="145" r="9" fill="#1b2d20"/><circle cx="162" cy="142" r="2.6" fill="white"/></g></g></g>
+  <ellipse cx="76" cy="153" rx="10" ry="6" fill="#f4a7b5"/><ellipse cx="180" cy="153" rx="10" ry="6" fill="#f4a7b5"/>
+  <path d="M113 163c8 7 21 7 30 0" stroke="#25382b" stroke-width="4" stroke-linecap="round"/>
+</svg></div></div></div></div>
+
+<div id="diagramOverlay" class="overlay hidden">
+  <div class="ov-bar"><div class="dg-heading"><span data-i18n="diagramTitle">Şema</span><span id="dgSummary" class="hint"></span></div><span class="dg-tools" data-dg="diagramBig"><input id="dgSearch" type="search" data-i18n-placeholder="dgSearch" placeholder="Tablo bul" aria-label="Find table"><button class="btn small" data-dg-act="overview" data-i18n="dgOverview">Genel görünüm</button><button class="btn small" data-dg-act="related" data-i18n="dgRelated">Seçili tablo</button><button class="btn small" data-dg-act="columns" data-i18n="dgAllFields" aria-pressed="false">Tüm alanlar</button><button class="btn small" data-dg-act="fit" data-i18n="dgFit">Sığdır</button><button class="btn small" data-dg-act="read" data-i18n="dgReadScale" data-i18n-title="dgReadScaleHint">Okuma ölçeği</button><button class="btn small" data-dg-act="zout" data-i18n-title="dgZoomOut" title="Uzaklaş">−</button><span class="dg-zoom-label">100%</span><button class="btn small" data-dg-act="zin" data-i18n-title="dgZoomIn" title="Yakınlaş">+</button></span><button id="btnDiagramClose" class="btn small" data-i18n="close">Kapat</button></div>
+  <div class="dg-workspace"><div id="diagramBig" class="diagram-big"></div><aside id="dgInspector" class="dg-inspector"></aside></div>
+</div>
+
+<div id="quizOverlay" class="overlay hidden">
+  <div class="modal quiz-modal">
+    <div id="quizBody"></div>
+  </div>
+</div>
+
+<div id="settingsModal" class="overlay hidden">
+  <div class="modal">
+    <h2 data-i18n="settings">Ayarlar</h2>
+    <label class="fld"><span data-i18n="setLanguage">Dil</span>
+      <select id="setLang"><option value="tr">Türkçe</option><option value="en">English</option></select>
+    </label>
+    <label class="fld"><span data-i18n="setTheme">Tema</span><select id="setTheme"></select></label>
+    <div class="fld interface-scale-field">
+      <span id="interfaceScaleLabel" data-i18n="setInterfaceScale">Arayüz ölçeği</span>
+      <div class="interface-scale-controls">
+        <select id="setInterfaceScale" aria-labelledby="interfaceScaleLabel" aria-describedby="interfaceScaleHint"><option value="auto">Otomatik</option><option value="0.75">75%</option><option value="0.8">80%</option><option value="0.9">90%</option><option value="1">100%</option><option value="1.1">110%</option><option value="1.25">125%</option><option value="1.5">150%</option></select>
+        <button type="button" id="resetInterfaceScale" class="btn small" data-i18n="interfaceScaleReset" data-i18n-title="interfaceScaleResetTitle">Sıfırla</button>
+      </div>
+      <small id="interfaceScaleHint" class="hint" data-i18n="interfaceScaleHint">Tüm arayüze hemen uygulanır ve seçimin hatırlanır.</small>
+    </div>
+    <label class="fld"><span data-i18n="setTypeface">Interface font</span><select id="setTypeface"><option value="system" data-i18n="typefaceSystem">System default</option><option value="brand">PractiSQL · Nunito</option><option value="nunito">Nunito</option><option value="manrope">Manrope</option></select></label>
+    <label class="fld"><span data-i18n="setFont">Font size</span><select id="setFont"><option value="s" data-i18n="fontSmall">Small</option><option value="m" data-i18n="fontMid" selected>Normal</option><option value="l" data-i18n="fontBig">Large</option></select></label>
+    <label class="fld"><span data-i18n="setChatFont">Sohbet yazı boyutu</span><select id="setChatFont"><option value="s" data-i18n="fontSmall">Small</option><option value="m" data-i18n="fontMid" selected>Normal</option><option value="l" data-i18n="fontBig">Large</option></select></label>
+    <label class="assist-switch"><input type="checkbox" id="setAnim" checked><span data-i18n="setAnim">Animasyonlar</span></label>
+    <label class="fld"><span data-i18n="assistMode">Asistan önerisi</span><select id="setAssistMode"><option value="word" data-i18n="amWord">Kelime</option><option value="next1" data-i18n="amNext1">Sonraki kelime</option><option value="next3" data-i18n="amNext3">Sonraki 3 kelime</option><option value="line" data-i18n="amLine">Satırın kalanı</option></select></label>
+    <label class="assist-switch"><input type="checkbox" id="setFx" checked><span data-i18n="setFx">Kutlama efektleri</span></label>
+    <label class="assist-switch"><input type="checkbox" id="setUnlockAll"><span data-i18n="unlockAll">Tüm aksesuarları aç (test)</span></label>
+    <label class="assist-switch"><input type="checkbox" id="setGrav" checked><span data-i18n="setGravity">Yerçekimi</span></label>
+    <label class="assist-switch"><input type="checkbox" id="setTips" checked><span data-i18n="setTips">İpuçları</span></label>
+    <label class="assist-switch"><input type="checkbox" id="setMascotVisible" checked><span data-i18n="setMascotVisible">Gezinen maskotu göster</span></label>
+    <label class="fld"><span data-i18n="setProvider">Sağlayıcı</span><select id="aiProvider"></select></label>
+    <div id="chatgptAccount" class="account-panel hidden"><strong>ChatGPT</strong><p id="chatgptStatus" class="hint"></p><label id="chatgptProfileField" class="fld hidden"><span data-i18n="chatgptProfile">Kayıtlı hesap</span><select id="chatgptProfile" aria-label="Kayıtlı ChatGPT hesabı"></select></label><div class="row wrap"><button id="btnChatgptLogin" class="btn small primary" data-i18n="chatgptLogin">ChatGPT ile giriş yap</button><button id="btnChatgptReconnect" class="btn small hidden" data-i18n="chatgptReconnect">Seçili hesaba tekrar bağlan</button><button id="btnChatgptCancel" class="btn small hidden" data-i18n="cancelBtn">İptal</button><button id="btnChatgptLogout" class="btn small hidden" data-i18n="chatgptLogout">Çıkış yap</button><button id="btnChatgptUsage" class="btn small" data-i18n="chatgptUsage">Kullanımı yönet</button></div><p class="hint" data-i18n="chatgptHint">Uygun ChatGPT planının kullanımını paylaş. API anahtarı gerekmez.</p></div>
+    <label class="fld"><span data-i18n="setBaseUrl">Base URL</span><input id="aiBase" value="https://opencode.ai/zen/go/v1"></label>
+    <label class="fld"><span data-i18n="setApiKey">API Key (sk-...)</span><input id="aiKey" type="password" placeholder="sk-..." autocomplete="off"></label>
+    <div class="upd-box">
+      <label class="assist-switch"><input type="checkbox" id="setAutoUpd" checked><span data-i18n="autoUpd">Otomatik güncelleme</span></label>
+      <div class="row"><button id="btnUpdCheck" class="btn small" data-i18n="checkUpd">Güncellemeleri denetle</button><span id="updStatus" class="hint"></span></div>
+    </div>
+    <div class="row">
+      <button id="btnTest" class="btn small" data-i18n="testConn">Test Et</button>
+      <button id="btnSaveKey" class="btn small" data-i18n="save">Kaydet</button>
+      <button id="btnSettingsClose" class="btn small" data-i18n="close">Kapat</button>
+    </div>
+    <footer class="settings-footer">
+      <a id="settingsGithub" class="btn small settings-github" href="https://github.com/canyrtcn" rel="noopener noreferrer"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2.2c-3.3.7-4-1.4-4-1.4-.5-1.4-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1 1.8 2.8 1.3 3.4 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-6A4.7 4.7 0 0 1 5.5 8.4c-.1-.3-.5-1.6.1-3.3 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 3 .1 3.3a4.7 4.7 0 0 1 1.2 3.3c0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3Z"/></svg><span>GitHub</span></a>
+      <div class="settings-attribution"><span>© 2026 Can Yurtaçan</span><span data-i18n="settingsLicense">MIT Lisansı · Üçüncü taraf lisansları saklıdır.</span></div>
+    </footer>
+  </div>
+</div>
+
+<div id="profileModal" class="overlay hidden">
+  <div class="modal wide">
+    <h2 data-i18n="profileTitle">Profil</h2>
+    <div class="pf-head">
+      <div id="avatarBig" class="avatar big">?</div>
+      <div style="flex:1;min-width:0"><div id="profileNameBig" class="profile-name"></div><div id="profileLevelBig" class="hint"></div>
+      <div class="xpbar" role="progressbar" aria-label="XP" aria-valuemin="0" aria-valuemax="100"><div id="xpFill" class="xpfill"></div></div>
+      <div id="profileNextLevel" class="hint profile-next-level"></div>
+      <div class="row" style="margin-top:8px"><button id="btnMascot" class="btn small">🎽 <span data-i18n="mascotBtn">Maskot</span></button></div></div>
+    </div>
+    <h3 data-i18n="statH">İstatistikler</h3>
+    <div id="profileStatsBig" class="profile-stats"></div>
+    <h3>🏅 <span data-i18n="badges">Rozetler</span></h3>
+    <div id="badgeGrid" class="badge-grid"></div>
+    <button id="badgeToggle" class="btn small badge-toggle hidden" type="button" aria-expanded="false" aria-controls="badgeGrid"></button>
+    <h3 data-i18n="chartH">Son 7 gün</h3>
+    <canvas id="weekChart" width="520" height="150"></canvas>
+    <h3 data-i18n="topicH">Çalışılan konular</h3>
+    <div id="topicList" class="tag-list"></div>
+    <h3 data-i18n="topQH">En çok atılan sorgular</h3>
+    <div id="topQueries" class="q-list"></div>
+    <h3 data-i18n="quizHistT">Sınav Geçmişi</h3>
+    <div id="quizHist" class="q-list"></div>
+    <h3 data-i18n="weekH">Haftalık hedef</h3>
+    <p class="hint" data-i18n="goalHint">Bu hafta kaç sorgu çalıştırmak istiyorsun?</p>
+    <div class="goal-row"><input id="goalInput" type="number" min="1" max="1000"><button id="btnGoal" class="btn small" data-i18n="save">Kaydet</button><span id="goalInfo" class="hint"></span></div>
+    <div class="xpbar"><div id="goalFill" class="xpfill"></div></div>
+    <h3>⭐ <span data-i18n="starH">Yıldızlar</span></h3>
+    <p class="hint" data-i18n="starHow">Yıldız nasıl kazanılır?</p>
+    <div class="row wrap">
+      <button id="btnProfileClose" class="btn small" data-i18n="close">Kapat</button>
+      <div class="about-box"><b data-i18n="aboutH">Hakkında</b><br><a id="aboutGh" href="#">GitHub: canyrtcn/practisql</a><br><span data-i18n="aboutLic">MIT Lisansı © 2026 PractiSQL contributors</span></div>
+    </div>
+  </div>
+</div>
+
+<div id="gearModal" class="overlay hidden">
+  <div class="modal">
+    <h2 data-i18n="gearTitle">Maskot Giydir</h2>
+    <p class="hint" data-i18n="gearHint">Eşyalara tıkla: giy / çıkar. Kilitliler XP ile açılır.</p>
+    <div id="gearPreview"></div>
+    <div id="gearFilters" class="gear-filters" role="group" aria-label="Accessory category"></div>
+    <div id="gearGrid" class="gear-grid"></div>
+    <div class="row" style="margin-top:10px"><button id="btnGearClose" class="btn small" data-i18n="close">Kapat</button></div>
+  </div>
+</div>
+
+<div id="badgeModal" class="overlay hidden">
+  <div class="modal">
+    <h2 id="badgeTitle">🏅</h2>
+    <div id="badgeNewGrid" class="badge-grid"></div>
+    <div class="row" style="margin-top:10px"><button id="btnBadgeClose" class="btn small" data-i18n="gotIt">Harika!</button></div>
+  </div>
+</div>
+
+<div id="splash" class="splash"><div class="splash-inner"><div class="splash-emblem"><span class="splash-halo" aria-hidden="true"></span><img class="mascot" src="./assets/mascot.png" width="110" height="110" alt=""></div><div class="splash-name"><span>Practi</span><span class="brand-sql">SQL</span></div><div class="splash-tag" data-i18n="slogan">A simple, AI-powered SQL playground</div><div class="splash-trail" aria-hidden="true"><span></span></div></div></div>
+<script src="./startup-screen.js"></script>
+
+<div id="guideModal" class="overlay hidden">
+  <div class="modal wide">
+    <div class="guide-head"><img src="./assets/mascot.png" alt="" width="64"><div><h2 data-i18n="guideTitle">Nasıl Kullanılır</h2><p class="hint" data-i18n="guideIntro">Maskotunla SQL öğren: bir kalıp seç, Dene'ye bas, soru AI'ya gitsin.</p></div></div>
+    <h3 data-i18n="guideScH">Örnek Soru Kalıpları</h3>
+    <div id="guideScenarios" class="guide-grid"></div>
+    <h3 data-i18n="guideUseH">Arayüzü Tanıyalım</h3>
+    <div id="guideUsage" class="guide-grid"></div>
+    <div class="row" style="margin-top:10px"><button id="btnGuideClose" class="btn small" data-i18n="close">Kapat</button></div>
+  </div>
+</div>
+
+<div id="promptModal" class="overlay hidden">
+  <div class="modal">
+    <h2 id="promptTitle"></h2>
+    <label class="fld"><input id="promptInput" maxlength="40"></label>
+    <div class="row">
+      <button id="promptOk" class="btn small primary">OK</button>
+      <button id="promptCancel" class="btn small">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div id="confirmModal" class="overlay hidden">
+  <div class="modal">
+    <h2 id="confirmText"></h2>
+    <div class="row">
+      <button id="confirmOk" class="btn small primary">OK</button>
+      <button id="confirmCancel" class="btn small">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+<div id="chatQuoteMenu" class="chat-quote-menu hidden"><button id="btnQuoteSelection" class="btn small" type="button" data-i18n="quoteAsk">Bu kısmı sor</button></div>
+<script defer src="vendor/sql-wasm-snapshot.js"></script>
+<script defer src="./sqlite-values.js"></script>
+<script defer src="./lang.js"></script>
+<script defer src="./learn.js"></script>
+<script defer src="./learn-detail.js"></script>
+<script defer src="./learn-advanced.js"></script>
+<script defer src="./vendor/elk-api.js"></script>
+<script defer src="./schema-layout.js"></script>
+<script defer src="./schema-view.js"></script>
+<script defer src="./study-notes.js"></script>
+<script defer src="./lesson-pdf.js"></script>
+<script defer src="./exam-study.js"></script>
+<script defer src="./examples.js"></script>
+<script defer src="./rewards.js"></script>
+<script defer src="./challenges.js"></script>
+<script defer src="./challenge-schema.js"></script>
+<script defer src="./database-formats.js"></script>
+<script defer src="./notifications.js"></script>
+<script defer src="./upgrade.js"></script>
+<script defer src="./avatar-layout.js"></script>
+<script defer src="./profile-setup.js"></script>
+<script defer src="./project-review.js"></script>
+<script defer src="./project-ui.js"></script>
+<script defer src="./sql-sections.js"></script>
+<script defer src="./schema-constraints.js"></script>
+<script defer src="./ai-usage.js"></script>
+<script defer src="./ai-request-control.js"></script>
+<script defer src="./ai-wait-progress.js"></script>
+<script defer src="./operation-results.js"></script>
+<script defer src="./ai-database-observations.js"></script>
+<script defer src="./ai-conversation.js"></script>
+<script defer src="./request-context.js"></script>
+<script defer src="./ai-request-snapshot.js"></script>
+<script defer src="./ai-ui-evidence.js"></script>
+<script defer src="./ai-teacher-contract.js"></script>
+<script defer src="./ai-request-envelope.js"></script>
+<script defer src="./ai-context-budget.js"></script>
+<script defer src="./ai-context-rejection.js"></script>
+<script defer src="./ai-context-manager.js"></script>
+<script defer src="./ai-context-sources.js"></script>
+<script defer src="./ai-tool-protocol.js"></script>
+<script defer src="./ai-database-capture.js"></script>
+<script defer src="./ai-database-reader.js"></script>
+<script defer src="./ai-answer-envelope.js"></script>
+<script defer src="./explicit-request-limits.js"></script>
+<script defer src="./request-action-policy.js"></script>
+<script defer src="./response-fences.js"></script>
+<script defer src="./sql-read-contract.js"></script>
+<script defer src="./ai-native-schema.js"></script>
+<script defer src="./ai-schema-context.js"></script>
+<script defer src="./read-output-policy.js"></script>
+<script defer src="./exam-sql.js"></script>
+<script defer src="./exam-presentation.js"></script>
+<script defer src="./sql-exercises.js"></script>
+<script defer src="./physical-fk-tuples.js"></script>
+<script defer src="./teaching-grounding.js"></script>
+<script defer src="./relationship-roles.js"></script>
+<script defer src="./fk-cardinality.js"></script>
+<script defer src="./mascot-look.js"></script>
+<script defer src="./mascot-wardrobe.js"></script>
+<script defer src="./mascot-motion.js"></script>
+<script defer src="./tab-navigation.js"></script>
+<script defer src="./profile-badges.js"></script>
+<script defer src="./project-awards.js"></script>
+<script defer src="./project-errors.js"></script>
+<script defer src="./project-conversation.js"></script>
+<script defer src="./project-context.js"></script>
+<script defer src="./project-request.js"></script>
+<script defer src="./project-review-request.js"></script>
+<script defer src="./project-review-completion.js"></script>
+<script defer src="./project-discovery-ui.js"></script>
+<script defer src="./window-layout.js"></script>
+<script defer src="./interface-scale.js"></script>
+<script defer src="./app.js"></script>
+</body>
+</html>

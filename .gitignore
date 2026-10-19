@@ -1,0 +1,63 @@
+# Dependencies and generated Windows/macOS packages
+node_modules/
+/release/
+/dist/
+*.exe
+*.msi
+*.dmg
+*.pkg
+*.blockmap
+
+# Local reports, experiments and test output
+/artifacts/
+/output/
+/experiments/
+/tmp/
+/.test-output/
+/sqlpg-test-backup/
+/design-backup*/
+scripts/ai-battery/
+scripts/ai-battery-student/
+scripts/ai-stress.cjs
+scripts/audit-shots.cjs
+scripts/dev-en-proof.cjs
+scripts/schema-torture.cjs
+scripts/resize-test.cjs
+*.log
+*.har
+*.dmp
+__pycache__/
+*.py[cod]
+
+# Credentials, account sessions and signing material
+.env
+.env.*
+!.env.example
+*.pfx
+*.p12
+*.key
+*.pem
+*credentials*.json
+*token*.json
+/config.json
+/Local State
+/chatgpt/
+
+# User profiles, imported databases and backups
+/profiles/
+/user-data/
+/backups/
+/personal-data/
+*.sqlite
+*.sqlite3
+*.db
+*.db3
+*.sqlite-*
+*.db-*
+*.bak
+*.bak.sqlite
+
+# Operating-system files
+.DS_Store
+Thumbs.db
+Desktop.ini

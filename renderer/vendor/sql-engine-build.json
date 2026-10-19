@@ -1,0 +1,27 @@
+{
+  "at": "2026-10-09T05:04:10.928Z",
+  "sqlJs": "1.14.2",
+  "sqlJsCommit": "9c4e167ec37129192d166ab9223faa9a4bd07c58",
+  "sqlite": "3.49.1",
+  "compiler": "4.0.9",
+  "originalApiSha256": "b6841c1e71b7316ea37c1ea7c58396933c139be1d73378c2ff0d6b964a344b4b",
+  "patchedApiSha256": "523974c3fe2356b00f384eb24a9651262211c4efcc897f7fe06067164bb48dac",
+  "newCompileFlag": "SQLITE_ENABLE_PREUPDATE_HOOK",
+  "originalSnapshotAndFullTextSpanPreserved": true,
+  "productIntegrated": true,
+  "bundleSha256": "f6da737851a2da9c53868696e3c4f41b6615021f076a28925e51f37c8a7f1bb2",
+  "wasmSha256": "536bbfc0dd4bba762a915e0c891a5da8f8621d19a3a4e83ea9cee91018f1aa73",
+  "additionalReadOnlyApi": "sqlite3_get_autocommit",
+  "transactionStateBuild": "artifacts/sql-transaction-build-208/preparation.json",
+  "sqliteSourceOrCompileFlagsChanged": false,
+  "textBindingBuild": "artifacts/sql-text-build-209/preparation.json",
+  "textBindingUsesUtf8ByteLength": true,
+  "javascriptPostBuildPatches": [
+    {
+      "at": "2026-10-10T08:04:53.893Z",
+      "script": "scripts/extend-integer-fidelity-214.cjs",
+      "scope": "Exact INTEGER values in the existing trigger insert observer; SQLite/WASM and SQL execution unchanged",
+      "inputBundleSha256": "37962f09e61570c2a7fe8b5caff1fb665d43e54765efdac183774555d4323fe5"
+    }
+  ]
+}

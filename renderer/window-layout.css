@@ -1,0 +1,112 @@
+/* Compact the existing panels when Windows DPI leaves less logical space. */
+body{grid-template-columns:minmax(0,1fr)}
+#layout{min-width:0}
+.interface-scale-controls{display:flex;align-items:center;gap:8px;min-width:0}
+.interface-scale-controls .dd-wrap{flex:1;min-width:0}
+.interface-scale-controls .dd-btn{width:100%}
+.interface-scale-controls>.btn{flex:none;min-height:32px}
+.interface-scale-field>.hint{display:block;line-height:1.5;margin:0;overflow-wrap:anywhere}
+.col.side{container:sidebar / inline-size;overflow-x:hidden}
+.col.right{container:assistant / inline-size}
+/* Reserve the same square for the SVG, its clothes and its fallback image. */
+body:not(.classic-ui) #results>.empty-state{--guide-size:clamp(64px,17cqi,126px);display:grid;grid-template-columns:var(--guide-size) minmax(0,1fr)}
+body:not(.classic-ui) #results>.empty-state>.results-peek{display:block;width:var(--guide-size);min-width:0}
+body:not(.classic-ui) #results>.empty-state .learning-guide,body:not(.classic-ui) #results>.empty-state .learning-character{display:block;width:100%;height:auto;aspect-ratio:1}
+body:not(.classic-ui) #results>.empty-state .mascot{width:100%;height:auto;object-fit:contain}
+body:not(.classic-ui) #results>.empty-state>.empty-copy{min-width:0;max-width:100%;overflow-wrap:anywhere}
+body:not(.classic-ui) #results>.empty-state>.lesson-route{grid-column:1/-1;min-width:0}
+@container sidebar (max-width:220px){
+  body:not(.classic-ui) .proj-head{min-height:36px;padding:5px 7px;gap:5px;position:relative}
+  body:not(.classic-ui) .proj-name{gap:6px;font-size:11.5px}
+  body:not(.classic-ui) .proj-name .ui-icon{padding:3px}
+  body:not(.classic-ui) .proj-del{position:absolute;right:5px;top:9px;background:var(--panel)}
+  body:not(.classic-ui) .proj-chats{margin:0 6px 7px 12px;padding-left:6px}
+  body:not(.classic-ui) .chat-row{min-height:30px;padding:3px 6px;gap:3px}
+  .chat-name{font-size:11px}
+  .chat-del{position:absolute;right:4px;background:var(--panel2)}
+  body:not(.classic-ui) .learning-passport{padding-inline:7px}
+  body:not(.classic-ui) .learning-passport .profile-card{gap:6px}
+  body:not(.classic-ui) .learning-passport .avatar{width:26px;height:26px;font-size:13px}
+  .profile-meta{min-width:0;flex:1}
+  body:not(.classic-ui) .learning-passport .profile-name{font-size:11.5px;max-width:100%}
+  body:not(.classic-ui) .learning-passport #profileLevel{font-size:9.5px}
+  body:not(.classic-ui) .learning-passport .profile-reward{display:none}
+  #profileStats .pstat{padding-inline:1px}
+  #profileStats .pstat span{font-size:9px}
+  .weekly-label{gap:3px}
+  .weekly-label>.ui-icon{width:12px;height:12px}
+  body:not(.classic-ui) .learning-passport .weekly-head{gap:4px;font-size:10px}
+  .side-db .dd-btn{padding-inline:6px;font-size:11px}
+  .database-picker #btnSideLoad{padding-inline:7px}
+}
+@container assistant (max-width:300px){
+  .ai-model-bar{flex-wrap:wrap;row-gap:4px}
+  .ai-model-bar .model-picker{flex-basis:100%}
+  .ai-model-bar .ai-head{flex:1 0 100%;max-width:none;justify-content:flex-end}
+  body:not(.classic-ui) .col.right>.tabs button{font-size:11px;padding-inline:2px;gap:3px}
+}
+@container assistant (max-width:220px){
+  /* Tiny logical desktops retain the same four accessible navigation targets. */
+  .tabs .tab-icon{display:block}
+  .tabs button>span{position:absolute;width:1px;height:1px;clip-path:inset(50%);overflow:hidden}
+  #aiPrompt{padding-inline:8px;font-size:12px}
+  .send-row{flex-wrap:wrap;gap:6px}
+  .send-actions{margin-left:auto}
+  #btnGen{padding-inline:12px}
+  .model-row,.save-row{flex-wrap:wrap}
+  .model-row>input,.model-row>.dd-wrap,.save-row>input{min-width:0;max-width:100%;flex-basis:100%}
+}
+@container sidebar (max-width:170px){
+  .weekly-head{flex-wrap:wrap}
+  #profileStats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .database-picker{flex-wrap:wrap}
+  .database-picker .side-db{flex-basis:100%}
+  .database-picker #btnSideLoad{width:100%}
+  #btnNewProject{white-space:normal;font-size:10px;padding-inline:4px}
+}
+@container workshop (max-width:440px){
+  .editor-bar{padding:8px;gap:5px}
+  .editor-bar .bar-btns{gap:4px}
+  .editor-bar .btn.small{padding:5px 7px;font-size:11px}
+  body:not(.classic-ui) .workshop #btnRun{padding-inline:9px;min-height:30px}
+  body:not(.classic-ui) #results>.empty-state{--guide-size:64px;padding:20px 3px;gap:12px}
+  body:not(.classic-ui) #results>.empty-state>.empty-copy h2{font-size:16px}
+  body:not(.classic-ui) #results>.empty-state>.lesson-route{grid-column:1/-1;min-width:0}
+}
+@container workshop (max-width:300px){
+  body:not(.classic-ui) #results>.empty-state{grid-template-columns:minmax(0,1fr);gap:14px}
+  body:not(.classic-ui) #results>.empty-state>.results-peek{width:64px;justify-self:center}
+  .editor-bar .editor-shortcut{display:none}
+  .editor-bar .bar-btns{margin-left:0;justify-content:flex-start}
+  .empty-actions .btn{max-width:100%;white-space:normal;text-align:left}
+  .lesson-route{overflow-wrap:anywhere}
+}
+@media(max-width:760px){
+  .col.side{padding-inline:8px}
+  #btnGuide>span{display:none}
+  #btnGuide{padding-inline:7px}
+  .tb-btns>#streakChip{display:none}
+}
+@media(max-width:640px){
+  #ver{display:none}
+  .tb-drag{gap:4px;padding-left:8px;padding-right:3px}
+  .titlebar .tb-brandmark #appIcon{width:30px;height:30px}
+  .titlebar .tb-brandmark .brand{font-size:20px}
+  .tb-btns>button,.tb-btns>span>button,.tb-btns>#btnSettings{width:32px}
+  #btnGuide{display:none}
+  .col.center{padding:14px}
+}
+@media(max-height:650px){
+  body:not(.classic-ui) .col.side{padding-block:10px}
+  .col.side .side-head{padding-bottom:6px}
+  body:not(.classic-ui) .col.side>.project-list{min-height:96px;flex-basis:96px}
+  .col.side #btnNewProject{margin-top:8px}
+  .col.side .side-db-row{padding-bottom:8px}
+  body:not(.classic-ui) .learning-passport{padding-top:6px;margin-top:8px}
+  body:not(.classic-ui) .learning-passport .profile-trail{padding-block:3px 5px}
+  body:not(.classic-ui) .learning-passport #profileStats{padding-block:3px 5px}
+  body:not(.classic-ui) .learning-passport #weeklyGoal{padding-block:5px}
+  body:not(.classic-ui) .learning-passport .weekly-head{margin-bottom:4px}
+  .col.side .side-btnrow .quiz-fun,.col.side .side-btnrow .sidebtn{height:46px;padding:4px}
+  .col.side #btnChallenges{padding-block:5px}
+}

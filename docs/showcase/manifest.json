@@ -1,0 +1,1708 @@
+{
+  "version": "3.4.261",
+  "interfaceLanguage": "en",
+  "themes": [
+    "light",
+    "leaf",
+    "dark"
+  ],
+  "sections": 28,
+  "screenshots": [
+    {
+      "id": "01-workspace",
+      "theme": "light",
+      "title": {
+        "en": "SQL workspace",
+        "tr": "SQL çalışma alanı"
+      },
+      "file": "docs/screenshots/light/01-workspace.png",
+      "sha256": "be3360efe1bd136c447756702608a87efd3c99a5648eee7e60a47a0e9a4ead2f",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "02-tables",
+      "theme": "light",
+      "title": {
+        "en": "Tables and relationships",
+        "tr": "Tablolar ve ilişkiler"
+      },
+      "file": "docs/screenshots/light/02-tables.png",
+      "sha256": "5cb8efc851acdcc0d2efb5aac4a21eedf9aa00cb71ed9e9f2702e53318701e10",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "03-schema",
+      "theme": "light",
+      "title": {
+        "en": "Schema explorer",
+        "tr": "Şema gezgini"
+      },
+      "file": "docs/screenshots/light/03-schema.png",
+      "sha256": "6e0281708fa8823ad5399b756914499f49f986cd9ea1fc92861fd8c4cefdadd6",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "04-query-plan",
+      "theme": "light",
+      "title": {
+        "en": "Query plan",
+        "tr": "Sorgu planı"
+      },
+      "file": "docs/screenshots/light/04-query-plan.png",
+      "sha256": "8e9328e711dcdd85530e9c639a4498c694a11fbde30ddde55239a5353dcabee8",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "05-data",
+      "theme": "light",
+      "title": {
+        "en": "Import and export",
+        "tr": "İçe ve dışa aktarım"
+      },
+      "file": "docs/screenshots/light/05-data.png",
+      "sha256": "64336a35e456aa89c7b83dac468f1e9fa55ad20c0cf522a81ccc35240cd8a9a0",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "06-server-import",
+      "theme": "light",
+      "title": {
+        "en": "Server learning copy",
+        "tr": "Sunucudan öğrenme kopyası"
+      },
+      "file": "docs/screenshots/light/06-server-import.png",
+      "sha256": "805f62782faccde93379973e0edd9198d9ef3d8b9939200f4009765441e9fa1c",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "07-examples",
+      "theme": "light",
+      "title": {
+        "en": "Prompt examples",
+        "tr": "Örnek istekler"
+      },
+      "file": "docs/screenshots/light/07-examples.png",
+      "sha256": "54b5eca8224b8638a6b4488e89aa2a3ad4c9ee25edf92b1a97c4a318fa6fe697",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "08-learning",
+      "theme": "light",
+      "title": {
+        "en": "Learning path",
+        "tr": "Öğrenme yolu"
+      },
+      "file": "docs/screenshots/light/08-learning.png",
+      "sha256": "7d20a8a3b3262fc511ca66e43bddffc9a05409600a70d0818c52f06c6a5b61f7",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "09-lesson-select",
+      "theme": "light",
+      "title": {
+        "en": "SELECT lesson",
+        "tr": "SELECT dersi"
+      },
+      "file": "docs/screenshots/light/09-lesson-select.png",
+      "sha256": "b0cff66673fbdfcaed8c1f2250ba875d17901ebc0606105b29ebdfeb1b166956",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "10-lesson-joins",
+      "theme": "light",
+      "title": {
+        "en": "JOIN lesson",
+        "tr": "JOIN dersi"
+      },
+      "file": "docs/screenshots/light/10-lesson-joins.png",
+      "sha256": "a187f80233cfa6f3872f4f954b50bceaa6da3afb4fdd46d74378d8ea0222ffa7",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "11-challenges",
+      "theme": "light",
+      "title": {
+        "en": "SQL challenges",
+        "tr": "SQL challenge’ları"
+      },
+      "file": "docs/screenshots/light/11-challenges.png",
+      "sha256": "1c9b6bf2ab94992fa5d8dce318d8dd41e982d108e9c48d9bfbbca3caeddfe000",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "12-challenge-schema",
+      "theme": "light",
+      "title": {
+        "en": "Schema and sample rows",
+        "tr": "Şema ve örnek kayıtlar"
+      },
+      "file": "docs/screenshots/light/12-challenge-schema.png",
+      "sha256": "23440995cbcdbd5e57be322c7892a1bf15842ba097186e8d8b61374472a64470",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "13-challenge-result",
+      "theme": "light",
+      "title": {
+        "en": "Challenge feedback",
+        "tr": "Challenge geri bildirimi"
+      },
+      "file": "docs/screenshots/light/13-challenge-result.png",
+      "sha256": "43b539c5e5f6aba96b722cc5f34a889c78f9f7b0cbdcd16c5624deb0ac642247",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "14-exam-setup",
+      "theme": "light",
+      "title": {
+        "en": "Exam setup",
+        "tr": "Sınav hazırlığı"
+      },
+      "file": "docs/screenshots/light/14-exam-setup.png",
+      "sha256": "11925797369b7fe580063e9cff0b4d719811bf3286c1249ee47b2430728755d8",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "15-exam-question",
+      "theme": "light",
+      "title": {
+        "en": "Fill-in SQL question",
+        "tr": "SQL boşluk doldurma"
+      },
+      "file": "docs/screenshots/light/15-exam-question.png",
+      "sha256": "3ec55d4564bb731853a312c22e10d7785e683d3fa09efd3881254c2af45c2f52",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "16-exam-review",
+      "theme": "light",
+      "title": {
+        "en": "Answer review",
+        "tr": "Cevap incelemesi"
+      },
+      "file": "docs/screenshots/light/16-exam-review.png",
+      "sha256": "6836a6aa445ddfb2d85086eded4ed17378fef235f2cc78a5294d063e4017b267",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "17-profile",
+      "theme": "light",
+      "title": {
+        "en": "Learning profile",
+        "tr": "Öğrenme profili"
+      },
+      "file": "docs/screenshots/light/17-profile.png",
+      "sha256": "4a2804819f434aacf29e44fd59ad035139d29d15c9af0dde293c16e7b00230cb",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "18-history",
+      "theme": "light",
+      "title": {
+        "en": "Exam history",
+        "tr": "Sınav geçmişi"
+      },
+      "file": "docs/screenshots/light/18-history.png",
+      "sha256": "8482542af71c3523c9d17ec2a71b2d649e0061260f574accf06a64b299621d87",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "19-mascot",
+      "theme": "light",
+      "title": {
+        "en": "Mascot accessories",
+        "tr": "Maskot aksesuarları"
+      },
+      "file": "docs/screenshots/light/19-mascot.png",
+      "sha256": "9852b1e792aea68f12873f8ff7670d6810a6ab145e79ab691f48b451646255a1",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "20-study-notes",
+      "theme": "light",
+      "title": {
+        "en": "SQL study notes",
+        "tr": "SQL çalışma notları"
+      },
+      "file": "docs/screenshots/light/20-study-notes.png",
+      "sha256": "34ac70a171de307c18f2d1d7be737eab0e698881202a2add6be35c244e3ec164",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "21-project",
+      "theme": "light",
+      "title": {
+        "en": "Real data project",
+        "tr": "Gerçek veri projesi"
+      },
+      "file": "docs/screenshots/light/21-project.png",
+      "sha256": "064e5fa0f968f4e6c7c98a1572b74cebf3cbbf18f8aa41161669794b60c81d1d",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "22-project-reports",
+      "theme": "light",
+      "title": {
+        "en": "Project SQL and results",
+        "tr": "Proje SQL’i ve sonuçlar"
+      },
+      "file": "docs/screenshots/light/22-project-reports.png",
+      "sha256": "2dca52fa61afbeb0faca414c85f32dabf9dc182c22eb0a6e872e9d7d1bf44511",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "23-project-idea",
+      "theme": "light",
+      "title": {
+        "en": "Your project idea",
+        "tr": "Kendi proje fikrin"
+      },
+      "file": "docs/screenshots/light/23-project-idea.png",
+      "sha256": "29f33f8fe7a16dbfef05942a2f1050645ab0610b7ee289cfa78c66eb0e3afcc0",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "24-settings",
+      "theme": "light",
+      "title": {
+        "en": "Preferences and providers",
+        "tr": "Tercihler ve sağlayıcılar"
+      },
+      "file": "docs/screenshots/light/24-settings.png",
+      "sha256": "29402ca25aa137e88c82b9f14eae49362d34c7e37e3d7b148001bd6bdd27aa3c",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "25-guide",
+      "theme": "light",
+      "title": {
+        "en": "Getting started",
+        "tr": "Kullanım kılavuzu"
+      },
+      "file": "docs/screenshots/light/25-guide.png",
+      "sha256": "9ef1405227586bdb948ecf611dabd09e201baf8f8a6fd36aa3021528e96cb29a",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "26-privacy",
+      "theme": "light",
+      "title": {
+        "en": "First-run privacy information",
+        "tr": "İlk kullanım gizlilik bilgisi"
+      },
+      "file": "docs/screenshots/light/26-privacy.png",
+      "sha256": "7ffbfb17c8dbffd6bfa92fe6cccc524bd423cf7e1d3d8658841de95c7a52a495",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "27-sql-exercises",
+      "theme": "light",
+      "title": {
+        "en": "SQL logic exercises",
+        "tr": "SQL mantığı alıştırmaları"
+      },
+      "file": "docs/screenshots/light/27-sql-exercises.png",
+      "sha256": "571205b0ab7e198e1e1837b4939225ccae8c053adfb2c9c50a501dc8c36f504c",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "28-table-data",
+      "theme": "light",
+      "title": {
+        "en": "Table records",
+        "tr": "Tablo kayıtları"
+      },
+      "file": "docs/screenshots/light/28-table-data.png",
+      "sha256": "6817b530f6c75c8bee78111bb97505c81fd5614e70e9a53742f409d2d1b0cbd4",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "01-workspace",
+      "theme": "leaf",
+      "title": {
+        "en": "SQL workspace",
+        "tr": "SQL çalışma alanı"
+      },
+      "file": "docs/screenshots/leaf/01-workspace.png",
+      "sha256": "b90049d1d7d33971d4fd137576fe0db44d305b5238432b4251d4446ae847284d",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "02-tables",
+      "theme": "leaf",
+      "title": {
+        "en": "Tables and relationships",
+        "tr": "Tablolar ve ilişkiler"
+      },
+      "file": "docs/screenshots/leaf/02-tables.png",
+      "sha256": "ccfd03af93172d974aa3f365a87fe2d4f539950734084a5a296a5b3f8af8d7cf",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "03-schema",
+      "theme": "leaf",
+      "title": {
+        "en": "Schema explorer",
+        "tr": "Şema gezgini"
+      },
+      "file": "docs/screenshots/leaf/03-schema.png",
+      "sha256": "851f1ca3dc15e3653077bfc6f3d9f8850446c7a733e21f2c033c05356580991b",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "04-query-plan",
+      "theme": "leaf",
+      "title": {
+        "en": "Query plan",
+        "tr": "Sorgu planı"
+      },
+      "file": "docs/screenshots/leaf/04-query-plan.png",
+      "sha256": "0ed8ab1b10973b4e715c46712a9b00d867450ce95f88274950ab015ed8e1bdae",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "05-data",
+      "theme": "leaf",
+      "title": {
+        "en": "Import and export",
+        "tr": "İçe ve dışa aktarım"
+      },
+      "file": "docs/screenshots/leaf/05-data.png",
+      "sha256": "d25169b1aff07a084949bf126caa8839d2d2e1ac94d44e0fae1740f842a09c54",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "06-server-import",
+      "theme": "leaf",
+      "title": {
+        "en": "Server learning copy",
+        "tr": "Sunucudan öğrenme kopyası"
+      },
+      "file": "docs/screenshots/leaf/06-server-import.png",
+      "sha256": "0797ca4ff7f3dddc74381c24570315f2f5f11e00b8cb5318c42e0359d68fd75c",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "07-examples",
+      "theme": "leaf",
+      "title": {
+        "en": "Prompt examples",
+        "tr": "Örnek istekler"
+      },
+      "file": "docs/screenshots/leaf/07-examples.png",
+      "sha256": "4c91c644dc2436ec3bfd20c943e4b105e83f7de67b264611a534c71293ebb7ef",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "08-learning",
+      "theme": "leaf",
+      "title": {
+        "en": "Learning path",
+        "tr": "Öğrenme yolu"
+      },
+      "file": "docs/screenshots/leaf/08-learning.png",
+      "sha256": "f5267e14054f0278ca8012fc38cbc86315189dc028231070ecd2ecab870f4ef2",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "09-lesson-select",
+      "theme": "leaf",
+      "title": {
+        "en": "SELECT lesson",
+        "tr": "SELECT dersi"
+      },
+      "file": "docs/screenshots/leaf/09-lesson-select.png",
+      "sha256": "9c18eb066f502e699053993e648016cda99694fb5c689922c814af9f4d77c815",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "10-lesson-joins",
+      "theme": "leaf",
+      "title": {
+        "en": "JOIN lesson",
+        "tr": "JOIN dersi"
+      },
+      "file": "docs/screenshots/leaf/10-lesson-joins.png",
+      "sha256": "9ad2650f2eb2e56e4dc2bc2344c19b3818557b5480e14851969bc305f79810d1",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "11-challenges",
+      "theme": "leaf",
+      "title": {
+        "en": "SQL challenges",
+        "tr": "SQL challenge’ları"
+      },
+      "file": "docs/screenshots/leaf/11-challenges.png",
+      "sha256": "10f530d8ed7e377dd530a9f33b6e5aab5a8ace114fe67e6a48b851a5559aa3ea",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "12-challenge-schema",
+      "theme": "leaf",
+      "title": {
+        "en": "Schema and sample rows",
+        "tr": "Şema ve örnek kayıtlar"
+      },
+      "file": "docs/screenshots/leaf/12-challenge-schema.png",
+      "sha256": "ab26e5dae2be025a8d46d6a634117b75e4843cb70f2a35cf37632a60413a3d1d",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "13-challenge-result",
+      "theme": "leaf",
+      "title": {
+        "en": "Challenge feedback",
+        "tr": "Challenge geri bildirimi"
+      },
+      "file": "docs/screenshots/leaf/13-challenge-result.png",
+      "sha256": "311e632371b6bbac13a50692085e369a35c4186567b513ce0c8834be43ac731f",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "14-exam-setup",
+      "theme": "leaf",
+      "title": {
+        "en": "Exam setup",
+        "tr": "Sınav hazırlığı"
+      },
+      "file": "docs/screenshots/leaf/14-exam-setup.png",
+      "sha256": "f799b68bc370dc9dd580a8fe0df1d67c7a59f90c25e27b83a57d1c5ffdaa12ed",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "15-exam-question",
+      "theme": "leaf",
+      "title": {
+        "en": "Fill-in SQL question",
+        "tr": "SQL boşluk doldurma"
+      },
+      "file": "docs/screenshots/leaf/15-exam-question.png",
+      "sha256": "9d0ae579b1f04319521e83e3eb089028ab7f4496e188d005655e3b2a73cb16ae",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "16-exam-review",
+      "theme": "leaf",
+      "title": {
+        "en": "Answer review",
+        "tr": "Cevap incelemesi"
+      },
+      "file": "docs/screenshots/leaf/16-exam-review.png",
+      "sha256": "318bf9b6f982b70d1152005e0cdb7c8dcf7592540a62470e9029aea115ce6eeb",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "17-profile",
+      "theme": "leaf",
+      "title": {
+        "en": "Learning profile",
+        "tr": "Öğrenme profili"
+      },
+      "file": "docs/screenshots/leaf/17-profile.png",
+      "sha256": "89ef658251d9ded8467956dd67f682c04de8cc18823309a617ec78967c96e568",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "18-history",
+      "theme": "leaf",
+      "title": {
+        "en": "Exam history",
+        "tr": "Sınav geçmişi"
+      },
+      "file": "docs/screenshots/leaf/18-history.png",
+      "sha256": "3b6554955fa75e62e727f2ab44fd4b59b36930c9df134cdcd0597374810a96ff",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "19-mascot",
+      "theme": "leaf",
+      "title": {
+        "en": "Mascot accessories",
+        "tr": "Maskot aksesuarları"
+      },
+      "file": "docs/screenshots/leaf/19-mascot.png",
+      "sha256": "9064ee6df24ff98bcb97162f0b761ac98df5bdc5323f0e9e2d14619609af4a2e",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "20-study-notes",
+      "theme": "leaf",
+      "title": {
+        "en": "SQL study notes",
+        "tr": "SQL çalışma notları"
+      },
+      "file": "docs/screenshots/leaf/20-study-notes.png",
+      "sha256": "d5ed2eaae79c0c5e098796be03e9ae8d27d5851bbb4c5f1433f8ea48deda3d77",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "21-project",
+      "theme": "leaf",
+      "title": {
+        "en": "Real data project",
+        "tr": "Gerçek veri projesi"
+      },
+      "file": "docs/screenshots/leaf/21-project.png",
+      "sha256": "edfb8a9359e444a1ae239de910340cb0c8787e8f4494b5b65d79677a2f2d89d7",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "22-project-reports",
+      "theme": "leaf",
+      "title": {
+        "en": "Project SQL and results",
+        "tr": "Proje SQL’i ve sonuçlar"
+      },
+      "file": "docs/screenshots/leaf/22-project-reports.png",
+      "sha256": "4d17ce726eda74af103a73c6c99bf24f649814f48a38fb2651bc7ccb048a5783",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "23-project-idea",
+      "theme": "leaf",
+      "title": {
+        "en": "Your project idea",
+        "tr": "Kendi proje fikrin"
+      },
+      "file": "docs/screenshots/leaf/23-project-idea.png",
+      "sha256": "bcef52ccd7413bb591856c7e1e6e2c31ab6ebc038fab7b78953a9c6318c5d777",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "24-settings",
+      "theme": "leaf",
+      "title": {
+        "en": "Preferences and providers",
+        "tr": "Tercihler ve sağlayıcılar"
+      },
+      "file": "docs/screenshots/leaf/24-settings.png",
+      "sha256": "cc2d3fc02173526329bdf6588166e690937c184f2b6840ae9b9dbe08b5e300e7",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "25-guide",
+      "theme": "leaf",
+      "title": {
+        "en": "Getting started",
+        "tr": "Kullanım kılavuzu"
+      },
+      "file": "docs/screenshots/leaf/25-guide.png",
+      "sha256": "6c217f683aebc3648e8812783fdb4a4512b2af01e46be65d3dd63744eae16bfd",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "26-privacy",
+      "theme": "leaf",
+      "title": {
+        "en": "First-run privacy information",
+        "tr": "İlk kullanım gizlilik bilgisi"
+      },
+      "file": "docs/screenshots/leaf/26-privacy.png",
+      "sha256": "43affb6a80b7f7624580472712c85134a6e687b6421c1abe7175301b3f311643",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "27-sql-exercises",
+      "theme": "leaf",
+      "title": {
+        "en": "SQL logic exercises",
+        "tr": "SQL mantığı alıştırmaları"
+      },
+      "file": "docs/screenshots/leaf/27-sql-exercises.png",
+      "sha256": "62117cf5a7007ddd89b87edcc1a682eb94d4c058ce0cc048bdb5fc903ff6320a",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "28-table-data",
+      "theme": "leaf",
+      "title": {
+        "en": "Table records",
+        "tr": "Tablo kayıtları"
+      },
+      "file": "docs/screenshots/leaf/28-table-data.png",
+      "sha256": "bd19a764bcb8530b7bf7a7447000ab0d0e273709ab27b0e81b8be0a3b5179b1d",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "01-workspace",
+      "theme": "dark",
+      "title": {
+        "en": "SQL workspace",
+        "tr": "SQL çalışma alanı"
+      },
+      "file": "docs/screenshots/dark/01-workspace.png",
+      "sha256": "0d403231084b06f485f76f8d5c8833a8906c44440a711199b6e6a34a8c26dbb5",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "02-tables",
+      "theme": "dark",
+      "title": {
+        "en": "Tables and relationships",
+        "tr": "Tablolar ve ilişkiler"
+      },
+      "file": "docs/screenshots/dark/02-tables.png",
+      "sha256": "7f40e780eb6ad7836b623902ec031e82783e25cdd5585477229b80554ac04129",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "03-schema",
+      "theme": "dark",
+      "title": {
+        "en": "Schema explorer",
+        "tr": "Şema gezgini"
+      },
+      "file": "docs/screenshots/dark/03-schema.png",
+      "sha256": "bfae6d81dcc7ac1a2ba151b378691bce3f9cff69326141c352489e1a83a8d345",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "04-query-plan",
+      "theme": "dark",
+      "title": {
+        "en": "Query plan",
+        "tr": "Sorgu planı"
+      },
+      "file": "docs/screenshots/dark/04-query-plan.png",
+      "sha256": "84e8a356839187dce32f8ac488af7360db422a91480395c5af388a07a1295e4b",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "05-data",
+      "theme": "dark",
+      "title": {
+        "en": "Import and export",
+        "tr": "İçe ve dışa aktarım"
+      },
+      "file": "docs/screenshots/dark/05-data.png",
+      "sha256": "8b2036ded65dd232cc5e5fa9ffb80a28d1846bdeafce403ccc9bed013c93b00c",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "06-server-import",
+      "theme": "dark",
+      "title": {
+        "en": "Server learning copy",
+        "tr": "Sunucudan öğrenme kopyası"
+      },
+      "file": "docs/screenshots/dark/06-server-import.png",
+      "sha256": "4941ce4cbb6b3fcb83138542b7c918f038a667c299290c90cd06a1f874034644",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "07-examples",
+      "theme": "dark",
+      "title": {
+        "en": "Prompt examples",
+        "tr": "Örnek istekler"
+      },
+      "file": "docs/screenshots/dark/07-examples.png",
+      "sha256": "3275c7f217d417479d92e8a8210bd7beb99f7087b52ad8c16672d6443950a79f",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "08-learning",
+      "theme": "dark",
+      "title": {
+        "en": "Learning path",
+        "tr": "Öğrenme yolu"
+      },
+      "file": "docs/screenshots/dark/08-learning.png",
+      "sha256": "a8efeb066c2a3dc0acc69d414bfaccd306b7ddcac857fa41092b4a20f0cf64d9",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "09-lesson-select",
+      "theme": "dark",
+      "title": {
+        "en": "SELECT lesson",
+        "tr": "SELECT dersi"
+      },
+      "file": "docs/screenshots/dark/09-lesson-select.png",
+      "sha256": "4fdf9f114c9a805015ff07a1d44b0f957375dd860379668d5df0b922b10d2a73",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "10-lesson-joins",
+      "theme": "dark",
+      "title": {
+        "en": "JOIN lesson",
+        "tr": "JOIN dersi"
+      },
+      "file": "docs/screenshots/dark/10-lesson-joins.png",
+      "sha256": "9b5f0d07e543feba5e279c65131d85c336dfce26b31ff6568e590827973fdc1d",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "11-challenges",
+      "theme": "dark",
+      "title": {
+        "en": "SQL challenges",
+        "tr": "SQL challenge’ları"
+      },
+      "file": "docs/screenshots/dark/11-challenges.png",
+      "sha256": "cec0f00dd4ae96093b00adff5d103cb8f1e08e9f51331587eb2f18da16f0c79d",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "12-challenge-schema",
+      "theme": "dark",
+      "title": {
+        "en": "Schema and sample rows",
+        "tr": "Şema ve örnek kayıtlar"
+      },
+      "file": "docs/screenshots/dark/12-challenge-schema.png",
+      "sha256": "063d4bda7069d00443b641ea860a35694b7205dd58ab8279ca1aa2e8fc39ce45",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "13-challenge-result",
+      "theme": "dark",
+      "title": {
+        "en": "Challenge feedback",
+        "tr": "Challenge geri bildirimi"
+      },
+      "file": "docs/screenshots/dark/13-challenge-result.png",
+      "sha256": "9fd6af1cda576e6d99393f04e71f8dc27b7b6e98207980d0ec226f881325f1e5",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "14-exam-setup",
+      "theme": "dark",
+      "title": {
+        "en": "Exam setup",
+        "tr": "Sınav hazırlığı"
+      },
+      "file": "docs/screenshots/dark/14-exam-setup.png",
+      "sha256": "7f6c37e78f451de662b95aeb0856975f2a2150a7ddeabe971cd127339990d920",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "15-exam-question",
+      "theme": "dark",
+      "title": {
+        "en": "Fill-in SQL question",
+        "tr": "SQL boşluk doldurma"
+      },
+      "file": "docs/screenshots/dark/15-exam-question.png",
+      "sha256": "d9b8122908ae2f236152776600ed5d236fc65a4a6683709c890f88449fbffd92",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "16-exam-review",
+      "theme": "dark",
+      "title": {
+        "en": "Answer review",
+        "tr": "Cevap incelemesi"
+      },
+      "file": "docs/screenshots/dark/16-exam-review.png",
+      "sha256": "34c7ba698e0c1ee4098b20166783c562dacd57fb65acc16d4c24c5f6f3ae63f9",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "17-profile",
+      "theme": "dark",
+      "title": {
+        "en": "Learning profile",
+        "tr": "Öğrenme profili"
+      },
+      "file": "docs/screenshots/dark/17-profile.png",
+      "sha256": "859224a3cf18b9db10d9c1816372b8132aecd558c75e3a5669ff92330e72399f",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "18-history",
+      "theme": "dark",
+      "title": {
+        "en": "Exam history",
+        "tr": "Sınav geçmişi"
+      },
+      "file": "docs/screenshots/dark/18-history.png",
+      "sha256": "62ae7fbbe232aa065da007cd497edf38777c0fb050ddbc4c1bd04ecaa88a5068",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "19-mascot",
+      "theme": "dark",
+      "title": {
+        "en": "Mascot accessories",
+        "tr": "Maskot aksesuarları"
+      },
+      "file": "docs/screenshots/dark/19-mascot.png",
+      "sha256": "0097175cd37e85f577ee5989d30fd4b82cd6ac666bd7240c1d0e2fc63ee7d322",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "20-study-notes",
+      "theme": "dark",
+      "title": {
+        "en": "SQL study notes",
+        "tr": "SQL çalışma notları"
+      },
+      "file": "docs/screenshots/dark/20-study-notes.png",
+      "sha256": "76229a271646cc190cc823a3ad3226d3df2b17f7661714ea0e860ddd4d1d51c9",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "21-project",
+      "theme": "dark",
+      "title": {
+        "en": "Real data project",
+        "tr": "Gerçek veri projesi"
+      },
+      "file": "docs/screenshots/dark/21-project.png",
+      "sha256": "895954b71506682198bb80f8f42aa9e4d9bfcd2b8dfe078a31a8da028061b803",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "22-project-reports",
+      "theme": "dark",
+      "title": {
+        "en": "Project SQL and results",
+        "tr": "Proje SQL’i ve sonuçlar"
+      },
+      "file": "docs/screenshots/dark/22-project-reports.png",
+      "sha256": "669f7ae0929a89d597a95a450cc0d6b81acb6b2c3495758aaf8d18ed7ff8294d",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "23-project-idea",
+      "theme": "dark",
+      "title": {
+        "en": "Your project idea",
+        "tr": "Kendi proje fikrin"
+      },
+      "file": "docs/screenshots/dark/23-project-idea.png",
+      "sha256": "73571e4b1c7c27580f666924a165a88dbc62520faec3dd83319399f0f193b239",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "24-settings",
+      "theme": "dark",
+      "title": {
+        "en": "Preferences and providers",
+        "tr": "Tercihler ve sağlayıcılar"
+      },
+      "file": "docs/screenshots/dark/24-settings.png",
+      "sha256": "69d24f698ea4568f4f1394a5ceb13743dbda2bf308e1d5e4334ffe490d7776aa",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "25-guide",
+      "theme": "dark",
+      "title": {
+        "en": "Getting started",
+        "tr": "Kullanım kılavuzu"
+      },
+      "file": "docs/screenshots/dark/25-guide.png",
+      "sha256": "9b47484fb8bd4e08838f32cbeac30c0c36454b02b268b0d283a5239394c363d7",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "26-privacy",
+      "theme": "dark",
+      "title": {
+        "en": "First-run privacy information",
+        "tr": "İlk kullanım gizlilik bilgisi"
+      },
+      "file": "docs/screenshots/dark/26-privacy.png",
+      "sha256": "5065121637cd297a016dbf4fdeab44d4b37a86db1fe6cc2a26e590d7f1978457",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "27-sql-exercises",
+      "theme": "dark",
+      "title": {
+        "en": "SQL logic exercises",
+        "tr": "SQL mantığı alıştırmaları"
+      },
+      "file": "docs/screenshots/dark/27-sql-exercises.png",
+      "sha256": "10154ab3ee4d09753beda4fb92983452ab5692293b243f07d4dfd31a0c2020a2",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "28-table-data",
+      "theme": "dark",
+      "title": {
+        "en": "Table records",
+        "tr": "Tablo kayıtları"
+      },
+      "file": "docs/screenshots/dark/28-table-data.png",
+      "sha256": "5c35c69f60fb2005d3c78c9a2e5973db1145eb5eb3231432b3a97831879ba25f",
+      "width": 1600,
+      "height": 1000
+    }
+  ],
+  "profile": "The creator explicitly authorised their name and photo. Learning statistics and progress in these images are synthetic demonstration values.",
+  "data": "Retail records and workspace/chat names are synthetic. Built-in lesson/challenge fixtures and the documented UCI bike-sharing source are used in their own sections.",
+  "preparedContent": "The AI teaching message and exam questions, review and history are prepared demonstration content. They are not a new live model evaluation. SQL query results, challenge checks and project numeric results were executed locally.",
+  "capture": "Real application UI in isolated hidden Electron sessions; no personal databases or conversations are included. The roaming mascot is stationary on the floor.",
+  "printNotes": "Study-note images show the application-generated print document; its print palette is independent of the application theme.",
+  "cards": [
+    {
+      "id": "product-overview",
+      "theme": "leaf",
+      "source": "01-workspace",
+      "kind": "overview",
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "sql-exercises",
+      "theme": "leaf",
+      "source": "27-sql-exercises",
+      "kind": "detail",
+      "crop": {
+        "x": 430,
+        "y": 270,
+        "width": 740,
+        "height": 460
+      },
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "workspace-light",
+      "theme": "light",
+      "source": "01-workspace",
+      "kind": "wide",
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "workspace-leaf",
+      "theme": "leaf",
+      "source": "01-workspace",
+      "kind": "wide",
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "workspace-dark",
+      "theme": "dark",
+      "source": "01-workspace",
+      "kind": "wide",
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "guided-learning",
+      "theme": "leaf",
+      "source": "09-lesson-select",
+      "kind": "detail",
+      "crop": {
+        "x": 570,
+        "y": 125,
+        "width": 460,
+        "height": 750
+      },
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "practice-feedback",
+      "theme": "leaf",
+      "source": "13-challenge-result",
+      "kind": "detail",
+      "crop": {
+        "x": 440,
+        "y": 220,
+        "width": 720,
+        "height": 560
+      },
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "table-relationships",
+      "theme": "dark",
+      "source": "03-schema",
+      "kind": "detail",
+      "crop": {
+        "x": 150,
+        "y": 300,
+        "width": 1040,
+        "height": 430
+      },
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "data-projects",
+      "theme": "light",
+      "source": "22-project-reports",
+      "kind": "detail",
+      "crop": {
+        "x": 325,
+        "y": 20,
+        "width": 950,
+        "height": 960
+      },
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "query-results",
+      "theme": "leaf",
+      "source": "01-workspace",
+      "kind": "detail",
+      "crop": {
+        "x": 288,
+        "y": 118,
+        "width": 866,
+        "height": 730
+      },
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "table-explorer",
+      "theme": "leaf",
+      "source": "02-tables",
+      "kind": "detail",
+      "crop": {
+        "x": 1158,
+        "y": 58,
+        "width": 434,
+        "height": 862
+      },
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "sql-exams",
+      "theme": "leaf",
+      "source": "15-exam-question",
+      "kind": "detail",
+      "crop": {
+        "x": 440,
+        "y": 120,
+        "width": 720,
+        "height": 760
+      },
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "learning-path",
+      "theme": "leaf",
+      "source": "08-learning",
+      "kind": "detail",
+      "crop": {
+        "x": 1158,
+        "y": 58,
+        "width": 434,
+        "height": 827
+      },
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "table-view",
+      "theme": "leaf",
+      "source": "03-schema",
+      "kind": "detail",
+      "crop": {
+        "x": 170,
+        "y": 325,
+        "width": 1000,
+        "height": 400
+      },
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "table-data",
+      "theme": "leaf",
+      "source": "28-table-data",
+      "kind": "detail",
+      "crop": {
+        "x": 288,
+        "y": 118,
+        "width": 866,
+        "height": 730
+      },
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "sql-exercises-light",
+      "theme": "light",
+      "source": "27-sql-exercises",
+      "kind": "detail",
+      "crop": {
+        "x": 430,
+        "y": 270,
+        "width": 740,
+        "height": 460
+      },
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "sql-exercises-dark",
+      "theme": "dark",
+      "source": "27-sql-exercises",
+      "kind": "detail",
+      "crop": {
+        "x": 430,
+        "y": 270,
+        "width": 740,
+        "height": 460
+      },
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "guided-learning-light",
+      "theme": "light",
+      "source": "09-lesson-select",
+      "kind": "detail",
+      "crop": {
+        "x": 570,
+        "y": 125,
+        "width": 460,
+        "height": 750
+      },
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "guided-learning-dark",
+      "theme": "dark",
+      "source": "09-lesson-select",
+      "kind": "detail",
+      "crop": {
+        "x": 570,
+        "y": 125,
+        "width": 460,
+        "height": 750
+      },
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "practice-feedback-light",
+      "theme": "light",
+      "source": "13-challenge-result",
+      "kind": "detail",
+      "crop": {
+        "x": 440,
+        "y": 220,
+        "width": 720,
+        "height": 560
+      },
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "practice-feedback-dark",
+      "theme": "dark",
+      "source": "13-challenge-result",
+      "kind": "detail",
+      "crop": {
+        "x": 440,
+        "y": 220,
+        "width": 720,
+        "height": 560
+      },
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "table-relationships-light",
+      "theme": "light",
+      "source": "03-schema",
+      "kind": "detail",
+      "crop": {
+        "x": 150,
+        "y": 300,
+        "width": 1040,
+        "height": 430
+      },
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "table-relationships-leaf",
+      "theme": "leaf",
+      "source": "03-schema",
+      "kind": "detail",
+      "crop": {
+        "x": 150,
+        "y": 300,
+        "width": 1040,
+        "height": 430
+      },
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "data-projects-leaf",
+      "theme": "leaf",
+      "source": "22-project-reports",
+      "kind": "detail",
+      "crop": {
+        "x": 325,
+        "y": 20,
+        "width": 950,
+        "height": 960
+      },
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "data-projects-dark",
+      "theme": "dark",
+      "source": "22-project-reports",
+      "kind": "detail",
+      "crop": {
+        "x": 325,
+        "y": 20,
+        "width": 950,
+        "height": 960
+      },
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "query-results-light",
+      "theme": "light",
+      "source": "01-workspace",
+      "kind": "detail",
+      "crop": {
+        "x": 288,
+        "y": 118,
+        "width": 866,
+        "height": 730
+      },
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "query-results-dark",
+      "theme": "dark",
+      "source": "01-workspace",
+      "kind": "detail",
+      "crop": {
+        "x": 288,
+        "y": 118,
+        "width": 866,
+        "height": 730
+      },
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "table-explorer-light",
+      "theme": "light",
+      "source": "02-tables",
+      "kind": "detail",
+      "crop": {
+        "x": 1158,
+        "y": 58,
+        "width": 434,
+        "height": 862
+      },
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "table-explorer-dark",
+      "theme": "dark",
+      "source": "02-tables",
+      "kind": "detail",
+      "crop": {
+        "x": 1158,
+        "y": 58,
+        "width": 434,
+        "height": 862
+      },
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "sql-exams-light",
+      "theme": "light",
+      "source": "15-exam-question",
+      "kind": "detail",
+      "crop": {
+        "x": 440,
+        "y": 120,
+        "width": 720,
+        "height": 760
+      },
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "sql-exams-dark",
+      "theme": "dark",
+      "source": "15-exam-question",
+      "kind": "detail",
+      "crop": {
+        "x": 440,
+        "y": 120,
+        "width": 720,
+        "height": 760
+      },
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "learning-path-light",
+      "theme": "light",
+      "source": "08-learning",
+      "kind": "detail",
+      "crop": {
+        "x": 1158,
+        "y": 58,
+        "width": 434,
+        "height": 827
+      },
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "learning-path-dark",
+      "theme": "dark",
+      "source": "08-learning",
+      "kind": "detail",
+      "crop": {
+        "x": 1158,
+        "y": 58,
+        "width": 434,
+        "height": 827
+      },
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "table-view-light",
+      "theme": "light",
+      "source": "03-schema",
+      "kind": "detail",
+      "crop": {
+        "x": 170,
+        "y": 325,
+        "width": 1000,
+        "height": 400
+      },
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "table-view-dark",
+      "theme": "dark",
+      "source": "03-schema",
+      "kind": "detail",
+      "crop": {
+        "x": 170,
+        "y": 325,
+        "width": 1000,
+        "height": 400
+      },
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "table-data-light",
+      "theme": "light",
+      "source": "28-table-data",
+      "kind": "detail",
+      "crop": {
+        "x": 288,
+        "y": 118,
+        "width": 866,
+        "height": 730
+      },
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "table-data-dark",
+      "theme": "dark",
+      "source": "28-table-data",
+      "kind": "detail",
+      "crop": {
+        "x": 288,
+        "y": 118,
+        "width": 866,
+        "height": 730
+      },
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "themes-workspace",
+      "theme": "leaf",
+      "source": "01-workspace",
+      "kind": "themes",
+      "crop": {
+        "x": 288,
+        "y": 135,
+        "width": 866,
+        "height": 350
+      },
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "themes-query-results",
+      "theme": "leaf",
+      "source": "01-workspace",
+      "kind": "themes",
+      "crop": {
+        "x": 288,
+        "y": 493,
+        "width": 866,
+        "height": 350
+      },
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "themes-table-explorer",
+      "theme": "leaf",
+      "source": "02-tables",
+      "kind": "themes",
+      "crop": {
+        "x": 170,
+        "y": 325,
+        "width": 1000,
+        "height": 400
+      },
+      "detailSource": "03-schema",
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "themes-sql-exams",
+      "theme": "leaf",
+      "source": "15-exam-question",
+      "kind": "themes",
+      "crop": {
+        "x": 489,
+        "y": 431,
+        "width": 619,
+        "height": 140
+      },
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "themes-data-projects",
+      "theme": "leaf",
+      "source": "22-project-reports",
+      "kind": "themes",
+      "crop": {
+        "x": 350,
+        "y": 450,
+        "width": 900,
+        "height": 360
+      },
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "themes-learning-path",
+      "theme": "leaf",
+      "source": "08-learning",
+      "kind": "themes",
+      "crop": {
+        "x": 1158,
+        "y": 662,
+        "width": 434,
+        "height": 208
+      },
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "themes-table-data",
+      "theme": "leaf",
+      "source": "28-table-data",
+      "kind": "themes",
+      "crop": {
+        "x": 288,
+        "y": 493,
+        "width": 866,
+        "height": 352
+      },
+      "languages": [
+        "en",
+        "tr"
+      ]
+    }
+  ]
+}

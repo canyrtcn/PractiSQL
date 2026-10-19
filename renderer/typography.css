@@ -1,0 +1,18 @@
+@font-face{font-family:"PractiSQL Display";src:url("./assets/fonts/practisql-display/PractiSQLDisplay-Regular.ttf") format("truetype");font-style:normal;font-weight:400;font-display:swap}
+@font-face{font-family:Nunito;src:url("./assets/fonts/nunito/Nunito[wght].ttf") format("truetype");font-style:normal;font-weight:200 1000;font-display:swap}
+@font-face{font-family:Manrope;src:url("./assets/fonts/manrope/Manrope[wght].ttf") format("truetype");font-style:normal;font-weight:200 800;font-display:swap}
+:root{--brand-sql:#518f00;--ui-font:"Segoe UI",system-ui,-apple-system,sans-serif}
+[data-theme="dark"]{--brand-sql:#9cda5b}
+[data-ui-font="brand"]{--ui-font:Nunito,"Segoe UI",sans-serif}
+[data-ui-font="nunito"]{--ui-font:Nunito,"Segoe UI",sans-serif}
+[data-ui-font="manrope"]{--ui-font:Manrope,"Segoe UI",sans-serif}
+body{font-family:var(--ui-font)}
+[data-ui-font="brand"] body{font-weight:450}
+.tb-brandmark{gap:7px}
+.titlebar .tb-brandmark #appIcon{display:block;width:38px;height:38px;padding:0;border:0;border-radius:0;background:transparent;box-shadow:none;object-fit:contain}
+.brand,.splash-name{font-family:"PractiSQL Display",Nunito,sans-serif;font-weight:400;font-kerning:none;letter-spacing:0}
+.titlebar .tb-brandmark .brand{display:inline-flex;align-items:baseline;gap:0;font-size:25px;line-height:1.1;letter-spacing:0;color:var(--text)}
+.brand-sql,.splash-name .brand-sql{color:var(--brand-sql)}
+.splash-name{font-size:29px;line-height:1.2}
+#setTypeface option{font-family:"Segoe UI",sans-serif}
+.splash .mascot{animation:none;transform:none;translate:none;rotate:none;scale:none}

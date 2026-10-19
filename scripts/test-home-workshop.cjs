@@ -1,0 +1,27 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
+const {open,prepare,dispose,wait}=require('./test-support/electron-session.cjs');
+const args=process.argv.slice(2),source=path.resolve(args[0]||'.'),out=path.resolve(args[1]||'artifacts/home-workshop-verification.json');assert(!fs.existsSync(out));
+const proof={at:new Date().toISOString(),status:'running',checks:[],layouts:[],visibleWindows:0,realModelCalls:0,personalDataUsed:false,marketingImagesCreated:0};const check=(ok,label)=>{assert(ok,label);proof.checks.push(label);};let app,workspace;
+(async()=>{try{
+ for(const theme of ['light','leaf','dark']){
+  workspace=prepare(source);const main=path.join(workspace.root,'main.js');fs.writeFileSync(main,fs.readFileSync(main,'utf8').replace('webPreferences: {','webPreferences: {offscreen:true,backgroundThrottling:false,'));
+  app=await open({source,prepared:workspace,config:{theme,lang:'en',profile:{name:'Workshop fixture'},provider:'openai',apiKey:'',stats:{xp:375,totalQ:48},showMascot:true,tips:false,welcomed:true,autoUpdate:false,soundEnabled:false,onboarding:{completed:true,providerChoice:'later'}}});await app.evaluate('document.fonts.ready');for(let i=0;i<120&&!await app.evaluate('window.__startupSplash?.phase==="hidden"');i++)await wait(50);await app.evaluate('window.PractiNotifications.clear();window.PractiMascotMotion.stop()');
+  check(await app.evaluate('!document.getElementById("homePractice")&&document.querySelectorAll(".lesson-route button").length===3'),'Workshop keeps the editor space and the existing three lesson links: '+theme);
+  for(const language of ['en','tr'])for(const typeface of ['system','brand','nunito','manrope']){
+   await app.evaluate('window.__pg.setLang('+JSON.stringify(language)+');document.documentElement.dataset.uiFont='+JSON.stringify(typeface)+';window.PractiNotifications.clear()');await app.evaluate('document.fonts.ready');
+   for(const[width,height]of [[1220,650],[1440,900],[1920,1080]]){
+    await app.send('Emulation.setDeviceMetricsOverride',{width,height,deviceScaleFactor:1,mobile:false});await wait(25);
+    // The compact layout reserves 96px for a workspace row and its padding.
+    const layout=await app.evaluate('(()=>{const main=document.querySelector(".workshop"),side=document.querySelector(".col.side"),list=document.getElementById("projectList"),box=document.querySelector(".editor-wrap"),heading=document.querySelector(".workspace-heading"),a=document.getElementById("editor"),b=document.getElementById("edHi"),x=getComputedStyle(a),y=getComputedStyle(b);return {overflow:main.scrollWidth<=main.clientWidth+1&&side.scrollWidth<=side.clientWidth+1,usableList:list.clientHeight>=96,editorFollowsHeading:box.getBoundingClientRect().top-heading.getBoundingClientRect().bottom<22,mirror:x.fontFamily===y.fontFamily&&x.fontSize===y.fontSize&&x.lineHeight===y.lineHeight&&x.padding===y.padding&&x.fontWeight===y.fontWeight,usableInput:a.clientHeight>=130&&a.clientWidth>=200};})()');proof.layouts.push({theme,language,typeface,width,height,...layout});check(Object.values(layout).every(Boolean),'Layout and code alignment: '+[theme,language,typeface,width+'x'+height].join('/')+' '+JSON.stringify(layout));
+   }
+  }
+  await app.send('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false});const database=await app.evaluate('JSON.stringify(window.__pg.snapshot())');await app.evaluate('document.querySelector("[data-empty-action=learn][data-lesson=select]").click()');
+  check(await app.evaluate('document.getElementById("nav-learn").getAttribute("aria-selected")==="true"&&document.querySelector("#learn-select .learn-head").getAttribute("aria-expanded")==="true"&&JSON.stringify(window.__pg.snapshot())==='+JSON.stringify(database)),'The existing lower lesson link opens lessons without changing the database: '+theme);
+  await app.evaluate('window.__pg.learnComplete("select");window.PractiNotifications.clear()');check(await app.evaluate('document.querySelector(".lesson-route li:first-child button").dataset.lesson==="where"&&document.querySelector(".learning-resume").textContent.includes("1/21")'),'The restored lesson path advances with saved progress: '+theme);
+  await app.evaluate('window.__pg.learnPrepare("where",0)');check(await app.evaluate('!document.getElementById("lessonSession").classList.contains("hidden")'),'Active lesson retains its return control: '+theme);await app.evaluate('document.getElementById("btnBackLesson").click()');check(await app.evaluate('document.getElementById("nav-learn").getAttribute("aria-selected")==="true"'),'Return to lesson remains functional: '+theme);
+  await app.evaluate('window.__pg.run("CREATE TABLE workshop_check(id INTEGER PRIMARY KEY, value INTEGER);INSERT INTO workshop_check VALUES(1,12),(2,18);SELECT SUM(value) AS total FROM workshop_check;")');check(JSON.stringify(await app.evaluate('window.__pg.resultSets()[0].values'))==='[[30]]','SQL results remain correct after lesson navigation: '+theme);
+  await app.shutdown();app=null;dispose(workspace.directory);workspace=null;
+ }
+ proof.status='passed';
+}catch(error){proof.status='failed';proof.error=error.stack;process.exitCode=1;}finally{await app?.shutdown();if(workspace)dispose(workspace.directory);fs.writeFileSync(out,JSON.stringify(proof,null,2)+'\n');console.log(JSON.stringify({status:proof.status,checks:proof.checks.length,layouts:proof.layouts.length,error:proof.error?.slice(0,700)}));}})();

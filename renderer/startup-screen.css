@@ -1,0 +1,27 @@
+/* A single opening sequence starts when the prepared native window is revealed. */
+.splash{overflow:hidden;background:radial-gradient(ellipse at 50% 43%,var(--accent-soft),transparent 56%),var(--bg);transition:opacity 360ms ease,transform 420ms cubic-bezier(.2,.7,.2,1);will-change:auto}
+.splash-inner{position:relative;padding:32px 20px;isolation:isolate}
+.splash-emblem{position:relative;display:grid;place-items:center;width:152px;height:152px;margin:0 auto 12px}
+.splash-halo{position:absolute;inset:0;border:1px solid color-mix(in srgb,var(--accent) 20%,transparent);border-radius:50%;background:radial-gradient(circle,var(--panel) 45%,var(--accent-soft));box-shadow:0 8px 35px color-mix(in srgb,var(--accent) 9%,transparent)}
+.splash-halo::before,.splash-halo::after{content:"";position:absolute;width:8px;height:8px;border:3px solid var(--bg);border-radius:50%;background:var(--accent)}
+.splash-halo::before{left:9px;top:17px}.splash-halo::after{right:1px;bottom:32px;width:5px;height:5px}
+.splash .mascot{position:relative;width:110px;height:110px;filter:drop-shadow(0 8px 7px #1739161a)}
+.splash:not(.splash-playing) .splash-emblem{transform:scale(.72)}
+.splash:not(.splash-playing) .splash-name,.splash:not(.splash-playing) .splash-tag{transform:scale(.96)}
+.splash-name{margin-top:0;font-size:34px}
+.splash-name>span:first-child{color:var(--text)}
+.splash-tag{color:var(--muted);margin-top:10px;font-size:12px}
+.splash-trail{width:80px;height:4px;border-radius:4px;margin:23px auto 0;background:color-mix(in srgb,var(--accent) 12%,var(--panel));overflow:hidden}
+.splash-trail span{display:block;width:100%;height:100%;border-radius:inherit;background:var(--accent);transform-origin:left}
+.splash-playing .splash-emblem{animation:startupEmblem 950ms cubic-bezier(.18,.85,.3,1.12) both}
+.splash-playing .splash-halo{animation:startupHalo 2400ms cubic-bezier(.15,.75,.25,1) both}
+.splash-playing .splash-name{animation:startupLettering 680ms 180ms cubic-bezier(.2,.8,.3,1) both}
+.splash-playing .splash-tag{animation:startupLettering 600ms 340ms ease both}
+.splash-playing .splash-trail span{animation:startupTrail 2500ms cubic-bezier(.22,.55,.3,1) both}
+.splash.ready{transform:scale(1.07);opacity:0}
+[data-startup-motion=off] .splash *,body.no-anim .splash *{animation:none!important}
+[data-startup-motion=off] .splash,body.no-anim .splash{transition:none;transform:none}
+@keyframes startupEmblem{0%{transform:scale(.72) rotate(-5deg)}65%{transform:scale(1.055) rotate(2deg)}100%{transform:scale(1) rotate(0)}}
+@keyframes startupHalo{0%{transform:scale(.7) rotate(-40deg)}100%{transform:scale(1) rotate(0)}}
+@keyframes startupLettering{from{transform:scale(.96) translateY(4px)}to{transform:none}}
+@keyframes startupTrail{from{transform:scaleX(0)}to{transform:scaleX(1)}}

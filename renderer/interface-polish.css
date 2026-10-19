@@ -1,0 +1,24 @@
+/* Focus and learning cues retain the existing palette, depth and motion setting. */
+.learn-continue{min-height:68px;padding:12px 14px;justify-content:space-between}
+.learn-resume-copy{display:flex;flex-direction:column;gap:3px;min-width:0}
+.learn-resume-copy small{font-size:10px;font-weight:650;line-height:1.4;opacity:.88}
+.learn-resume-copy strong{font-size:13px;font-weight:800;line-height:1.45;overflow-wrap:anywhere}
+.learn-resume-arrow{display:grid;place-items:center;flex:none;width:28px;height:28px;border-radius:9px;background:color-mix(in srgb,var(--accent-ink) 13%,transparent);transition:translate 180ms ease}
+.learn-resume-arrow .ui-icon{margin:0;width:17px;height:17px}
+.learn-continue:hover .learn-resume-arrow{translate:2px 0}
+.learn-card.current .learn-head{background:var(--accent-soft);box-shadow:none;padding-inline:10px;gap:12px}
+.learn-card.current .learn-head:hover{box-shadow:none;background:color-mix(in srgb,var(--accent-soft) 70%,var(--panel2))}
+.learn-card.current .learn-head .li,.learn-card.current .learn-head .ld{flex:none}
+.learn-card.current .learn-head .ld{margin-left:8px}
+.learn-progress-row,.pstat b,.stats .s b{font-variant-numeric:tabular-nums}
+body:not(.classic-ui) .empty-state{display:flex;flex-wrap:wrap;align-items:center;gap:18px 22px}
+body:not(.classic-ui) .empty-state>.results-peek{flex:0 0 126px}
+body:not(.classic-ui) .empty-state>.empty-copy{flex:1 1 220px;max-width:none}
+body:not(.classic-ui) .empty-state>.lesson-route{flex:1 0 100%;min-width:0}
+.identity-close{position:absolute;right:20px;top:20px;display:grid;place-items:center;width:30px;height:30px;padding:6px;border:1px solid var(--border);border-radius:10px;background:var(--panel2);color:var(--muted);cursor:pointer}
+.identity-close:hover{border-color:var(--accent);color:var(--text);background:var(--accent-soft)}
+.identity-close svg{width:16px;height:16px}
+.identity-dialog:has(.identity-close) .identity-intro{padding-right:28px}
+@media(max-width:1000px){body:not(.classic-ui) .empty-state>.results-peek{flex-basis:88px}}
+.no-anim .learn-resume-arrow{transition:none}
+@media(prefers-reduced-motion:reduce){.learn-resume-arrow{transition:none}}

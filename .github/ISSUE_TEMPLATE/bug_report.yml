@@ -1,0 +1,34 @@
+name: Bug report
+description: Report a reproducible problem with PractiSQL.
+title: "[Bug] "
+body:
+  - type: markdown
+    attributes:
+      value: "Use synthetic examples. Never attach API keys, account tokens, personal databases, application profiles or unredacted logs. See SECURITY.md for private reports."
+  - type: input
+    id: version
+    attributes:
+      label: Application version
+      placeholder: "3.4.261"
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Windows version, display resolution and scale
+      placeholder: "Windows 11, 1920 × 1080, 125%"
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Include a small synthetic SQL example when relevant.
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Expected and actual behavior
+    validations:
+      required: true

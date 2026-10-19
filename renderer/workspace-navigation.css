@@ -1,0 +1,19 @@
+/* Workspace navigation styles for the enhanced appearance mode. */
+body:not(.classic-ui) .project-list{gap:5px;padding:3px 2px}
+body:not(.classic-ui) .proj{position:relative;border:1px solid transparent;border-radius:12px;background:transparent;box-shadow:none;overflow:hidden}
+body:not(.classic-ui) .proj:hover{transform:none;background:var(--panel2);box-shadow:none}
+body:not(.classic-ui) .proj.active{border:1px solid color-mix(in srgb,var(--accent) 15%,var(--border));background:var(--panel);box-shadow:none}
+body:not(.classic-ui) .proj.active::before{content:"";position:absolute;left:0;top:13px;width:3px;height:26px;border-radius:0 3px 3px 0;background:var(--accent)}
+body:not(.classic-ui) .proj-head{min-height:48px;padding:9px 10px;gap:7px}
+body:not(.classic-ui) .proj.active .proj-head::before{content:none}
+body:not(.classic-ui) .proj-name{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:700}
+body:not(.classic-ui) .proj-name .ui-icon,body:not(.classic-ui) .proj.active .proj-name .ui-icon{padding:4px;border-radius:7px;box-shadow:none;background:transparent;color:var(--muted);width:18px;height:18px}
+body:not(.classic-ui) .proj.active .proj-name .ui-icon{background:var(--accent-soft);color:var(--accent)}
+body:not(.classic-ui) .proj-chat-count{background:transparent;color:var(--muted);font-size:10px;width:18px}
+body:not(.classic-ui) .proj-del{opacity:0;transition:opacity 150ms;min-width:20px}
+body:not(.classic-ui) .proj:hover .proj-del,body:not(.classic-ui) .proj:focus-within .proj-del{opacity:1}
+body:not(.classic-ui) .proj-chats{margin:0 10px 10px 23px;padding:0 0 0 10px;border-left:1px solid var(--border);gap:4px;overflow:visible}
+body:not(.classic-ui) .chat-row{margin:0;padding:8px 9px;border:1px solid transparent;border-radius:8px;min-height:36px;transform:none;box-shadow:none}
+body:not(.classic-ui) .chat-row.active{background:var(--accent-soft);border-color:transparent;box-shadow:none;color:var(--text);font-weight:600}
+body:not(.classic-ui) .chat-row:hover{transform:none;background:var(--panel2);box-shadow:none}
+body:not(.classic-ui) .chat-row.active:hover{background:color-mix(in srgb,var(--accent-soft) 72%,var(--panel2))}

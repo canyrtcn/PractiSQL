@@ -1,0 +1,114 @@
+{
+  "name": "practisql",
+  "version": "3.4.261",
+  "description": "PractiSQL — A simple, AI-powered SQL playground.",
+  "main": "main.js",
+  "build": {
+    "appId": "com.canyrtcn.practisql",
+    "productName": "PractiSQL",
+    "artifactName": "PractiSQL Setup ${version}.${ext}",
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "main.js",
+      "window-interface.cjs",
+      "secure-config.cjs",
+      "verified-updater.cjs",
+      "database-store.cjs",
+      "ai-rate-limit.js",
+      "sql-read-runner.cjs",
+      "sql-read-worker.cjs",
+      "sql-write-evidence.cjs",
+      "sql-write-evidence-runner.cjs",
+      "sql-write-evidence-worker.cjs",
+      "sql-seed-evidence.cjs",
+      "sql-seed-evidence-runner.cjs",
+      "sql-seed-evidence-worker.cjs",
+      "database-transfer.cjs",
+      "database-transfer-worker.cjs",
+      "profile-bootstrap.cjs",
+      "learning-projects/**",
+      "pdf-print.js",
+      "preload.js",
+      "assets/**",
+      "renderer/**",
+      "package.json",
+      "node_modules/sql.js/dist/**",
+      "chatgpt-account.js",
+      "vendor/**",
+      "operation-result-store.cjs",
+      "database-inspection/**"
+    ],
+    "asar": false,
+    "win": {
+      "icon": "assets/icon.ico",
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "deleteAppDataOnUninstall": false,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "PractiSQL",
+      "installerIcon": "assets/icon.ico",
+      "uninstallerIcon": "assets/icon.ico",
+      "installerHeaderIcon": "assets/icon.ico",
+      "installerHeader": "assets/nsis-header.bmp",
+      "installerSidebar": "assets/nsis-sidebar.bmp",
+      "include": "assets/installer.nsh"
+    },
+    "publish": {
+      "provider": "github",
+      "owner": "canyrtcn",
+      "repo": "practisql"
+    }
+  },
+  "author": "PractiSQL contributors",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "test:db": "node scripts/test-db.js",
+    "test:ipc": "node scripts/test-ipc.js",
+    "test:security": "node --test scripts/test-security.cjs",
+    "test:stream": "node --test scripts/test-chatgpt-stream.cjs",
+    "test:schema": "node scripts/test-schema.cjs",
+    "test:security:integration": "node scripts/test-security-integration.cjs",
+    "test:ui": "node scripts/test-publication-ui.cjs",
+    "test:docs": "node scripts/test-public-docs.cjs",
+    "scan:source": "node scripts/scan-source.cjs",
+    "docs:build": "node scripts/build-public-docs.cjs",
+    "dist:win": "electron-builder --config electron-builder.release.cjs --win --publish never",
+    "dist:win:unsigned": "electron-builder --win --publish never",
+    "docs:showcase": "node scripts/build-showcase.cjs",
+    "docs:showcase:render": "node scripts/render-showcase.cjs",
+    "test:appearance": "node scripts/test-brand-motion.cjs",
+    "test:companion": "node scripts/test-companion-ui.cjs",
+    "test:workshop": "node scripts/test-home-workshop.cjs",
+    "test:interface-details": "node scripts/test-interface-details.cjs",
+    "test:layout": "node --test scripts/test-window-layout.cjs scripts/test-interface-scale.cjs"
+  },
+  "dependencies": {
+    "electron-updater": "^6.8.9",
+    "mssql": "^11.0.2",
+    "mysql2": "^3.24.5",
+    "pg": "^8.23.1",
+    "sql.js": "^1.12.0"
+  },
+  "devDependencies": {
+    "electron": "^33.0.0",
+    "electron-builder": "^25.1.8",
+    "elkjs": "^0.11.0"
+  },
+  "allowScripts": {
+    "electron@33.4.11": true
+  }
+}

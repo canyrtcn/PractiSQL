@@ -1,0 +1,1251 @@
+{
+  "version": "3.4.261",
+  "date": "2026-10-19",
+  "defaultLocale": "en",
+  "views": [
+    {
+      "id": "flow",
+      "nodes": [
+        "input",
+        "context",
+        "model",
+        "answer",
+        "execute",
+        "feedback"
+      ],
+      "edges": [
+        [
+          "input",
+          "context"
+        ],
+        [
+          "context",
+          "model"
+        ],
+        [
+          "model",
+          "answer"
+        ],
+        [
+          "answer",
+          "execute"
+        ],
+        [
+          "execute",
+          "feedback"
+        ]
+      ]
+    },
+    {
+      "id": "context",
+      "nodes": [
+        "schema",
+        "history",
+        "envelope",
+        "capacity",
+        "compaction",
+        "sources"
+      ],
+      "edges": [
+        [
+          "schema",
+          "envelope"
+        ],
+        [
+          "history",
+          "envelope"
+        ],
+        [
+          "envelope",
+          "capacity"
+        ],
+        [
+          "capacity",
+          "compaction",
+          "conditional"
+        ],
+        [
+          "compaction",
+          "sources",
+          "conditional"
+        ]
+      ]
+    },
+    {
+      "id": "tools",
+      "nodes": [
+        "tooldecision",
+        "readcontext",
+        "inspectdb",
+        "toolprotocol",
+        "observation",
+        "toolbudget"
+      ],
+      "edges": [
+        [
+          "tooldecision",
+          "readcontext",
+          "conditional"
+        ],
+        [
+          "tooldecision",
+          "inspectdb",
+          "conditional"
+        ],
+        [
+          "readcontext",
+          "toolprotocol"
+        ],
+        [
+          "inspectdb",
+          "toolprotocol"
+        ],
+        [
+          "toolprotocol",
+          "observation"
+        ],
+        [
+          "observation",
+          "tooldecision",
+          "conditional"
+        ]
+      ]
+    },
+    {
+      "id": "control",
+      "nodes": [
+        "answerroles",
+        "limits",
+        "readworker",
+        "atomic",
+        "audit",
+        "repair"
+      ],
+      "edges": [
+        [
+          "answerroles",
+          "limits"
+        ],
+        [
+          "limits",
+          "readworker",
+          "conditional"
+        ],
+        [
+          "limits",
+          "atomic",
+          "conditional"
+        ],
+        [
+          "atomic",
+          "audit"
+        ],
+        [
+          "readworker",
+          "repair",
+          "conditional"
+        ],
+        [
+          "audit",
+          "repair",
+          "conditional"
+        ]
+      ]
+    },
+    {
+      "id": "runtime",
+      "nodes": [
+        "provider",
+        "protocol",
+        "cancel",
+        "stale",
+        "storage",
+        "observability"
+      ],
+      "edges": [
+        [
+          "provider",
+          "protocol"
+        ],
+        [
+          "protocol",
+          "observability"
+        ],
+        [
+          "cancel",
+          "protocol",
+          "conditional"
+        ],
+        [
+          "stale",
+          "storage",
+          "conditional"
+        ]
+      ]
+    },
+    {
+      "id": "other",
+      "nodes": [
+        "editor",
+        "teaching",
+        "exam",
+        "project",
+        "learnpdf",
+        "evaluation"
+      ],
+      "edges": []
+    },
+    {
+      "id": "projects",
+      "nodes": [
+        "projectsource",
+        "projectbrief",
+        "projectworkspace",
+        "projectnumeric",
+        "projectreview",
+        "projectaward"
+      ],
+      "edges": [
+        [
+          "projectsource",
+          "projectbrief"
+        ],
+        [
+          "projectbrief",
+          "projectworkspace"
+        ],
+        [
+          "projectworkspace",
+          "projectnumeric"
+        ],
+        [
+          "projectnumeric",
+          "projectreview"
+        ],
+        [
+          "projectreview",
+          "projectaward"
+        ]
+      ]
+    },
+    {
+      "id": "security",
+      "nodes": [
+        "privacy",
+        "csp",
+        "credentials",
+        "signing",
+        "publication",
+        "boundaries"
+      ],
+      "edges": [
+        [
+          "privacy",
+          "credentials"
+        ],
+        [
+          "csp",
+          "boundaries"
+        ],
+        [
+          "credentials",
+          "signing"
+        ],
+        [
+          "signing",
+          "publication"
+        ]
+      ]
+    }
+  ],
+  "nodes": {
+    "input": {
+      "sources": [
+        "renderer/app.js",
+        "renderer/ai-request-envelope.js"
+      ]
+    },
+    "context": {
+      "sources": [
+        "renderer/app.js",
+        "renderer/ai-request-envelope.js",
+        "renderer/ai-teacher-contract.js",
+        "renderer/relationship-roles.js",
+        "sql-seed-evidence.cjs"
+      ]
+    },
+    "model": {
+      "sources": [
+        "renderer/app.js",
+        "renderer/ai-tool-protocol.js"
+      ]
+    },
+    "answer": {
+      "sources": [
+        "renderer/response-fences.js",
+        "renderer/ai-answer-envelope.js",
+        "renderer/app.js"
+      ]
+    },
+    "execute": {
+      "sources": [
+        "renderer/app.js",
+        "sql-read-runner.cjs"
+      ]
+    },
+    "feedback": {
+      "sources": [
+        "renderer/ai-conversation.js",
+        "operation-result-store.cjs",
+        "renderer/app.js"
+      ]
+    },
+    "schema": {
+      "sources": [
+        "renderer/ai-native-schema.js"
+      ]
+    },
+    "history": {
+      "sources": [
+        "renderer/ai-conversation.js",
+        "renderer/ai-database-observations.js",
+        "renderer/app.js"
+      ]
+    },
+    "envelope": {
+      "sources": [
+        "renderer/ai-request-envelope.js"
+      ]
+    },
+    "capacity": {
+      "sources": [
+        "renderer/ai-context-budget.js",
+        "renderer/app.js"
+      ]
+    },
+    "compaction": {
+      "sources": [
+        "renderer/ai-context-manager.js",
+        "renderer/ai-context-budget.js"
+      ]
+    },
+    "sources": {
+      "sources": [
+        "renderer/ai-context-sources.js",
+        "operation-result-store.cjs"
+      ]
+    },
+    "tooldecision": {
+      "sources": [
+        "renderer/app.js"
+      ]
+    },
+    "readcontext": {
+      "sources": [
+        "renderer/ai-context-sources.js"
+      ]
+    },
+    "inspectdb": {
+      "sources": [
+        "renderer/ai-database-reader.js",
+        "renderer/ai-database-capture.js",
+        "database-inspection/runner.cjs"
+      ]
+    },
+    "toolprotocol": {
+      "sources": [
+        "renderer/ai-tool-protocol.js"
+      ]
+    },
+    "observation": {
+      "sources": [
+        "renderer/ai-database-observations.js",
+        "renderer/ai-tool-protocol.js"
+      ]
+    },
+    "toolbudget": {
+      "sources": [
+        "renderer/app.js",
+        "renderer/ai-tool-protocol.js",
+        "renderer/ai-database-reader.js",
+        "renderer/project-request.js",
+        "renderer/project-review-request.js",
+        "renderer/project-context.js"
+      ]
+    },
+    "answerroles": {
+      "sources": [
+        "renderer/response-fences.js",
+        "renderer/ai-answer-envelope.js",
+        "renderer/ai-teacher-contract.js"
+      ]
+    },
+    "limits": {
+      "sources": [
+        "renderer/explicit-request-limits.js",
+        "renderer/app.js",
+        "renderer/request-action-policy.js"
+      ]
+    },
+    "readworker": {
+      "sources": [
+        "sql-read-runner.cjs",
+        "sql-read-worker.cjs",
+        "renderer/sql-read-contract.js",
+        "renderer/app.js"
+      ]
+    },
+    "atomic": {
+      "sources": [
+        "renderer/app.js"
+      ]
+    },
+    "audit": {
+      "sources": [
+        "renderer/app.js",
+        "renderer/sqlite-values.js"
+      ]
+    },
+    "repair": {
+      "sources": [
+        "renderer/app.js",
+        "renderer/ai-request-snapshot.js"
+      ]
+    },
+    "provider": {
+      "sources": [
+        "renderer/app.js",
+        "chatgpt-account.js",
+        "preload.js",
+        "secure-config.cjs"
+      ]
+    },
+    "protocol": {
+      "sources": [
+        "renderer/app.js",
+        "ai-rate-limit.js",
+        "chatgpt-account.js",
+        "vendor/chatgpt-sdk.cjs",
+        "vendor/PRACTISQL-SDK-CHANGES.md"
+      ]
+    },
+    "cancel": {
+      "sources": [
+        "renderer/ai-request-control.js",
+        "renderer/app.js",
+        "renderer/ai-wait-progress.js"
+      ]
+    },
+    "stale": {
+      "sources": [
+        "renderer/app.js",
+        "renderer/ai-database-capture.js",
+        "renderer/ai-tool-protocol.js"
+      ]
+    },
+    "storage": {
+      "sources": [
+        "database-store.cjs",
+        "operation-result-store.cjs",
+        "renderer/ai-conversation.js",
+        "profile-bootstrap.cjs",
+        "secure-config.cjs"
+      ]
+    },
+    "observability": {
+      "sources": [
+        "renderer/ai-usage.js",
+        "renderer/operation-results.js",
+        "renderer/ai-request-control.js"
+      ]
+    },
+    "editor": {
+      "sources": [
+        "renderer/app.js"
+      ]
+    },
+    "teaching": {
+      "sources": [
+        "renderer/teaching-grounding.js",
+        "renderer/physical-fk-tuples.js",
+        "renderer/app.js"
+      ]
+    },
+    "exam": {
+      "sources": [
+        "renderer/exam-sql.js",
+        "renderer/app.js",
+        "renderer/exam-study.js",
+        "renderer/sql-exercises.js",
+        "renderer/exam-presentation.js"
+      ]
+    },
+    "project": {
+      "sources": [
+        "learning-projects/engine.cjs",
+        "learning-projects/rubrics.cjs",
+        "renderer/project-review.js",
+        "learning-projects/discovery/project-ipc.cjs",
+        "renderer/project-discovery-ui.js"
+      ]
+    },
+    "learnpdf": {
+      "sources": [
+        "renderer/app.js",
+        "renderer/lesson-pdf.js",
+        "renderer/learn-detail.js",
+        "renderer/study-notes.js",
+        "pdf-print.js"
+      ]
+    },
+    "evaluation": {
+      "sources": [
+        "scripts/test-db.js",
+        "scripts/test-ipc.js",
+        "scripts/test-security.cjs",
+        "scripts/test-security-integration.cjs",
+        "scripts/test-publication-ui.cjs"
+      ]
+    },
+    "projectsource": {
+      "sources": [
+        "learning-projects/discovery/uci-catalogue.cjs",
+        "learning-projects/discovery/verified-csv.cjs",
+        "learning-projects/discovery/discovery-session.cjs"
+      ]
+    },
+    "projectbrief": {
+      "sources": [
+        "learning-projects/discovery/project-planner.cjs",
+        "learning-projects/discovery/report-brief.cjs",
+        "renderer/project-conversation.js",
+        "renderer/project-request.js",
+        "renderer/project-context.js"
+      ]
+    },
+    "projectworkspace": {
+      "sources": [
+        "learning-projects/discovery/project-store.cjs",
+        "learning-projects/discovery/project-ipc.cjs",
+        "learning-projects/discovery/workspace-source.cjs",
+        "renderer/project-discovery-ui.js"
+      ]
+    },
+    "projectnumeric": {
+      "sources": [
+        "learning-projects/discovery/report-worker.cjs",
+        "learning-projects/discovery/report-measures.cjs",
+        "learning-projects/discovery/row-measures.cjs",
+        "learning-projects/discovery/report-assessment.cjs"
+      ]
+    },
+    "projectreview": {
+      "sources": [
+        "learning-projects/discovery/business-review.cjs",
+        "renderer/project-review-request.js",
+        "renderer/project-review-completion.js",
+        "renderer/project-context.js"
+      ]
+    },
+    "projectaward": {
+      "sources": [
+        "learning-projects/discovery/project-completion.cjs",
+        "learning-projects/discovery/project-store.cjs",
+        "renderer/project-awards.js",
+        "renderer/project-discovery-ui.js"
+      ]
+    },
+    "privacy": {
+      "sources": [
+        "renderer/profile-setup.js",
+        "PRIVACY.md"
+      ]
+    },
+    "csp": {
+      "sources": [
+        "renderer/index.html",
+        "renderer/theme-init.js",
+        "scripts/test-security-integration.cjs"
+      ]
+    },
+    "credentials": {
+      "sources": [
+        "secure-config.cjs",
+        "chatgpt-account.js",
+        "scripts/test-security.cjs"
+      ]
+    },
+    "signing": {
+      "sources": [
+        "electron-builder.release.cjs",
+        "verified-updater.cjs",
+        "docs/RELEASING.md"
+      ]
+    },
+    "publication": {
+      "sources": [
+        "scripts/scan-source.cjs",
+        "docs/PUBLICATION.md",
+        "LICENSE",
+        "README.md"
+      ]
+    },
+    "boundaries": {
+      "sources": [
+        "SECURITY.md",
+        "vendor/CHATGPT-SDK-LICENSE.txt",
+        "docs/ARCHITECTURE.md"
+      ]
+    }
+  },
+  "locales": {
+    "en": {
+      "views": {
+        "flow": {
+          "label": "Main flow",
+          "note": "The model selects the SQL approach and teaching explanation. The application harness prepares context, applies eligible output, checks specific violations and carries actual results into the next turn."
+        },
+        "context": {
+          "label": "Context",
+          "note": "The current request, history and database evidence are labelled separately. The schema is not a copy of every row; missing record information can be retrieved with a tool."
+        },
+        "tools": {
+          "label": "Tools",
+          "note": "These are the two read-only tools in normal SQL chat. Final SQL follows a separate execution path. Data-project discovery and review tools appear in the project view."
+        },
+        "control": {
+          "label": "Checks",
+          "note": "Successful execution does not prove that the business request or explanation is entirely correct. Specific violations are checked; not every semantic or teaching error can be detected."
+        },
+        "runtime": {
+          "label": "Runtime",
+          "note": "The Electron renderer orchestrates the UI flow. A preload/IPC bridge separates local services, workers, account transport and file access."
+        },
+        "other": {
+          "label": "Learning workflows",
+          "note": "The editor, chat, exams, projects and lesson PDFs have separate contracts. Lesson PDFs use their own local fixtures, rather than reading a personal workspace."
+        },
+        "projects": {
+          "label": "Data projects",
+          "note": "An optional, separate workflow. Source, SQL and numeric checks provide different evidence from AI judgments about business meaning. Numeric success does not prove a flawless interpretation or assignment."
+        },
+        "security": {
+          "label": "Privacy and releases",
+          "note": "Local execution, provider sharing, credential protection and release identity have distinct responsibilities and limits."
+        }
+      },
+      "nodes": {
+        "input": {
+          "title": "1 · Student request",
+          "caption": "Natural language · quotation · editor",
+          "detail": "The student asks a question, quotes an earlier answer, or requests an explanation or correction of selected SQL. The application captures the explicit UI action, workspace, conversation and database revision. The student does not need to know the technical terminology."
+        },
+        "context": {
+          "title": "2 · Context preparation",
+          "caption": "Teacher contract + schema + history",
+          "detail": "The request combines the teacher persona and SQL contract, actual SQLite definitions, relevant conversation and operation history, and selected editor text or a quotation. The latest student request remains at the end. Headings, short steps and tables for useful comparisons belong to the teaching contract; the SQL approach and explanation length are not forced into one fixed template. Additional key or relationship observations do not create a new task."
+        },
+        "model": {
+          "title": "3 · Model and tools",
+          "caption": "Interpretation, approach and SQL",
+          "detail": "The model interprets the task, chooses an SQL approach and explains it. If information is missing, it can use read_context or inspect_database and continue with the returned evidence. A second model call is not mandatory for every answer."
+        },
+        "answer": {
+          "title": "4 · Answer separation",
+          "caption": "Runnable SQL / teaching text",
+          "detail": "The final answer uses Markdown. Statements intended for execution belong in one sql, sqlite or sql-no-repair block; teaching examples use a text block or inline code. The application checks output structure, explicit requests not to execute, and applicable data-preservation limits."
+        },
+        "execute": {
+          "title": "5 · SQLite execution",
+          "caption": "Read worker / atomic writes",
+          "detail": "Read-only queries run through a separate worker. A normal automatic AI write batch runs inside a SAVEPOINT. Changes are committed only after SQLite constraints and the active data checks pass; an error rolls back the batch. Explicit connection commands follow a separate path."
+        },
+        "feedback": {
+          "title": "6 · Results and memory",
+          "caption": "Tables, explanation, operation record",
+          "detail": "Actual result tables, complete SQL, execution status, errors and record changes are saved within the conversation scope. Large results can be retrieved from a local archive; historical queries are not silently rerun against newer data. An unchanged row count does not mean a table is unchanged. Matching column names do not justify advising an update to an unrelated table."
+        },
+        "schema": {
+          "title": "SQLite catalogue",
+          "caption": "DDL · foreign keys · indexes · triggers",
+          "detail": "Table, view, index and trigger definitions come from SQLite’s own catalogue. Connection PRAGMAs, row counts and limited key observations are separate evidence. Completeness is recorded; sample values are not treated as every possible value in a column."
+        },
+        "history": {
+          "title": "Conversation and events",
+          "caption": "Workspace / conversation / operation",
+          "detail": "Earlier user and AI messages, executed SQL, results, errors and tool observations retain their scope. Editor text alone is not evidence of execution. Proven duplicate SQL is replaced by a short reference only when this reduces the total request size."
+        },
+        "envelope": {
+          "title": "Request assembly",
+          "caption": "The current task stays last",
+          "detail": "System contracts, catalogue data, earlier conversation, application context and the current request are assembled as separate messages. Historical commands are not presented as new tasks. The user’s latest text is not silently shortened or rewritten."
+        },
+        "capacity": {
+          "title": "Model capacity",
+          "caption": "Provider metadata + token accounting",
+          "detail": "Context, input and output capacities come from the model catalogue. If metadata is unavailable, the application uses a 128,000-token fallback for Gemini and 256,000 for other providers. It reserves room for output and calibrates estimates against actual provider usage where possible. The entire capacity is not available for conversation history."
+        },
+        "compaction": {
+          "title": "Conditional compaction",
+          "caption": "Approximately 80% pressure threshold",
+          "detail": "When context becomes crowded, older material is summarised while the last two user turns and current task remain intact. The threshold decreases when the usable input budget is smaller. Summaries do not delete original sources. If sufficient space cannot be recovered, the request stops safely."
+        },
+        "sources": {
+          "title": "Complete source archive",
+          "caption": "Identity + provenance + pagination",
+          "detail": "Messages, SQL and results that are summarised or cannot fit in full retain their source identities. read_context retrieves them in pages. A missing or damaged archive is not replaced with a query against the current database. Source search uses normalised substring matching, rather than semantic search or exact whole-word matching."
+        },
+        "tooldecision": {
+          "title": "Model tool selection",
+          "caption": "When information is missing",
+          "detail": "The model decides whether to use a tool. read_context is offered when sources have not been supplied in full; inspect_database is offered in eligible normal chat or execution contexts. A simple question can be answered directly."
+        },
+        "readcontext": {
+          "title": "read_context",
+          "caption": "Retrieves saved sources",
+          "detail": "Retrieves earlier messages, SQL, operation records, result archives and available editor or catalogue sources by identity or text search. Results are paginated. It does not execute SQL and cannot inspect current database rows that have not been observed."
+        },
+        "inspectdb": {
+          "title": "inspect_database",
+          "caption": "Read-only access to current records",
+          "detail": "Runs one read-only SQLite statement against a snapshot of the main database captured for the request. query, next and cell retrieve results and long cells. TEMP objects, attached databases, open transactions and connection-specific functions are outside this snapshot. The tool does not write data or generate rehearsal data."
+        },
+        "toolprotocol": {
+          "title": "Tool protocol",
+          "caption": "Call identity ↔ result identity",
+          "detail": "Chat Completions, Messages and Responses formats are adapted to shared tool definitions. Arguments and identifiers are checked. A response can request independent tools; the current implementation executes them sequentially and returns their results to the model."
+        },
+        "observation": {
+          "title": "Continue with evidence",
+          "caption": "Records / time / completeness",
+          "detail": "A tool result is added as an observation to the same request continuation. Tool content is not treated as instructions. Missing rows or incomplete pages are marked. Observations are also saved to the conversation for related follow-up questions."
+        },
+        "toolbudget": {
+          "title": "Tool boundaries",
+          "caption": "Loop budget and source ownership",
+          "detail": "A normal chat request has a shared budget of eight tool calls. Sources owned by another request or conversation are rejected. Per-page limits are not limits on the entire conversation source; next and offset allow further retrieval. Data projects do not use this eight-call rule: discovery has no fixed call count, and review budgets depend on evidence pages. Cancellation, request deadlines and shared context-capacity management still apply."
+        },
+        "answerroles": {
+          "title": "Code-role checks",
+          "caption": "One executable block",
+          "detail": "An incomplete answer or multiple runnable SQL blocks are not applied as a normal final answer. Examples in text blocks are not executed. A lesson without SQL can be displayed directly. sql-no-repair disables automatic repair only; data checks still apply."
+        },
+        "limits": {
+          "title": "Explicit user limits",
+          "caption": "Execution / changes / preservation",
+          "detail": "Explicit requests not to execute or to remain read-only are enforced. Data-preservation scope is retained: preserving certain existing records does not freeze the entire database. These checks do not validate every natural-language intention or business rule. Selection provenance and lifecycle checks prevent quotations or old selections from becoming new commands."
+        },
+        "readworker": {
+          "title": "Read-only execution",
+          "caption": "Worker + resource checks",
+          "detail": "The read contract checks the SQLite statement. A separate worker runs the query and can be terminated on timeout. Snapshot and local-connection paths preserve the live database and connection state. A result from an old revision is not applied to a new workspace."
+        },
+        "atomic": {
+          "title": "Atomic write execution",
+          "caption": "SAVEPOINT → checks → RELEASE",
+          "detail": "A normal automatic AI write batch runs in a SAVEPOINT with foreign_keys=ON and defer_foreign_keys=ON. SQLite enforces primary keys, UNIQUE, NOT NULL, CHECK and triggers according to its own semantics. Foreign-key consistency is required before commit. An error or failed check causes a ROLLBACK."
+        },
+        "audit": {
+          "title": "Data-preservation checks",
+          "caption": "Actual records before and after",
+          "detail": "Within the active scope, the application checks preservation of existing records, key-move consistency and new orphan relationships. Legitimate trigger INSERTs retain their provenance. Before and after observations are not presented as simultaneous evidence. The application does not silently add child-table UPDATEs to the model’s SQL."
+        },
+        "repair": {
+          "title": "One conditional repair",
+          "caption": "Actual error + original request",
+          "detail": "An eligible format, SQL or narrowly defined teaching failure can use one shared repair attempt. The original request and actual error, schema or record evidence are returned to the model. The corrected complete batch passes through the same checks. Ineligible failures or an exhausted budget stop the process. Similar names are only candidates, not proven targets. Literal NULL values or illustrative dependency lists are not substituted for errors established by SQLite."
+        },
+        "provider": {
+          "title": "Provider or account",
+          "caption": "API or ChatGPT account",
+          "detail": "The selected provider’s protocol, model catalogue and capacity metadata are used. API keys and ChatGPT account credentials are stored with operating-system protection. Connecting AI is optional; the editor and built-in learning material work locally."
+        },
+        "protocol": {
+          "title": "Transport layer",
+          "caption": "Chat / Messages / Responses",
+          "detail": "The transport uses Chat Completions, Messages, Responses or the ChatGPT account bridge. Provider-specific parameters and tool-call identities are preserved. Completed output_item.done items from a ChatGPT stream are retained even if the final output array is empty. Failed or incomplete streams are not counted as success. Tool continuations preserve the original task and add the returned observations."
+        },
+        "cancel": {
+          "title": "Cancellation and waiting",
+          "caption": "Request + tool continuations",
+          "detail": "The student can cancel before an accepted answer starts being applied. Cancellation covers the provider request and tool continuations. Once application of the accepted answer starts, cancellation closes. A committed operation is not presented as cancelled or rolled back."
+        },
+        "stale": {
+          "title": "Stale-result protection",
+          "caption": "Database identity + revision + conversation",
+          "detail": "If the database, revision, workspace or conversation changes during a request, the old answer or operation is not applied to the new context. Context retrieval and database tools repeat the same ownership checks."
+        },
+        "storage": {
+          "title": "Local persistence",
+          "caption": "Database + conversation + result archive",
+          "detail": "Database files, workspaces, conversations, operation records and complete result archives are local. Legacy plaintext API-key fields migrate into an OS-protected vault while the renderer receives the same connection settings. Database and conversation files are not encrypted by default. Profile backups remain outside the public source repository."
+        },
+        "observability": {
+          "title": "Usage and error records",
+          "caption": "Duration · tokens · result type",
+          "detail": "The application records provider input, output and cache usage, call purpose, duration and errors. Model assessment distinguishes successful SQL execution, task results and teaching explanations. Database setup and UPDATE durations are not mixed into read-query averages."
+        },
+        "editor": {
+          "title": "Manual SQL editor",
+          "caption": "Execution independent of AI",
+          "detail": "SQL written directly by the student follows a separate editor path. Explicit manual transactions and connection commands keep SQLite’s own semantics. Automatic AI writes are blocked while a manual transaction is open. Manual and AI execution policies have different contracts."
+        },
+        "teaching": {
+          "title": "Narrow teaching checks",
+          "caption": "Eligible SQL-free explanations only",
+          "detail": "For relationship explanations, actual schema and row evidence can identify certain incorrect column, physical foreign-key direction or key claims. Eligible arrow directions can be corrected locally; other detected violations use the single repair or fallback path. This is not a general truth judge. Physical relationship checks use shared claim-scope analysis, so explicitly incorrect, hypothetical or historical examples are not repaired as if they were current factual claims."
+        },
+        "exam": {
+          "title": "Exams and SQL exercises",
+          "caption": "Separate generation and grading",
+          "detail": "The question, answer and actual SQL execution evidence are passed to a separate grading request. Student SQL runs against a database copy with read-only limits. Long answers are not silently truncated, and a limited result sample is not treated as proof of full correctness. Grading includes model judgment. A technical verification failure preserves the answer without issuing a grade; it is not treated as incorrect student SQL. Schema-free exercises offer 10, 15 or 20 synthetic SQL questions. The UI creates each blank from a selected SQL expression, validates query grammar in an empty disposable connection and checks typed keywords locally. Personal schema and records are not included. Correct optional complete-query exam answers earn 25 extra XP each, with duplicate question-set rewards prevented."
+        },
+        "project": {
+          "title": "Modular data projects",
+          "caption": "Business brief → reports → rubric",
+          "detail": "Alongside the built-in UCI bicycle project, an optional general data-project workflow searches the official UCI catalogue, inspects a source, clarifies the student’s goal and proposes measurable business reports. The student imports the source into a separate workspace and submits SQL with an interpretation. Independent CSV calculations check numeric results; an AI rubric evaluates the business interpretation. Eligible success is saved to the profile with a one-time reward. The module is separate from normal SQL chat. It is not an unrestricted web or Kaggle search."
+        },
+        "learnpdf": {
+          "title": "Lessons and PDF notes",
+          "caption": "Full lesson + fixtures + SQLite observations",
+          "detail": "Static lessons are local. A PDF request includes the shared teacher persona, complete lesson text, its own schema and initial records. Reference SQL examples run independently in fresh lesson copies; results, empty tables, changes and errors are reported separately. The model generates an HTML lesson, whose new SQL is not executed automatically. Provider capacity limits apply. Actual SQLite observations do not guarantee that every explanation is correct."
+        },
+        "evaluation": {
+          "title": "Development verification",
+          "caption": "TR/EN · continuations · SQL + teaching",
+          "detail": "Local unit checks, real Electron integration and authorised live model checks are separate kinds of evidence. SQL execution, numeric task results and teaching explanations are evaluated separately. CI uses neither a personal profile nor paid model calls. This presentation does not publish historical model scores or claim error-free behaviour."
+        },
+        "projectsource": {
+          "title": "1 · Verified source",
+          "caption": "UCI catalogue → metadata → CSV",
+          "detail": "The model uses search_project_datasets, describe_project_dataset and inspect_project_dataset to explore the official UCI catalogue. Source provenance, identity, full records, stored types and limited samples are inspected. Primary or foreign keys are not invented from column names. Source text is evidence, not instructions. Technical verification alone does not prove that the dataset represents the intended business domain."
+        },
+        "projectbrief": {
+          "title": "2 · Business brief",
+          "caption": "Student goal → measurable reports",
+          "detail": "The original request, linked conversation and clarifications are preserved. propose_project records draft report measurements tied to an inspected source; the model is not asked to provide reference SQL. The student sees the business question and measurement scope without a prescribed JOIN or CTE solution. Shared persona and provider capacity management apply; compaction and read_context can recover earlier sources. A valid measurement specification does not guarantee the intended business goal was understood correctly."
+        },
+        "projectworkspace": {
+          "title": "3 · Student workspace",
+          "caption": "Import source → submit SQL and notes",
+          "detail": "The student’s CSV is compared with the official source and imported into a separate SQLite workspace. Derived tables and views are allowed while original source records remain protected. Project, workspace, SQL, notes and revision are persisted. A stale request cannot overwrite newer edits, and cancellation prevents late results from being saved."
+        },
+        "projectnumeric": {
+          "title": "4 · Numeric verification",
+          "caption": "Actual SQL result ↔ independent CSV calculation",
+          "detail": "Student report SQL is read from a workspace copy. Expected results are calculated independently from the original CSV records and the measurement specification, rather than AI-generated reference SQL. Source records, output scope and numeric results are compared. If bytes match a fresh canonical database, a redundant source scan is skipped; otherwise full source verification continues. Technical failures or incomplete results do not produce an incorrect student grade. Independent calculation does not guarantee the semantic validity of the model’s chosen business metric."
+        },
+        "projectreview": {
+          "title": "5 · AI business feedback",
+          "caption": "Assignment suitability + four criteria",
+          "detail": "After numeric checks pass, the model first checks whether the assignment fits the source; an unsuitable assignment is not the student’s mistake. Evidence, interpretation, contribution to the business question and data limitations receive separate scores. read_project_evidence pages actual results; submit_project_review saves feedback with citations to observed cells and sources. Earlier SQL, notes and feedback remain available to later conversation. No extra AI summary is requested after a valid review. Citation checks do not prove the interpretation is correct or the score is calibrated to a human teacher."
+        },
+        "projectaward": {
+          "title": "6 · Completion and profile",
+          "caption": "80 + AI score → 300 XP / 3 stars",
+          "detail": "Completion requires unchanged source, workspace, SQL, notes and conversation identities for the verified submission. Every report must pass numeric checks, the model must consider every assignment suitable for the source, and each business interpretation must score at least 14/20. The total is 80 plus the mean AI score. Application code awards 300 XP and three stars once per project. The first successful submission is retained separately, and profile reward markers synchronise idempotently on reopening. Later edits do not rewrite earlier success evidence."
+        },
+        "privacy": {
+          "title": "AI data sharing",
+          "caption": "Clear information during first setup",
+          "detail": "The first-run provider step explains that the question, relevant conversation, schema and necessary sample or result records can be shared with the selected provider. Connecting AI can be chosen or postponed. The information does not add a separate consent gate."
+        },
+        "csp": {
+          "title": "Renderer CSP",
+          "caption": "Packaged code + WASM + workers",
+          "detail": "The main renderer executes packaged JavaScript and required SQLite WebAssembly. Injected inline scripts, event attributes and string eval are blocked. Dynamic styling and custom HTTP/HTTPS provider endpoints remain supported. The policy is not a complete network sandbox."
+        },
+        "credentials": {
+          "title": "Protected credential vault",
+          "caption": "Windows DPAPI / safeStorage",
+          "detail": "Legacy provider keys migrate atomically when settings are read. The encrypted vault is reused while keys are unchanged. If OS protection or decryption fails, the application does not fall back to plaintext and preserves the original file. This is not complete isolation from malicious software running as the same OS user."
+        },
+        "signing": {
+          "title": "Releases and updates",
+          "caption": "Signed release pipeline / local builds",
+          "detail": "The signed release command requires a genuine certificate and publisher identity. Updates for signed builds require native publisher verification. There is no certificate yet; the local test installer is unsigned and retains current development behaviour. The pipeline alone does not establish a trusted Windows publisher."
+        },
+        "publication": {
+          "title": "Clean source publication",
+          "caption": "Source, documentation and tests",
+          "detail": "The publication tree excludes application profiles, databases, credentials, certificates, logs, private experiments and old checkpoint outputs. Source patterns and Git identity are checked. PractiSQL’s own license and third-party terms remain separate, and application versions continue the established sequence."
+        },
+        "boundaries": {
+          "title": "Explicit technical limits",
+          "caption": "Visible scope of assurance",
+          "detail": "Local SQL verification does not establish that every natural-language intention or teaching explanation is correct. Updating the Electron runtime is separate work. The ChatGPT DevKit’s noncommercial license is retained. Architecture documentation is neither a penetration test nor a success guarantee for every model."
+        }
+      }
+    },
+    "tr": {
+      "views": {
+        "flow": {
+          "label": "Ana akış",
+          "note": "SQL yöntemi ve öğretici açıklama modelden gelir. Harness, bağlamı hazırlar; yanıtı yürütür, belirli ihlalleri denetler ve gerçek sonucu sonraki tura taşır."
+        },
+        "context": {
+          "label": "Bağlam",
+          "note": "Güncel istek, geçmiş ve veritabanı kanıtı ayrı etiketlenir. Şema tüm satırların kopyası değildir; eksik kayıt bilgisi gerektiğinde araçla okunur."
+        },
+        "tools": {
+          "label": "Araçlar",
+          "note": "Bu görünüm normal SQL sohbetinin iki salt okuma aracını gösterir. Nihai SQL ayrı yürütme yolundan uygulanır. Veri projesinin kaynak ve değerlendirme araçları ayrı görünümde açıklanır."
+        },
+        "control": {
+          "label": "Kontroller",
+          "note": "SQL’in çalışması, iş isteğinin veya anlatımın tamamen doğru olduğunu kanıtlamaz. Bazı ihlaller kesin olarak denetlenir; bütün anlam ve öğretim hataları denetlenmez."
+        },
+        "runtime": {
+          "label": "Çalışma ortamı",
+          "note": "Electron renderer uygulama akışını yönetir; preload/IPC köprüsü yerel servis, worker, hesap bağlantısı ve dosya erişimini ayırır."
+        },
+        "other": {
+          "label": "Diğer yollar",
+          "note": "Manuel editör, sohbet, sınav, proje ve ders PDF’i kendi sözleşmeleriyle çalışır. Ders PDF’i yalnız yerel ders verisini kullanır; kişisel çalışma alanını okumaz."
+        },
+        "projects": {
+          "label": "Veri projesi",
+          "note": "Ayrı ve isteğe bağlı proje akışı. Kaynak/SQL/puan denetimi ile AI’ın iş anlamı değerlendirmesi farklı güven düzeylerine sahiptir. Sayısal başarı, anlatımın veya ödevin kusursuz olduğu anlamına gelmez."
+        },
+        "security": {
+          "label": "Gizlilik ve yayın",
+          "note": "Yerel yürütme, sağlayıcı paylaşımı, anahtar koruması ve yayıncı kimliği ayrı sorumluluklara ve sınırlara sahiptir."
+        }
+      },
+      "nodes": {
+        "input": {
+          "title": "1 · Öğrenci isteği",
+          "caption": "Doğal dil · alıntı · editör",
+          "detail": "Öğrenci doğal dille sorar, önceki cevabı alıntılar veya seçili SQL’i açıklar/düzeltir. Açık arayüz eylemi, çalışma alanı, sohbet ve veritabanı revizyonu kaydedilir. Öğrencinin terim bilmesi beklenmez."
+        },
+        "context": {
+          "title": "2 · Bağlam hazırlığı",
+          "caption": "Persona + şema + geçmiş",
+          "detail": "Öğretmen personası ve SQL sözleşmesi; gerçek SQLite tanımları; ilgili konuşma/işlem geçmişi; seçili editör veya alıntı birleştirilir. Son öğrenci isteği en sonda korunur. Başlık, kısa adımlar ve uygun karşılaştırmalarda tablo kullanılması anlatım sözleşmesinin parçasıdır; çıktı uzunluğu ve SQL yöntemi sabit bir şablona zorlanmaz. Ek anahtar/ilişki gözlemleri yeni bir görev uydurmaz."
+        },
+        "model": {
+          "title": "3 · Model + araçlar",
+          "caption": "Niyet, yöntem ve SQL seçimi",
+          "detail": "Model görevi yorumlar, SQL yöntemini seçer ve açıklamayı üretir. Gerekli bilgi eksikse read_context veya inspect_database kullanıp dönen kanıtla devam edebilir. Her yanıt için ikinci model çağrısı zorunlu değildir."
+        },
+        "answer": {
+          "title": "4 · Yanıt ayrımı",
+          "caption": "Çalıştırılacak SQL / ders metni",
+          "detail": "Nihai yanıt Markdown’dır. Çalıştırılacak deyimler tek sql/sqlite/sql-no-repair bloğunda; öğretim örnekleri text bloğunda veya satır içindedir. Biçim, çalıştırmama ve açık veri koruma sınırları değerlendirilir."
+        },
+        "execute": {
+          "title": "5 · SQLite yürütmesi",
+          "caption": "Okuma worker’ı / atomik yazma",
+          "detail": "Salt okumalar ayrı worker üzerinden; normal AI yazma partisi SAVEPOINT içinde uygulanır. Gerçek SQLite kısıtları ve etkin veri denetimleri geçerse kaydedilir; hata halinde parti geri alınır. Bağlantı komutlarının ayrı yolu vardır."
+        },
+        "feedback": {
+          "title": "6 · Sonuç + hafıza",
+          "caption": "Tablolar, açıklama, işlem kaydı",
+          "detail": "Gerçek sonuç tabloları, tam SQL, çalışma durumu, hata ve kayıt değişiklikleri konuşma kapsamıyla saklanır. Büyük sonuçlar yerel arşivden tekrar okunabilir; tarihsel sonuç için sorgu yeniden çalıştırılıp yeni veri uydurulmaz. Satır sayısının aynı kalması “tablo değişmedi” sayılmaz; aynı adlı sütunlardan başka tabloyu güncelleme tavsiyesi çıkarılmaz."
+        },
+        "schema": {
+          "title": "SQLite kataloğu",
+          "caption": "DDL · FK · indeks · tetikleyici",
+          "detail": "Tablo, view, indeks ve trigger tanımları motorun kendi kataloğundan alınır. Bağlantı PRAGMA’ları, satır sayıları ve sınırlı anahtar gözlemleri ayrı kanıttır. Tamlık/eksiklik işaretlenir; örnek değerler sütunun bütün olası değerleri sayılmaz."
+        },
+        "history": {
+          "title": "Konuşma ve olaylar",
+          "caption": "Alan / sohbet / işlem kapsamı",
+          "detail": "Önceki kullanıcı ve AI mesajları; gerçekleşmiş SQL, sonuç, hata ve araç gözlemleri doğru kapsamla taşınır. Editör metni tek başına çalıştırılmış kabul edilmez. Kanıtlanmış SQL tekrarları ancak toplam istek boyutunu azaltıyorsa kısa başvuruya dönüşür."
+        },
+        "envelope": {
+          "title": "İstek birleştirme",
+          "caption": "Yeni görev en sonda",
+          "detail": "Sistem sözleşmesi, katalog, önceki konuşma, uygulama bağlamı ve güncel istek ayrı mesajlarla birleştirilir. Geçmiş komutlar yeni görev gibi sunulmaz. Kullanıcının yeni metni sessizce kısaltılmaz veya yeniden yazılmaz."
+        },
+        "capacity": {
+          "title": "Model kapasitesi",
+          "caption": "Provider bilgisi + token hesabı",
+          "detail": "Bağlam/input/output kapasitesi model kataloğundan alınır. Bilgi yoksa Gemini 128.000, diğerleri 256.000 token kabul edilir. Çıktı payı ayrılır; tahmin mümkünse providerın gerçek kullanım verisiyle kalibre edilir. Bu sayıların hepsi geçmiş için serbest alan değildir."
+        },
+        "compaction": {
+          "title": "Koşullu özetleme",
+          "caption": "Yaklaşık %80 basınç eşiği",
+          "detail": "Bağlam baskısı varsa eski bölüm özetlenir; son iki kullanıcı turu ve güncel görev korunur. Eşik kullanılabilir giriş alanı daha küçükse buna göre düşer. Özet özgün kaynakları silmez; yeterli yer açılamazsa istek güvenli biçimde durur."
+        },
+        "sources": {
+          "title": "Tam kaynak arşivi",
+          "caption": "Kimlik + köken + sayfalama",
+          "detail": "Özetlenen veya isteğe tam sığmayan mesaj, SQL ve sonuçlar kimlikleriyle korunur. read_context kaynağı parça parça geri getirir. Arşiv yoksa veya bozuksa mevcut DB sonucu eski sonuç yerine geçirilmez. Kaynak arama, terimlerin normalize edilmiş alt dize eşleşmesidir; semantik arama veya kesin tam sözcük eşleşmesi değildir."
+        },
+        "tooldecision": {
+          "title": "Modelin araç seçimi",
+          "caption": "Bilgi gerçekten eksikse",
+          "detail": "Araç kullanma kararını model verir. read_context yalnız tam sunulmayan kaynaklar bulunduğunda; inspect_database uygun normal sohbet/çalıştırma bağlamında sunulur. Basit bir soru doğrudan yanıtlanabilir."
+        },
+        "readcontext": {
+          "title": "read_context",
+          "caption": "Kaydedilmiş kaynakları okur",
+          "detail": "Eski mesaj, SQL, işlem kaydı, sonuç arşivi ve mevcut editör/katalog kaynağını kimlikle veya metin aramasıyla okur. Sayfalama vardır. SQL çalıştırmaz; görülmemiş güncel DB satırlarını inceleyemez."
+        },
+        "inspectdb": {
+          "title": "inspect_database",
+          "caption": "Güncel kayıtlara salt okuma",
+          "detail": "İstek anının main veritabanı kopyasında tek salt okuma SQLite deyimi çalıştırır. query/next/cell ile sonuç ve uzun hücreler okunur. TEMP, bağlı DB, açık işlem ve bağlantıya özel işlevler kapsam dışıdır; yazma ve prova amaçlı veri üretimi yoktur."
+        },
+        "toolprotocol": {
+          "title": "Araç protokolü",
+          "caption": "Çağrı kimliği ↔ sonuç kimliği",
+          "detail": "Chat Completions, Messages ve Responses biçimleri ortak araç tanımlarına uyarlanır. Argümanlar ve kimlikler kontrol edilir. Bir yanıtta bağımsız araçlar istenebilir; mevcut kod bunları sırayla yürütüp sonuçları modele geri taşır."
+        },
+        "observation": {
+          "title": "Kanıtla devam",
+          "caption": "Kayıt / zaman / tamlık",
+          "detail": "Araç sonucu gözlem olarak aynı isteğin devamına eklenir; araç içeriği talimat sayılmaz. Satırların veya sayfanın eksik olduğu belirtilir. Gözlemler sonraki bağlı sorular için konuşmaya da kaydedilir."
+        },
+        "toolbudget": {
+          "title": "Araç sınırları",
+          "caption": "Döngü ve kaynak kapsamı",
+          "detail": "Normal sohbet isteğinde ortak araç bütçesi 8 çağrıdır. Kaynak başka isteğe/sohbete aitse reddedilir. Parça boyutu sınırları bütün konuşma penceresi sınırı değildir; next/offset ile tam kaynağa ulaşılır. Veri projesi bu 8 çağrı kuralını kullanmaz: keşfin sabit çağrı adedi yoktur; değerlendirme bütçesi sonuç sayfalarına göre hesaplanır. Her ikisinde de iptal, istek süresi ve ortak bağlam kapasitesi yönetimi devam eder."
+        },
+        "answerroles": {
+          "title": "Kod rolü denetimi",
+          "caption": "Tek yürütülebilir blok",
+          "detail": "Tamamlanmamış veya birden çok yürütülebilir SQL bloğu normal final olarak uygulanmaz. text örnekleri çalıştırılmaz. SQL’siz ders doğrudan gösterilebilir. sql-no-repair yalnız otomatik onarımı kapatır; veri kontrollerini kaldırmaz."
+        },
+        "limits": {
+          "title": "Açık kullanıcı sınırları",
+          "caption": "Çalıştırma / değiştirme / koruma",
+          "detail": "Açık çalıştırmama ve salt okuma ifadeleri uygulanır. Veri koruma talebinin kapsamı korunur; belirli eski kayıtları korumak bütün veritabanını dondurmak değildir. Bu kontroller genel doğal dil anlayışının veya tüm iş kurallarının doğrulayıcısı değildir. Alıntı veya eski seçimin yeni komut sayılmaması için seçim kaynağı ve yaşam döngüsü ayrıdır. Doğal dil sınır denetimleri bütün niyeti anladığı iddiasında değildir."
+        },
+        "readworker": {
+          "title": "Salt okuma yolu",
+          "caption": "Worker + kaynak denetimi",
+          "detail": "Okuma sözleşmesi SQLite deyimini denetler. Ayrı worker sorguyu yürütür; süre aşımında durdurulabilir. Canlı DB ve bağlantı durumu kopyalama/yerel bağlantı yollarıyla korunur; eski revizyon sonucu yeni alana taşınmaz."
+        },
+        "atomic": {
+          "title": "Atomik yazma yolu",
+          "caption": "SAVEPOINT → denetim → RELEASE",
+          "detail": "Normal AI yazma partisi foreign_keys=ON ve defer_foreign_keys=ON ile SAVEPOINT içinde yürür. PK/UNIQUE/NOT NULL/CHECK ve tetikleyiciler motor davranışına göre işler; FK son tutarlılığı kaydetmeden önce sağlanır. Hata veya denetim ihlalinde ROLLBACK olur."
+        },
+        "audit": {
+          "title": "Veri koruma denetimi",
+          "caption": "Önce / sonra gerçek kayıtlar",
+          "detail": "Etkin kapsamda eski kayıtların korunması, anahtar taşıma tutarlılığı ve yeni yetim ilişkiler denetlenir. Meşru tetikleyici INSERT’leri kökeniyle ayırt edilir. Kontrol öncesi/sonrası kanıt aynı zamana aitmiş gibi sunulmaz; model SQL’ine otomatik çocuk UPDATE’i eklenmez."
+        },
+        "repair": {
+          "title": "Koşullu tek onarım",
+          "caption": "Gerçek hata + özgün istek",
+          "detail": "Uygun biçim, SQL veya dar öğretim hatasında ortak bir onarım hakkı kullanılır. Özgün istek ve gerçek hata/şema/kayıt kanıtı modele geri verilir; düzeltilmiş tam parti aynı kontrollerden geçer. Uygun değilse veya hakkı bittiyse durur; sonsuz düzeltme döngüsü yoktur. Yakın yazılan ad yalnız adaydır; kesin hedef sayılmaz. Literal NULL ve örnek bağımlılık listesi, motorun doğrulamadığı bir hata nedeni olarak sunulmaz. Özgün istek ve gerçek hata onarımın kapsamını belirler."
+        },
+        "provider": {
+          "title": "Sağlayıcı / hesap",
+          "caption": "API veya ChatGPT hesabı",
+          "detail": "Seçilen sağlayıcının protokolü, model kataloğu ve kapasite bilgisi kullanılır. API anahtarları ve ChatGPT hesap belirteçleri işletim sistemi korumasıyla saklanır. Sağlayıcı bağlantısı isteğe bağlıdır; editör ve hazır öğrenme içeriği yerel çalışır."
+        },
+        "protocol": {
+          "title": "Taşıma katmanı",
+          "caption": "Chat / Messages / Responses",
+          "detail": "Taşıma katmanı Chat Completions, Messages, Responses veya ChatGPT hesap köprüsünü kullanır. Sağlayıcıya özgü parametreler ve araç çağrısı kimlikleri korunur. ChatGPT akışında tamamlanmış output_item.done öğeleri son output dizisi boş olsa da kaybolmaz; başarısız veya kesilmiş akış başarı sayılmaz. Araç devamı gerektiğinde aynı görev, dönen gözlemlerle sürer."
+        },
+        "cancel": {
+          "title": "İptal ve bekleme",
+          "caption": "İstek + araç devamları",
+          "detail": "Öğrenci uygulama başlamadan önce isteği iptal edebilir; iptal sinyali sağlayıcı ve araç devamlarını kapsar. Kabul edilmiş yanıt uygulanmaya başlayınca iptal kapanır. Kaydedilmiş işlem iptal edilmiş veya geri alınmış gibi gösterilmez."
+        },
+        "stale": {
+          "title": "Eski sonuç koruması",
+          "caption": "DB kimliği + revizyon + sohbet",
+          "detail": "İstek sürerken veritabanı, revizyon, çalışma alanı veya sohbet değişirse eski yanıt/işlem yeni bağlama uygulanmaz. Bağlam ve araç okumalarında aynı sahiplik kontrolü tekrar edilir."
+        },
+        "storage": {
+          "title": "Yerel kalıcılık",
+          "caption": "DB + konuşma + sonuç arşivi",
+          "detail": "Veritabanı dosyaları, çalışma alanları, sohbetler, işlem kayıtları ve tam sonuç arşivleri yereldir. API anahtarlarının düz metin alanları OS korumalı kasaya taşınır; renderer aynı bağlantı ayarlarını alır. Kullanıcının DB ve sohbet dosyaları varsayılan olarak şifrelenmez. Yedekleme, GitHub kaynak yayınının dışındadır."
+        },
+        "observability": {
+          "title": "Ölçüm ve hata kaydı",
+          "caption": "Süre · token · sonuç türü",
+          "detail": "Provider giriş/çıkış/cache kullanımı, çağrı amacı, süre ve hata kaydedilir. Model doğruluğu; SQL’in çalışması, görev sonucu ve öğretim açıklaması olarak ayrı incelenir. DB kurulumu ve UPDATE süresi sorgu ortalamasına karıştırılmaz."
+        },
+        "editor": {
+          "title": "Manuel SQL editörü",
+          "caption": "AI’dan bağımsız yürütme",
+          "detail": "Öğrencinin doğrudan yazdığı SQL ayrı editör yolundan yürür. Açık manuel işlemler ve bağlantı komutları SQLite’ın kendi anlamını korur. Açık işlem varken otomatik AI yazma partisi engellenir; manuel ve AI yürütme politikaları aynı gösterilmemelidir."
+        },
+        "teaching": {
+          "title": "Dar öğretim kontrolleri",
+          "caption": "Yalnız uygun SQL’siz açıklama",
+          "detail": "İlişki anlatımında gerçek şema/satır kanıtıyla bazı yanlış sütun, fiziksel FK yönü ve anahtar iddiaları kontrol edilir. Uygun ok yönü yerelde düzeltilebilir; diğer saptanan ihlal tek onarım/fallback yoluna gider. Genel bir doğruluk hakemi değildir. Fiziksel ilişki oku denetimleri ortak kapsam okuması kullanır; yanlış/varsayımsal/tarihsel diye sunulan örnek, güncel doğru iddia gibi onarıma gönderilmez."
+        },
+        "exam": {
+          "title": "Sınav ve SQL alıştırmaları",
+          "caption": "Ayrı üretim / notlandırma akışı",
+          "detail": "Soru, cevap ve gerçek SQL yürütme kanıtı ayrı değerlendirme isteğine aktarılır. Öğrenci SQL’i kopya DB’de ve salt okuma sınırlarıyla denenir. Uzun cevaplar sessiz kesilmez; sınırlı sonuç örneği tam doğruluğun garantisi sayılmaz. Notlandırma model değerlendirmesi içerir. Teknik doğrulama başarısız olursa not verilmez ve yanıt korunur; bu durum yanlış öğrenci SQL’iyle aynı sayılmaz. Şemasız alıştırmalar, 10, 15 veya 20 sentetik SQL sorusu sunar. Arayüz seçilen SQL ifadesini boşluğa çevirir, sorgu sözdizimini boş ve geçici bağlantıda doğrular; yazılan anahtar kelimeleri yerelde karşılaştırır. Kişisel şema ve kayıtlar gönderilmez. İsteğe bağlı doğru tam sorgu sınav cevapları ek 25 XP kazanır; aynı soru setinden tekrar ödül alınamaz."
+        },
+        "project": {
+          "title": "Modüler proje ödevi",
+          "caption": "İş talebi → rapor → rubrik",
+          "detail": "Hazır UCI bisiklet projesine ek olarak isteğe bağlı genel veri projesi vardır. Model resmî UCI kataloğunu arar, kaynağı inceler, öğrenciyle amacı netleştirir ve ölçülebilir iş raporları önerir. Öğrenci kaynak dosyasını ayrı çalışma alanına aktarır, SQL ve yorum teslim eder. Sayısal sonuç bağımsız CSV hesabıyla; iş yorumu AI rubriğiyle değerlendirilir. Uygun başarılı teslim profil ve tek seferlik XP kaydına bağlanır. Genel modül kaldırılabilir; normal SQL akışından ayrıdır. Bu sınırsız internet/Kaggle araması değildir."
+        },
+        "learnpdf": {
+          "title": "Ders / PDF üretimi",
+          "caption": "Tam ders + veri + SQLite gözlemi",
+          "detail": "Statik dersler yereldir. PDF isteği ortak öğretmen personası, tam ders metni, dersin kendi şeması ve başlangıç kayıtlarını içerir. Referans SQL örnekleri birbirinden bağımsız, yeni ders kopyalarında çalıştırılır; sonuç, boş tablo, değişiklik ve hata ayrı aktarılır. Model HTML ders üretir; bu yeni SQL otomatik çalıştırılmaz. Sağlayıcı kapasitesi kullanılır. Gerçek SQLite gözlemleri, modelin bütün açıklamasının doğru olduğunu garanti etmez."
+        },
+        "evaluation": {
+          "title": "Geliştirme değerlendirmesi",
+          "caption": "TR/EN · zincir · SQL + öğretim",
+          "detail": "Yerel birim kontrolleri, gerçek Electron entegrasyonu ve izin verilmiş canlı model kontrolleri ayrı kanıtlardır. SQL’in çalışması, görevin sayısal sonucu ve öğretim açıklaması farklı değerlendirilir. CI kişisel profil veya ücretli model çağrısı kullanmaz. Burada tarihsel model puanları veya hatasızlık iddiası sunulmaz."
+        },
+        "projectsource": {
+          "title": "1 · Doğrulanmış kaynak",
+          "caption": "UCI kataloğu → metadata → CSV",
+          "detail": "Model search_project_datasets, describe_project_dataset ve inspect_project_dataset araçlarıyla resmî UCI kataloğunu araştırır. Dosyanın kökeni, kimliği, tam kayıtları, saklanan türleri ve sınırlı örnekleri incelenir. Sütun adından PK/FK uydurulmaz. Kaynak metni kanıttır; talimat değildir. Bu teknik doğrulama, verinin istenen iş alanını temsil ettiğini tek başına kanıtlamaz."
+        },
+        "projectbrief": {
+          "title": "2 · İş talebi ve taslak",
+          "caption": "Öğrenci amacı → ölçülebilir görev",
+          "detail": "Özgün öğrenci isteği, bağlı konuşma ve netleştirmeler korunur. propose_project, incelenmiş kaynağa bağlı rapor ölçütlerini taslak olarak kaydeder; modelden referans SQL istenmez. Öğrenciye iş sorusu ve ölçülecek kapsam gösterilir, JOIN/CTE çözümü dayatılmaz. Ortak persona ve sağlayıcı kapasitesi kullanılır; gerektiğinde özet ve read_context ile eski kaynağa dönülür. Geçerli ölçüm belirtimi, iş amacının doğru anlaşıldığı garantisi değildir."
+        },
+        "projectworkspace": {
+          "title": "3 · Öğrenci çalışma alanı",
+          "caption": "Kaynağı yükle → SQL + not teslim et",
+          "detail": "Öğrencinin seçtiği CSV resmî kaynakla karşılaştırılır ve bağımsız SQLite çalışma alanı hazırlanır. Öğrenci türetilmiş tablolar/görünümler ekleyebilir; özgün kaynak kayıtları korunur. Proje, çalışma alanı, SQL, öğrenci notu ve revizyon kalıcıdır. Eski istek yeni düzenlemeye uygulanmaz; iptal geç sonuçların kaydedilmesini engeller."
+        },
+        "projectnumeric": {
+          "title": "4 · Sayısal doğrulama",
+          "caption": "Gerçek SQL sonucu ↔ bağımsız CSV hesabı",
+          "detail": "Öğrencinin rapor SQL’i çalışma alanı kopyasında salt okunur. Beklenen sonuç, AI’ın referans SQL’iyle değil, ölçüm belirtiminden özgün CSV kayıtları üzerinde bağımsız hesaplanır. Kaynak kayıtları, çıktı kapsamı ve sayısal sonuç karşılaştırılır. Yeni kanonik DB ile bayt kimliği aynıysa yinelenen kaynak taraması atlanır; farklıysa tam kaynak denetimi sürer. Teknik hata veya eksik sonuç yanlış öğrenci puanı üretmez. Bağımsız hesap, modelin seçtiği iş ölçütünün anlamsal doğruluğunu garanti etmez."
+        },
+        "projectreview": {
+          "title": "5 · AI iş yorumu",
+          "caption": "Ödev uygunluğu + dört değerlendirme ölçütü",
+          "detail": "Sayısal kontrolü geçen teslimde model önce ödevin kaynakla uyumunu inceler; uygun olmayan ödev öğrencinin hatası sayılmaz. Kanıt, yorum, iş sorusuna katkı ve veri sınırları ayrı puanlanır. read_project_evidence gerçek sonuçları sayfalar; submit_project_review görülen hücre/kaynak atıflarıyla değerlendirmeyi kaydeder. Eski SQL, not ve geri bildirim sonraki konuşmaya taşınır. Geçerli kayıt sonrası ek AI özeti istenmez. Atıf kontrolü yorumun doğruluğunu veya puanın insan öğretmenle kalibrasyonunu kanıtlamaz."
+        },
+        "projectaward": {
+          "title": "6 · Başarı ve profil",
+          "caption": "80 + AI puanı → 300 XP / 3 yıldız",
+          "detail": "Tamamlama, doğrulanmış teslimin kaynak/çalışma alanı/SQL/not/konuşma kimlikleri değişmemişse mümkündür. Bütün raporlar sayısal kontrolü geçmeli, model bütün ödevleri kaynağa uygun bulmalı ve her iş yorumu en az 14/20 almalıdır. Toplam puan 80 + AI puanlarının ortalamasıdır. Model ödül miktarını seçmez: proje başına bir kez 300 XP ve 3 yıldız. İlk başarılı teslim ayrı korunur; profil ödül işareti yeniden açılışta idempotent biçimde eşitlenir. Sonraki düzenleme eski başarı kanıtını değiştirmez."
+        },
+        "privacy": {
+          "title": "AI veri paylaşımı",
+          "caption": "İlk açılışta açık ve sakin bilgi",
+          "detail": "İlk kurulumun sağlayıcı adımında, soru, ilgili sohbet, şema ve gerektiğinde örnek/sonuç kayıtlarının seçilen sağlayıcıyla paylaşılabileceği açıklanır. AI bağlantısı seçilebilir veya ertelenebilir. Bu açıklama ek bir onay engeli oluşturmaz."
+        },
+        "csp": {
+          "title": "Renderer CSP",
+          "caption": "Paketli kod + WASM + worker",
+          "detail": "Ana renderer yalnız paketli JavaScript ve gereken SQLite WebAssembly kodunu çalıştırır. Enjekte edilen inline script, olay öznitelikleri ve string eval engellenir. Dinamik stiller ve özel HTTP/HTTPS sağlayıcı adresleri korunur; politika tam bir ağ sandbox’ı değildir."
+        },
+        "credentials": {
+          "title": "Korumalı anahtar kasası",
+          "caption": "Windows DPAPI / safeStorage",
+          "detail": "Eski sağlayıcı anahtarları ayarlar okunurken atomik olarak taşınır. Anahtarlar değişmedikçe şifreli kasa tekrar kullanılır. OS koruması veya kasa açma başarısızsa düz metne geri dönülmez ve özgün dosya korunur. Aynı OS kullanıcısıyla çalışan zararlı yazılıma karşı tam izolasyon sağlamaz."
+        },
+        "signing": {
+          "title": "Yayın ve güncelleme",
+          "caption": "İmzalı yayın hattı / yerel test build’i",
+          "detail": "İmzalı yayın komutu yayıncı kimliği ve gerçek sertifika ister. İmzalı build güncellemelerinde native yayıncı doğrulaması zorunludur. Sertifika henüz yoktur; yerel test kurucusu imzasızdır ve mevcut geliştirme davranışını korur. Bu altyapı tek başına güvenilir Windows yayıncısı oluşturmaz."
+        },
+        "publication": {
+          "title": "Temiz kaynak yayını",
+          "caption": "Kaynak, dokümantasyon ve testler",
+          "detail": "Yayın ağacı çalışma profili, veritabanı, anahtar, sertifika, günlük, özel deney ve eski checkpoint çıktılarını içermez. Kaynak taraması ve Git kimliği kontrol edilir. PractiSQL kaynak lisansı ile üçüncü taraf lisansları ayrı tutulur; uygulama sürümü mevcut diziden devam eder."
+        },
+        "boundaries": {
+          "title": "Açık teknik sınırlar",
+          "caption": "Güvence kapsamı görünür kalır",
+          "detail": "Yerel SQL doğrulaması her doğal dil niyetinin veya öğretim açıklamasının doğru olduğu anlamına gelmez. Electron runtime yükseltmesi ayrı iştir. ChatGPT DevKit’in noncommercial lisansı korunur. Mimari belgeleri, bir penetrasyon testi veya bütün modeller için başarı garantisi değildir."
+        }
+      }
+    }
+  },
+  "references": {
+    "LICENSE": "c03af9304b8b44d8f65921a325a7f2077ebb89e5c64fc309106b3c547ef02d09",
+    "PRIVACY.md": "3d10cd1350b30f57dedac7ca46c2e5dfa3284150305d9f32054b1b75f1a20093",
+    "README.md": "7e87bf90afd48e911a791e4a3d82fe83637697558b1b50e114c8046cefdc9221",
+    "SECURITY.md": "39a4bd9913e36700af0d5b3ed3112d97909a2cd41fe1035e5146b572c68ffb2d",
+    "ai-rate-limit.js": "fdf24873dfb664444f28728abe483a3f363e3aa61d16201a2cb1429ef67a2ff8",
+    "chatgpt-account.js": "1ea42388b92788b93804a9f0b6fc3441039ce26af2b837e9e5e732c160a99f32",
+    "database-inspection/runner.cjs": "32265046ec123e4248845436a523f67ff069bb7ebd8bb83102fc43e249d11d20",
+    "database-store.cjs": "ac6794afcf426255aced41ff1679931855d26641b29d084041b780714ce8b78f",
+    "docs/ARCHITECTURE.md": "07aa8c5603bf4e23ac874e9ad458e2ec127385d25ba6b6bc4771f4329d72989f",
+    "docs/PUBLICATION.md": "bf52b57c8dbcdfd2d33dfe65b7c18e5c3e082a95e8fabed4ec5dccfca01f436f",
+    "docs/RELEASING.md": "54b3c15bd43a27500e78adf94f0d59e0a4524185abb79f7a409a6b9fe0edc971",
+    "electron-builder.release.cjs": "876c5a1958b379ae85c171f52bfb9160905ea142033bfdd7a7e72b8242c8e388",
+    "learning-projects/discovery/business-review.cjs": "7d565f898ddec4f6695eeb253c4289f051f5bae117f7aca498bf3b2f7cedd8f6",
+    "learning-projects/discovery/discovery-session.cjs": "bde2d170e81a0f567e03f6a8431d2d8d1bdea5be19526564cb835ed0ae8ba4d5",
+    "learning-projects/discovery/project-completion.cjs": "f60c3f9abb8650dec4ab7561223eb3acc656d08fb049fc329ad4e5a64e417eac",
+    "learning-projects/discovery/project-ipc.cjs": "178f68a2715b317a1e6fb76822738579545f5f4b156b42a3502c51b3c1f676d7",
+    "learning-projects/discovery/project-planner.cjs": "cf868b206246ce25620512ee9cc7af714cfdd49eb2eba26b5bda18fce9608524",
+    "learning-projects/discovery/project-store.cjs": "d0598a3ea5750528a3dcbe07c5ba3e7a832a53f3fdbb5a3c215a2997737f4ac6",
+    "learning-projects/discovery/report-assessment.cjs": "3975fcd3aaa258da8444890472cfba9472f0378a085d7f1e974667f4390d30cd",
+    "learning-projects/discovery/report-brief.cjs": "0f26f0bceade80eddff7657ec5c0c8ff56edea163014a6d597c6e808908fdb08",
+    "learning-projects/discovery/report-measures.cjs": "ac6b9270e9847d78db623419cd0180c2bf1dd665f6ff96c93e9c8940ced7b3c7",
+    "learning-projects/discovery/report-worker.cjs": "ac74c8abc8647729cc96bbb2cf034e8fdcae2d6a8eae9850ad4488df764e04c5",
+    "learning-projects/discovery/row-measures.cjs": "d4b12b650679aa75047a255e26dd514d6348de023bb3e90fd868e7c4daff75fb",
+    "learning-projects/discovery/uci-catalogue.cjs": "fabbe5892b25a44ab10e21705172bbdc941aa035ff3cc575aff5606c254eb38e",
+    "learning-projects/discovery/verified-csv.cjs": "0f5df427d980f304abe7b6a8d92c922c0409c789ecfe66d6b1db80ee926d1722",
+    "learning-projects/discovery/workspace-source.cjs": "1093df132c9e913dc8fd327d63b2139d49e38c73450b904564a3f02029523977",
+    "learning-projects/engine.cjs": "2471fd8b06119445a750b70e1cdbf2c1c45e1105f7b54aa1c86a8c2b4b448d8e",
+    "learning-projects/rubrics.cjs": "607f4bc44dc7a757ec23c7e23c5f86ef5a78f85ba83b1971c80a54cf0c22eab8",
+    "operation-result-store.cjs": "9d5ce3ad6f2f8a19c9c7a595ab99d7b675035d91b6e59e40b7feb48011e96cc2",
+    "pdf-print.js": "cedb546349d7cf56e49e64681c081fce76063f625f2bcdef4123a3e5a78a79f2",
+    "preload.js": "e50ff4f5fc9e63347ef5a2eaf73735433026afe76a4e1cb7bbe51d31b9905dc4",
+    "profile-bootstrap.cjs": "72f93f3b82a868e576bbef0382ea2ac66c38aee073064b00a46a9c4a3102efac",
+    "renderer/ai-answer-envelope.js": "cbf26e8d5d763a1c8a57684923f3283e93c55c2f51775552a821e0ec3aab81a8",
+    "renderer/ai-context-budget.js": "f455938b98388c95798ea50847e166f570309563b88d9408d13da5bef0191c85",
+    "renderer/ai-context-manager.js": "8d36e2d9536b0ed799e6f1f12c50f36b4e8b841cbde83e2d18e2132a92f75613",
+    "renderer/ai-context-sources.js": "6d391625301d3442c8bc002084e98c1c89ebef79075a40c5b265423a79b7375d",
+    "renderer/ai-conversation.js": "3a9b9a7ff8cac1e79ec8b064cd7c2c3c4607e4cf386c36ca2dd8f6ccbb543568",
+    "renderer/ai-database-capture.js": "8bd49056d56d6ec41c0e4e035cf4f53a9060fe70512b4b4c0f13de27fccf0e27",
+    "renderer/ai-database-observations.js": "7c56eccdeb6decc6c4c9c0913d7bcb5a737824ad73e401269701dc29cd4e995d",
+    "renderer/ai-database-reader.js": "c0fdf0cd26bc4edccf59bbc825c595aa5363064fed1dc1bcf0744d949fd9dba5",
+    "renderer/ai-native-schema.js": "3f31e67f619fdc546efa0b47a242d415b1682199fb353e9b2eed8f2a3fefac61",
+    "renderer/ai-request-control.js": "04ddcd2b89930dd9a32f7857e62045ded8d8f2d7ac8b94c60bdcc861435ef08e",
+    "renderer/ai-request-envelope.js": "a55d4f28197089d8f3e58f1394c9d0b20f7749cdf952d425f547cbc20415edaf",
+    "renderer/ai-request-snapshot.js": "28e842b2d7e18daef8a30c3946d8b1490da3cd7dcdaf219ffe1997ba2da650a5",
+    "renderer/ai-teacher-contract.js": "0734da665b127678b0b356f88a244f1a671d99710230da2df5d0fb91fcea9d48",
+    "renderer/ai-tool-protocol.js": "f223e067cab9e967db279fc9d433d73883b81e6fbfa857a56edb4982e33e3a78",
+    "renderer/ai-usage.js": "8e563d1f9910f880292790b5fdbb58893b1b759f7be9fc798f9337fe7ff36c0f",
+    "renderer/ai-wait-progress.js": "8a4f9c4937837db81be0a25fffc2484e880beff30af05fe740049b3dd999a632",
+    "renderer/app.js": "fe14baec799ae407f4fa65b0a3adfcaeb33927831399747584d47dbb3106cd98",
+    "renderer/exam-presentation.js": "aacd1cfad8ebad25c8b7236909e3196a9211a881c6fd6014d5504c7331758919",
+    "renderer/exam-sql.js": "d1794fa904f172beb057ae769563dcf3869d70156cf99f749ea806801a54030b",
+    "renderer/exam-study.js": "2bc44c11e6aff964d87d0669e1e46321dfcc371a1702747386dd10e1f7f6e966",
+    "renderer/explicit-request-limits.js": "b3943db6a9b651577ac844da1e759252e6af2d7010e3d1e592b2f0017c5d863a",
+    "renderer/index.html": "ee27be3b6de670148e6fc7ddb85e10a41cde71029e52b8d1ec6d1cd8ed50a49b",
+    "renderer/learn-detail.js": "62d53a49f524f304c08546c96fe9d0651d204f861288a2479cdcfa0eb98ac116",
+    "renderer/lesson-pdf.js": "b19528b264411269ec4b5781914143d881cf49f30c4834817b5505abac205657",
+    "renderer/operation-results.js": "e8fc7e712dfcb042e1c5c2c5c36adcff6a1b01fb3ca0ded7b7b93c67ecf2d0f5",
+    "renderer/physical-fk-tuples.js": "6806b97c6a9efca0378067fc5f626ced86e816b49aa2362cde3f7756aa121c7a",
+    "renderer/profile-setup.js": "b1fa3b7e3f170da2e4012da8b65a0f8df9b201d822e2366286b7207f3f004905",
+    "renderer/project-awards.js": "0fa598a9e57ed25cef125500cdcccc61ffcedfb41a6cc570b78bd016aa9fd506",
+    "renderer/project-context.js": "27c15b1bca0d49a8d795779df74ca5f2fca7bc12d5e2eb0df9d493be8b9694c0",
+    "renderer/project-conversation.js": "1c978c6834bbe1412c9c8745f2359ad9898e3187f8c542a98ddce1a5a0ffff7c",
+    "renderer/project-discovery-ui.js": "2a9131b7ef4c1c9068ac42ed62d6108d3033a4bf9c6d8c2f360672fcac4f4044",
+    "renderer/project-request.js": "ee80720473dcd5c17ca59bc9ac3d6314a3759c4c14eb5470e5b98a1ee76b4d33",
+    "renderer/project-review-completion.js": "9772542121298a1fc9e3f251a958c6907cff77893bf7695f07a5f37bcbcd39ef",
+    "renderer/project-review-request.js": "71882e40a04f15c6172db672c1653f3c6477c264a840209f7e21f06af4ba8484",
+    "renderer/project-review.js": "25234dd738cf250c85a9312a183f3e9528bf0265932cbcea5e5fa825008812c6",
+    "renderer/relationship-roles.js": "bfbc41afbcb0668597b0a7af29e8878d80ffe784eaa1dad90ab6af68094ba39d",
+    "renderer/request-action-policy.js": "a0e23085c0715992055a497116a968cacd0102f2dbdff5061a1f0cea0103eaf1",
+    "renderer/response-fences.js": "cc6686e3b54ba681026c332d43cd756a8eeddfa55386cf3c59e1bec3282eaea0",
+    "renderer/sql-exercises.js": "a8e292f9617b8889825cf2ed94966687ca566ea9d75c414e361a68189a89ba70",
+    "renderer/sql-read-contract.js": "07db00ff4db0ae9de6c55d134e2a07e4d10a2f089944c5bc3ffc4e63e3b7d90c",
+    "renderer/sqlite-values.js": "7c798f001a06588a6d67b61cc970c92f0a0c2985b554a2af17ca1107b3c879c7",
+    "renderer/study-notes.js": "d64cfe283947d1ddd9bf08218c848cb0dced8830e5cd6ad0327dcc4b1d55ea3f",
+    "renderer/teaching-grounding.js": "d926be46ee601c68a664d9b85b41b2bea4bcaae3681245e104f10661f14c8e2f",
+    "renderer/theme-init.js": "5fd77c15488a2fe2d0d6d7f0c8bbc0e26c5eef590e4da2d699ce65661c3691fa",
+    "scripts/scan-source.cjs": "1b2c1351aebc59f51ef6b5f30d4e1c78278cec705e995167dc9dd899f0680ac6",
+    "scripts/test-db.js": "76d155bf6b2564b7142dff09261d73d0afdd6dae98920aa10ac14b460f58ff80",
+    "scripts/test-ipc.js": "908197a2e5a9fb7b7c255e3d5f20f43dfc67961e9d8c3b4b46308a207c578e33",
+    "scripts/test-publication-ui.cjs": "abd8801183f4d37da761f8aa2e392f52dc5f5aac14b1507029e471ef8331055e",
+    "scripts/test-security-integration.cjs": "b0ae09cbd79acb3f627ac4a74a5cfcb4743fb5063543eb461699286852de2031",
+    "scripts/test-security.cjs": "588f79611166cd1a81ede8750c9dfcfc37df6347c4d90afc4df701db82741068",
+    "secure-config.cjs": "f6b31eac44c752dd488980c02ab4122f28231b4ca007770756178cd2f8c1ea80",
+    "sql-read-runner.cjs": "2f8a524866fb5bfb4c6317a37dcad5d281565e46b64145b8efed12c26a1caa2b",
+    "sql-read-worker.cjs": "ecbae43d53059091f6d7052fab9cd58da706b6c9e1d720dd44b92b10e6d4c421",
+    "sql-seed-evidence.cjs": "0ccddebdc7da6951e199faa5be115d40470e67e9a6847ca5537cec29ecdf7c18",
+    "vendor/CHATGPT-SDK-LICENSE.txt": "d9e6108614830cd36b06f475960cfd3bae7236db5d67d615874ec0d3646a4e5d",
+    "vendor/PRACTISQL-SDK-CHANGES.md": "3a09d4c7f63f04965a5f0a3f267ecb45744809dccd3be59a4d63940d6e3c1460",
+    "vendor/chatgpt-sdk.cjs": "0f2cc975c0333afaec05f92801b4ab3925e0b9ac76842b9800b9691bc0c3e5e0",
+    "verified-updater.cjs": "831b5a803d5fe2e95824ff2cfe057c42b2202b874c8d12c89f0bf8def24da270"
+  }
+}
