@@ -13,7 +13,7 @@ const check=(ok,name)=>{assert(ok,name);proof.checks.push(name);};let app,worksp
   await app.send('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false});
   for(let i=0;i<120&&!await app.evaluate('window.__startupSplash?.phase==="hidden"');i++)await wait(50);
   await app.evaluate('document.fonts.ready');
-  const first=await app.evaluate('window.__firstAppearance');check(first.language==='tr'&&first.slogan==='Yapay zekâ destekli sade SQL playground',theme+': Turkish slogan is correct before settings load');
+  const first=await app.evaluate('window.__firstAppearance');check(first.language==='tr'&&first.slogan==='Yapay zekâ destekli SQL playground',theme+': Turkish slogan is correct before settings load');
   const brand=await app.evaluate('(()=>{const b=document.querySelector(".brand"),i=document.getElementById("appIcon"),r=b.getBoundingClientRect(),s=i.getBoundingClientRect();return {font:getComputedStyle(b).fontFamily,base:getComputedStyle(b.firstElementChild).color,sql:getComputedStyle(b.lastElementChild).color,dy:Math.abs((r.top+r.bottom-s.top-s.bottom)/2),line:getComputedStyle(document.querySelector(".tb-brandmark"),"::after").width,width:document.querySelector(".tb-brandmark").getBoundingClientRect().width};})()');
   check(brand.font.includes('PractiSQL Display')&&brand.base!==brand.sql&&brand.dy<2,theme+': reference-lettering wordmark, green SQL and centred icon');
   check(await app.evaluate('(()=>{const s=getComputedStyle(document.getElementById("appIcon"));return parseFloat(s.width)>=36&&parseFloat(s.borderTopWidth)===0&&parseFloat(s.paddingTop)===0&&s.boxShadow==="none";})()'),theme+': enlarged icon keeps only its original frame');
@@ -67,6 +67,6 @@ const check=(ok,name)=>{assert(ok,name);proof.checks.push(name);};let app,worksp
  }
  workspace=prepare(source);const startup=path.join(workspace.root,'renderer/startup-screen.js');fs.writeFileSync(startup,fs.readFileSync(startup,'utf8').replace("const state = window.__startupSplash",'window.__firstAppearance={language:document.documentElement.lang,slogan:splash.querySelector(".splash-tag").textContent};\n  const state = window.__startupSplash'));
  app=await open({source,prepared:workspace,config:{theme:'light',tips:false,showMascot:false,autoUpdate:false}});
- check(await app.evaluate('window.__firstAppearance.language==="en"&&window.__firstAppearance.slogan==="A simple, AI-powered SQL playground"'),'First installation defaults to English');
+ check(await app.evaluate('window.__firstAppearance.language==="en"&&window.__firstAppearance.slogan==="AI-powered SQL playground"'),'First installation defaults to English');
  proof.status='passed';
 }catch(error){proof.status='failed';proof.error=error.stack;process.exitCode=1;}finally{await app?.shutdown();if(workspace)dispose(workspace.directory);fs.writeFileSync(out,JSON.stringify(proof,null,2)+'\n');console.log(JSON.stringify({status:proof.status,checks:proof.checks.length,error:proof.error?.slice(0,550),out}));}})();
