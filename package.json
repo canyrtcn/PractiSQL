@@ -1,6 +1,6 @@
 {
   "name": "practisql",
-  "version": "3.4.262",
+  "version": "3.4.263",
   "description": "PractiSQL — AI-powered SQL playground.",
   "main": "app/main.js",
   "build": {

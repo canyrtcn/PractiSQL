@@ -10,9 +10,9 @@ A desktop SQL learning workspace that brings local SQLite, an AI tutor, visual s
 
 <a href="https://github.com/canyrtcn/PractiSQL/releases"><img src="docs/assets/download-windows.en.svg" width="328" height="64" alt="Download PractiSQL for Windows"></a>
 
-**Windows x64 · v3.4.262** · **macOS is in preparation.**
+**Windows x64 · v3.4.263** · **macOS is in preparation.**
 
-The button opens Releases. The Windows x64 installer is available in Releases. Repository access is required while the project is private.
+The button opens Releases, where the Windows x64 installer is available. No GitHub account is required to download it.
 
 ![PractiSQL workspace with an SQL query, local results and an AI explanation](docs/showcase/cards/product-overview.en.png)
 
@@ -182,7 +182,7 @@ Choose an available model entry in your account. Model names and access can vary
 3. Load a supported database or file, or open a built-in learning example. Start writing and running SQL immediately.
 4. Connect AI when you want guided explanations, generated queries or AI-backed learning workflows. You can leave this step for later.
 
-[Release notes](docs/releases/v3.4.262.md) · [Build from source](#development-and-repository-layout)
+[Release notes](docs/releases/v3.4.263.md) · [Build from source](#development-and-repository-layout)
 
 ## More screens and documentation
 
@@ -228,7 +228,7 @@ scripts/   Portable verification and documentation-generation tools
 
 Source modules are grouped under `app/`. Packaging maps them back to the established runtime paths. `npm ci` prepares the local SQLite worker assets automatically. Build an unsigned Windows installer with `npm run dist:win:unsigned`; signed builds additionally require a valid signing identity. Current output stays in `release/win-unpacked/`, with installers and update metadata directly in `release/`.
 
-With automatic checks enabled, a new version appears in the top notification panel with download progress and an **Update now** button. Installation asks for restart confirmation; deferring does not install the update when you close the app. While this repository is private, its anonymous GitHub update feed is unavailable.
+With automatic checks enabled, a new version appears in the top notification panel with download progress and an **Update now** button. Installation asks for restart confirmation; deferring does not install the update when you close the app. Updates are delivered from this repository's public GitHub Releases.
 
 [Contributing](.github/CONTRIBUTING.md) · [Security and known limitations](.github/SECURITY.md) · [Releases and updates](docs/RELEASING.md)
 

@@ -10,9 +10,9 @@ Yerel SQLite, AI öğretmen, görsel şema ve uygulamalı öğrenmeyi, bu akış
 
 <a href="https://github.com/canyrtcn/PractiSQL/releases"><img src="docs/assets/download-windows.tr.svg" width="328" height="64" alt="Windows için PractiSQL indir"></a>
 
-**Windows x64 · v3.4.262** · **macOS hazırlanıyor.**
+**Windows x64 · v3.4.263** · **macOS hazırlanıyor.**
 
-Düğme Releases sayfasını açar. Windows x64 kurucusu Releases sayfasında yayımlandı. Proje gizliyken repo erişimi gerekir.
+Düğme, Windows x64 kurucusunun bulunduğu Releases sayfasını açar. İndirmek için GitHub hesabı gerekmez.
 
 ![SQL, yerel sonuçlar ve AI açıklamasını bir araya getiren PractiSQL çalışma alanı](docs/showcase/cards/product-overview.tr.png)
 
@@ -180,7 +180,7 @@ Hesabında kullanılabilen model seçeneğini kullan. Model adları ve erişim d
 3. Desteklenen veritabanını veya dosyanı yükle ya da hazır bir öğrenme örneği aç. SQL yazmaya ve çalıştırmaya hemen başlayabilirsin.
 4. Açıklama, sorgu üretimi veya AI destekli öğrenme akışları istediğinde AI bağlantısı ekle. Bu adımı sonraya bırakabilirsin.
 
-[Sürüm notları](docs/releases/v3.4.262.md) · [Kaynaktan çalıştır](#geliştirme-ve-repo-düzeni)
+[Sürüm notları](docs/releases/v3.4.263.md) · [Kaynaktan çalıştır](#geliştirme-ve-repo-düzeni)
 
 ## Daha fazla ekran ve belge
 
@@ -226,7 +226,7 @@ scripts/   Taşınabilir doğrulama ve belge üretim araçları
 
 Kaynak modülleri `app/` altında toplanır; paketleme bunları mevcut çalışma yollarına yerleştirir. `npm ci`, yerel SQLite worker dosyalarını otomatik hazırlar. İmzasız Windows kurucusu için `npm run dist:win:unsigned` kullan; imzalı build ayrıca geçerli yayıncı kimliği gerektirir. Güncel çıktı `release/win-unpacked/`, kurucu ve güncelleme dosyaları doğrudan `release/` altında kalır.
 
-Otomatik denetim açıkken yeni sürüm, üst bildirim alanında indirme ilerlemesi ve **Şimdi güncelle** düğmesiyle görünür. Kurulum yeniden başlatma onayı ister; ertelenen güncelleme uygulamayı kapatınca kurulmaz. Depo gizliyken anonim GitHub güncelleme akışına erişilemez.
+Otomatik denetim açıkken yeni sürüm, üst bildirim alanında indirme ilerlemesi ve **Şimdi güncelle** düğmesiyle görünür. Kurulum yeniden başlatma onayı ister; ertelenen güncelleme uygulamayı kapatınca kurulmaz. Güncellemeler bu deponun herkese açık GitHub Releases sayfasından gelir.
 
 [Katkı](.github/CONTRIBUTING.md) · [Güvenlik ve bilinen sınırlar](.github/SECURITY.md) · [Sürüm ve güncellemeler](docs/RELEASING.md)
 
