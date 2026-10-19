@@ -19,6 +19,7 @@ jobs:
       - run: npm run test:db
       - run: npm run test:ipc
       - run: npm run test:security
+      - run: npm run test:updater
       - run: npm run test:stream
       - run: npm run test:schema
       - run: npm run test:layout

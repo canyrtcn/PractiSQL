@@ -1,5 +1,5 @@
 {
-  "version": "3.4.261",
+  "version": "3.4.262",
   "date": "2026-10-19",
   "defaultLocale": "en",
   "views": [
@@ -1157,9 +1157,9 @@
     }
   },
   "references": {
-    ".github/SECURITY.md": "e6fb3434cd1c699c61a41494c1dd38e8f3f1f9b5fe70194394ed0aef4a3c4e5d",
+    ".github/SECURITY.md": "470353c7e0447bd45fea3e4040507f03253c3cc762bac12ed424e9f6f93d648d",
     "LICENSE": "c03af9304b8b44d8f65921a325a7f2077ebb89e5c64fc309106b3c547ef02d09",
-    "README.md": "81a0bbef277860c8751516493eaa3ca5feec8624236f1e39fa355e1b50f32de1",
+    "README.md": "d81f7701cbd7d2b2da70666726c5fc22d3e8c0d986b599f3c49ccd2e3f628d06",
     "app/ai-rate-limit.js": "fdf24873dfb664444f28728abe483a3f363e3aa61d16201a2cb1429ef67a2ff8",
     "app/chatgpt-account.js": "1ea42388b92788b93804a9f0b6fc3441039ce26af2b837e9e5e732c160a99f32",
     "app/database-inspection/runner.cjs": "32265046ec123e4248845436a523f67ff069bb7ebd8bb83102fc43e249d11d20",
@@ -1200,7 +1200,7 @@
     "app/renderer/ai-tool-protocol.js": "f223e067cab9e967db279fc9d433d73883b81e6fbfa857a56edb4982e33e3a78",
     "app/renderer/ai-usage.js": "8e563d1f9910f880292790b5fdbb58893b1b759f7be9fc798f9337fe7ff36c0f",
     "app/renderer/ai-wait-progress.js": "8a4f9c4937837db81be0a25fffc2484e880beff30af05fe740049b3dd999a632",
-    "app/renderer/app.js": "fe14baec799ae407f4fa65b0a3adfcaeb33927831399747584d47dbb3106cd98",
+    "app/renderer/app.js": "d9d8cb6017f3c468a0cbcfdfe5dec3b699cd67e52184b82295d45c9fb107875e",
     "app/renderer/exam-presentation.js": "aacd1cfad8ebad25c8b7236909e3196a9211a881c6fd6014d5504c7331758919",
     "app/renderer/exam-sql.js": "d1794fa904f172beb057ae769563dcf3869d70156cf99f749ea806801a54030b",
     "app/renderer/exam-study.js": "2bc44c11e6aff964d87d0669e1e46321dfcc371a1702747386dd10e1f7f6e966",
@@ -1235,17 +1235,17 @@
     "app/vendor/CHATGPT-SDK-LICENSE.txt": "d9e6108614830cd36b06f475960cfd3bae7236db5d67d615874ec0d3646a4e5d",
     "app/vendor/PRACTISQL-SDK-CHANGES.md": "3a09d4c7f63f04965a5f0a3f267ecb45744809dccd3be59a4d63940d6e3c1460",
     "app/vendor/chatgpt-sdk.cjs": "0f2cc975c0333afaec05f92801b4ab3925e0b9ac76842b9800b9691bc0c3e5e0",
-    "app/verified-updater.cjs": "831b5a803d5fe2e95824ff2cfe057c42b2202b874c8d12c89f0bf8def24da270",
+    "app/verified-updater.cjs": "5cdc1ac49b798380332b399a3b9be233b37b5f240ff5f94b552edbc352cd0b66",
     "config/electron-builder.release.cjs": "187b247aedab465548acaa6737c8c4f79dbbb0f44ad99f4f2568661b528d4b03",
     "docs/ARCHITECTURE.md": "4d30b38a892eee24be0a64f3184e110886129dbf3d7663ec202bf372f06f38bd",
     "docs/PRIVACY.md": "2b62397cf317235bbafd9676f40745efc83205c7a17fac115199489902e3c9f8",
     "docs/PUBLICATION.md": "bf52b57c8dbcdfd2d33dfe65b7c18e5c3e082a95e8fabed4ec5dccfca01f436f",
-    "docs/RELEASING.md": "766d74595401ca511d6bdb3660ef54391dae6d8ca098c6e6389ad4b9cb70b1f0",
+    "docs/RELEASING.md": "25058f0634705a95522412a0c30b783b6519a56197e12231a53cb9642e92512e",
     "scripts/scan-source.cjs": "6ba6a60112dc3c777df16f996d262a0cefcbc13bda8e0dd898f534c91be6f660",
     "scripts/test-db.js": "4dfc5cf14336e25e98f779ec4d06bf5bbf6ba31180c880e3dc87c2d64757a3a7",
     "scripts/test-ipc.js": "eff34576d0d6fb851b3644937232afd99b7b574e5137743ff8521970831348bf",
     "scripts/test-publication-ui.cjs": "8c8bbd45f85fb51482f3f39ef6f521f1e5189f7fddc8287c4d48dad995898252",
     "scripts/test-security-integration.cjs": "8c68e3ebde71214e2bc88596b049b20e252c9c85470c9e5160a1bf2532a90edf",
-    "scripts/test-security.cjs": "fca935892421eb22987f34e17ad9c81cd57be18be6d35ef00062c177f964a59b"
+    "scripts/test-security.cjs": "ff848062aa9a6adfe024a8994841697ac16e2c01e793aab3d040c87273091ed0"
   }
 }

@@ -10,7 +10,7 @@ Yerel SQLite, AI öğretmen, görsel şema ve uygulamalı öğrenmeyi, bu akış
 
 <a href="https://github.com/canyrtcn/PractiSQL/releases"><img src="docs/assets/download-windows.tr.svg" width="328" height="64" alt="Windows için PractiSQL indir"></a>
 
-**Windows x64 · v3.4.261** · **macOS hazırlanıyor.**
+**Windows x64 · v3.4.262** · **macOS hazırlanıyor.**
 
 Düğme Releases sayfasını açar. Repo gizliyken indirmeler için repo erişimi gerekir. Henüz indirilebilir bir macOS paketi yoktur.
 

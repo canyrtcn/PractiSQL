@@ -7235,7 +7235,10 @@ async function boot() {
     if (ub) ub.onclick = async () => {
       try { $('updStatus').textContent = t('updChecking'); } catch {}
       try {
-        if (E && E.updCheck) await E.updCheck();
+        if (E && E.updCheck) {
+          const accepted = await E.updCheck();
+          if (accepted === false) $('updStatus').textContent = t('updError');
+        }
         else try { $('updStatus').textContent = t('updNone'); } catch {}
       } catch (e) { try { $('updStatus').textContent = t('updError'); } catch {} }
     };
@@ -7247,7 +7250,10 @@ async function boot() {
         else if (s.st === 'available') us.textContent = t('updAvailable', { v: s.ver || '' });
         else if (s.st === 'downloading') us.textContent = t('updDownloading', { p: s.pct || 0 });
         else if (s.st === 'none') us.textContent = t('updNone');
-        else if (s.st === 'error') toast(t('updError'),6500,'error');
+        else if (s.st === 'error') {
+          us.textContent = t('updError');
+          toast(t('updError'),6500,'error');
+        }
         else if (s.st === 'ready') {
           us.textContent = t('updReady', { v: s.ver || '' });
           if (await uiConfirm(t('updReady', { v: s.ver || '' }) + ' — ' + t('updInstall') + '?') && E.updInstall) E.updInstall();

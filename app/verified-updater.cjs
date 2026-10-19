@@ -18,7 +18,6 @@ function createVerifiedUpdater(updater){
         if(actual.length!==expected.length||actual.some(name=>!expected.includes(name)))throw blocked();
         return verify.call(updater,expected,file);
       };
-      updater.autoInstallOnAppQuit=true;
     })();
     return initialization;
   }
@@ -28,9 +27,10 @@ function createVerifiedUpdater(updater){
   };
 }
 function createUpdaterForBuild(updater,{signedRelease=false}={}){
+  // Installation requires the explicit install action, including after deferral.
+  updater.autoInstallOnAppQuit=false;
   if(signedRelease)return createVerifiedUpdater(updater);
-  // Local unsigned test builds preserve their existing update behavior. The
-  // release builder refuses to publish this build type as a signed release.
+  // Unsigned builds use the same consent policy without claiming publisher trust.
   return {check:()=>updater.checkForUpdates(),install:()=>updater.quitAndInstall(false,true)};
 }
 module.exports={createVerifiedUpdater,createUpdaterForBuild,publisherList};

@@ -10,7 +10,7 @@ A desktop SQL learning workspace that brings local SQLite, an AI tutor, visual s
 
 <a href="https://github.com/canyrtcn/PractiSQL/releases"><img src="docs/assets/download-windows.en.svg" width="328" height="64" alt="Download PractiSQL for Windows"></a>
 
-**Windows x64 · v3.4.261** · **macOS is in preparation.**
+**Windows x64 · v3.4.262** · **macOS is in preparation.**
 
 The button opens Releases. While this repository is private, downloads require repository access. A macOS package is not available yet.
 
