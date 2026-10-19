@@ -2,7 +2,7 @@
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
 const {open,prepare,dispose,wait}=require('./test-support/electron-session.cjs');
 const args=process.argv.slice(2).filter(value=>!value.startsWith('--')),source=path.resolve(args[0]||'.'),out=path.resolve(args[1]||'artifacts/interface-details.json'),screens=process.argv.includes('--screens'),folder=out.replace(/\.json$/,'-screens');assert(!fs.existsSync(out));if(screens)fs.mkdirSync(folder,{recursive:true});
-const proof={at:new Date().toISOString(),status:'running',checks:[],colors:[],visibleWindows:0,personalDataUsed:false,realModelCalls:0,marketingImagesCreated:0,privateQaImages:[]};
+const proof={at:new Date().toISOString(),status:'running',checks:[],colors:[],floorPositions:[],visibleWindows:0,personalDataUsed:false,realModelCalls:0,marketingImagesCreated:0,privateQaImages:[]};
 const check=(ok,label)=>{assert(ok,label);proof.checks.push(label);};let app,workspace;
 function contrast(a,b){function luminance(color){const values=color.match(/[\d.]+/g).slice(0,3).map(Number),scale=color.startsWith('color(srgb ')?1:255;return values.map(v=>v/scale).map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4).reduce((n,v,i)=>n+v*[.2126,.7152,.0722][i],0);}const first=luminance(a),second=luminance(b);return(Math.max(first,second)+.05)/(Math.min(first,second)+.05);}
 async function capture(name){if(!screens||process.argv.includes('--leaf-preview')&&name!=='leaf-sql-colors')return;const result=await app.send('Page.captureScreenshot',{format:'png'}),file=path.join(folder,name+'.png');fs.writeFileSync(file,Buffer.from(result.data,'base64'));proof.privateQaImages.push(file);}
@@ -60,8 +60,17 @@ const markdown='# Read the result\nThe query keeps **active registrations** and 
   const fittings=await app.evaluate('(async()=>{const result=[];for(const outfit of window.PractiWardrobe.gear){const img=new Image();img.src="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(outfit.svg);await img.decode();const canvas=document.createElement("canvas");canvas.width=canvas.height=256;const ctx=canvas.getContext("2d");ctx.drawImage(img,0,0);const faceClear=[[95,145],[160,145],[128,165],[76,153],[180,153]].every(([x,y])=>ctx.getImageData(x-3,y-3,7,7).data.every((v,i)=>i%4!==3||v===0));result.push({id:outfit.id,faceClear});}return result;})()');
   for(const outfit of fittings){check(outfit.faceClear,'Outfit leaves the eyes, cheeks and mouth clear: '+theme+'/'+outfit.id);await app.evaluate('window.__pg.gearEquip('+JSON.stringify(outfit.id)+')');check(await app.evaluate('document.querySelector("#roamFace>.gear-svg[data-gear='+outfit.id+']")&&document.querySelector("#gearGrid [data-gear='+outfit.id+']").classList.contains("worn")'),'Fitted outfit renders in the roaming character and wardrobe: '+theme+'/'+outfit.id);}
   if(screens){await app.evaluate('(()=>{const sheet=document.createElement("section");sheet.id="outfitReview";sheet.style.cssText="position:fixed;inset:0;z-index:100000;background:var(--bg);padding:80px;display:grid;grid-template-columns:repeat(4,1fr);gap:20px;align-content:center";for(const g of window.PractiWardrobe.gear){const c=document.createElement("div");c.style.cssText="display:flex;flex-direction:column;align-items:center;gap:20px;background:var(--panel);border:1px solid var(--border);border-radius:20px;padding:30px 8px";const figure=window.PractiMascot.figure([g]);figure.style.cssText="width:180px;height:180px";c.append(figure);const text=document.createElement("strong");text.textContent=g.en;c.append(text);sheet.append(c);}document.body.append(sheet);})()');await capture(theme+'-outfit-fit');await app.evaluate('document.getElementById("outfitReview").remove()');}
-  await app.evaluate('document.getElementById("btnGearClose").click();window.PractiMascotMotion.stop();window.__pg.roaming.target({x:800,y:10000,tx:800,ty:10000,stopped:true})');await wait(50);
-  check(await app.evaluate('Math.abs(document.querySelector("#roamFace .mascot-foot-left rect").getBoundingClientRect().bottom-(innerHeight+1))<.6'),'The lowest floor sinks the soles by just one pixel: '+theme);
+  await app.evaluate('document.getElementById("btnGearClose").click();window.PractiMascotMotion.stop();window.__pg.roaming.target({x:800,y:10000,tx:800,ty:10000,stopped:true})');
+  // A slower compositor may still be finishing the walking transform. Measure
+  // the resting character without relaxing the one-pixel floor requirement.
+  let floor;
+  for(let i=0;i<50;i++){
+   floor=await app.evaluate('(()=>{const actor=document.getElementById("roamMascot"),face=document.getElementById("roamFace");return {bottom:face.querySelector(".mascot-foot-left rect").getBoundingClientRect().bottom,expected:innerHeight+1,walking:actor.classList.contains("walk"),stopped:window.__pg.roaming.state().stopped,animation:window.PractiMascotMotion.inspect().kind,transform:getComputedStyle(face).transform};})()');
+   if(floor.stopped&&!floor.walking&&!floor.animation&&Math.abs(floor.bottom-floor.expected)<.6)break;
+   await wait(50);
+  }
+  proof.floorPositions.push({theme,...floor});
+  check(floor.stopped&&!floor.walking&&!floor.animation&&Math.abs(floor.bottom-floor.expected)<.6,'The lowest floor sinks the soles by just one pixel: '+theme+' '+JSON.stringify(floor));
   await app.evaluate('document.body.classList.add("no-anim");window.__pg.switchTab("data")');await wait(50);check(await app.evaluate('getComputedStyle(document.querySelector("#colRight>.tabs"),"::before").transitionDuration==="0s"'),'The moving tab surface respects the animation preference: '+theme);
   await app.shutdown();app=null;dispose(workspace.directory);workspace=null;
  }
