@@ -3,6 +3,13 @@ const fs=require('node:fs'),path=require('node:path'),assert=require('node:asser
 const root=path.resolve(__dirname,'..'),folder=path.join(root,'docs/architecture'),map=JSON.parse(fs.readFileSync(path.join(folder,'architecture.json')));
 const esc=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const mark=fs.readFileSync(path.join(root,'app/renderer/assets/wordmark.svg')).toString('base64'),icon=fs.readFileSync(path.join(root,'app/renderer/assets/icon.png')).toString('base64');
+fs.writeFileSync(path.join(root,'docs/assets/repository-wordmark.svg'),`<svg xmlns="http://www.w3.org/2000/svg" width="400" height="76" viewBox="0 0 400 76" role="img" aria-label="PractiSQL"><rect width="400" height="76" rx="12" fill="#f7faf3"/><image x="0" y="6" width="64" height="64" href="data:image/png;base64,${icon}"/><image x="82" y="8" width="308" height="60" href="data:image/svg+xml;base64,${mark}"/></svg>`);
+for(const name of ['openai','muse','deepseek']){
+ const logo=fs.readFileSync(path.join(root,'docs/assets/providers',name+'.svg')).toString('base64');
+ const box=name==='deepseek'?{x:10,y:20,w:108,h:23}:{x:44,y:12,w:40,h:40};
+ // The original provider artwork is embedded unchanged on a neutral surface.
+ fs.writeFileSync(path.join(root,'docs/assets/providers',name+'-badge.svg'),`<svg xmlns="http://www.w3.org/2000/svg" width="128" height="64" viewBox="0 0 128 64" role="img" aria-label="${name==='muse'?'Muse by Meta':name==='openai'?'OpenAI':'DeepSeek'}"><rect x=".5" y=".5" width="127" height="63" rx="10" fill="#fff" stroke="#dce3d5"/><image x="${box.x}" y="${box.y}" width="${box.w}" height="${box.h}" href="data:image/svg+xml;base64,${logo}"/></svg>`);
+}
 const content={
  en:{
   title:'The PractiSQL AI harness',subtitle:'Context, model tools, SQLite execution and learning workflows in one coordinated system.',scope:'REQUEST OWNERSHIP & LIFECYCLE',guards:['Workspace + conversation','Database identity + revision','Cancellation + deadlines','Selected action + user limits'],

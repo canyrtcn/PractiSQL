@@ -4,6 +4,24 @@ const {open,prepare,dispose,wait}=require('./test-support/electron-session.cjs')
 const args=process.argv.slice(2).filter(value=>!value.startsWith('--')),source=path.resolve(args[0]||'.'),out=path.resolve(args[1]||'artifacts/interface-details.json'),screens=process.argv.includes('--screens'),folder=out.replace(/\.json$/,'-screens');assert(!fs.existsSync(out));if(screens)fs.mkdirSync(folder,{recursive:true});
 const proof={at:new Date().toISOString(),status:'running',checks:[],colors:[],floorPositions:[],visibleWindows:0,personalDataUsed:false,realModelCalls:0,marketingImagesCreated:0,privateQaImages:[]};
 const check=(ok,label)=>{assert(ok,label);proof.checks.push(label);};let app,workspace;
+async function resizeRight(width){
+  // Exercise the actual gutter so a queued layout pass retains the new width.
+  await app.evaluate('('+ (async function(width){
+    await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+    const right=document.getElementById('colRight'),gutter=document.getElementById('gutR'),rect=gutter.getBoundingClientRect(),x=rect.left+rect.width/2;
+    gutter.dispatchEvent(new PointerEvent('pointerdown',{clientX:x,bubbles:true}));
+    document.dispatchEvent(new PointerEvent('pointermove',{clientX:x+right.offsetWidth-width,bubbles:true}));
+    document.dispatchEvent(new PointerEvent('pointerup',{bubbles:true}));
+    const start=performance.now();let stable=0;
+    await new Promise(resolve=>{const frame=()=>{
+      const bar=right.querySelector(':scope>.tabs'),active=bar.querySelector('[aria-selected=true]');
+      const aligned=Math.abs(parseFloat(bar.style.getPropertyValue('--tab-x'))-active.offsetLeft)<1&&Math.abs(parseFloat(bar.style.getPropertyValue('--tab-width'))-active.offsetWidth)<1;
+      stable=Math.abs(right.offsetWidth-width)<1&&aligned?stable+1:0;
+      if(stable>=3||performance.now()-start>3000)return resolve();
+      requestAnimationFrame(frame);
+    };requestAnimationFrame(frame);});
+  }).toString()+')('+width+')');
+}
 function contrast(a,b){function luminance(color){const values=color.match(/[\d.]+/g).slice(0,3).map(Number),scale=color.startsWith('color(srgb ')?1:255;return values.map(v=>v/scale).map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4).reduce((n,v,i)=>n+v*[.2126,.7152,.0722][i],0);}const first=luminance(a),second=luminance(b);return(Math.max(first,second)+.05)/(Math.min(first,second)+.05);}
 async function capture(name){if(!screens||process.argv.includes('--leaf-preview')&&name!=='leaf-sql-colors')return;const result=await app.send('Page.captureScreenshot',{format:'png'}),file=path.join(folder,name+'.png');fs.writeFileSync(file,Buffer.from(result.data,'base64'));proof.privateQaImages.push(file);}
 const sql="-- Count matching course registrations\nSELECT s.name, COUNT(e.id) AS total,\n       COALESCE(s.name, 'Unknown') AS label, CAST(3 AS INTEGER) AS minimum\nFROM students AS s\nLEFT JOIN enrollments AS e ON e.student_id = s.id\nWHERE e.status = 'active' AND e.grade >= 3\nGROUP BY s.name;";
@@ -29,11 +47,11 @@ const markdown='# Read the result\nThe query keeps **active registrations** and 
    }
   }
   await app.send('Emulation.setDeviceMetricsOverride',{width:1440,height:900,deviceScaleFactor:1,mobile:false});await app.evaluate('window.__pg.switchTab("ai");window.__pg.chatAdd("assistant",'+JSON.stringify(markdown)+')');await wait(100);
-  await app.evaluate('document.getElementById("layout").style.gridTemplateColumns="259px 7px minmax(0,1fr) 7px 260px"');await wait(280);
+  await resizeRight(280);
   check(await app.evaluate('(()=>{const b=document.querySelector("#colRight>.tabs"),a=b.querySelector("[aria-selected=true]");return Math.abs(parseFloat(b.style.getPropertyValue("--tab-x"))-a.offsetLeft)<1&&Math.abs(parseFloat(b.style.getPropertyValue("--tab-width"))-a.offsetWidth)<1&&b.scrollWidth<=b.clientWidth+1&&getComputedStyle(b.querySelector(".tab-icon")).display==="none";})()'),'Resizing the right panel keeps the moving indicator aligned: '+theme);
   await app.evaluate('document.querySelector("#nav-learn .tab-icon").dispatchEvent(new MouseEvent("click",{bubbles:true}));document.getElementById("nav-learn").dispatchEvent(new KeyboardEvent("keydown",{key:"ArrowLeft",bubbles:true}))');
   check(await app.evaluate('document.getElementById("nav-data").getAttribute("aria-selected")==="true"'),'Nested tab icon clicks and arrow-key navigation remain functional: '+theme);
-  await app.evaluate('document.getElementById("layout").style.gridTemplateColumns="259px 7px minmax(0,1fr) 7px 416px";window.__pg.switchTab("ai")');await wait(280);
+  await resizeRight(416);await app.evaluate('window.__pg.switchTab("ai")');await wait(280);
   const colors=await app.evaluate('(()=>{const pre=document.querySelector("#chatLog .code-wrap pre"),background=getComputedStyle(pre).backgroundColor;return ["kw","fn","str","num","com","ty"].map(kind=>{const e=pre.querySelector(".sql-"+kind);return {kind,color:e?getComputedStyle(e).color:null,background};});})()');
   for(const token of colors){check(token.color&&contrast(token.color,token.background)>=4.5,'Readable SQL '+token.kind+' contrast >=4.5: '+theme);proof.colors.push({theme,...token,contrast:contrast(token.color,token.background)});}
   if(theme==='leaf')check(contrast('rgb(0, 0, 0)',colors[0].background)>19,'Leaf SQL uses a light surface while preserving readable tokens');

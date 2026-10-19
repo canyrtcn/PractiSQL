@@ -12,6 +12,8 @@ for(const [file,language]of [['README.md','en'],['README.tr.md','tr']]){
  const markdown=fs.readFileSync(path.join(root,file),'utf8');
  check(!/benchmark|recorded model checks|kaydedilmiş model kontrolleri/i.test(markdown),language+': model score section is absent');
  check(markdown.split('\n').find(line=>line.startsWith('A desktop')||line.startsWith('Yerel SQLite')).includes('harness'),language+': introduction names the harness');
+ for(const model of ['GPT-6 Luna','Muse Spark 1.3','DeepSeek V4.1 Flash'])check(markdown.includes(model),language+': recommended model is present '+model);
+ for(const provider of ['openai','muse','deepseek'])check(markdown.includes('docs/assets/providers/'+provider+'-badge.svg')&&fs.existsSync(path.join(root,'docs/assets/providers',provider+'-badge.svg')),language+': provider artwork is local '+provider);
  const images=[...markdown.matchAll(/^!\[[^\]]*\]\(([^)]+)\)\s*\n\s*\n([^\n]+)/gm)];
  check(images.length===10,language+': ten feature/architecture images each have an immediate explanatory paragraph');
  for(const [,relative,caption]of images){check(fs.existsSync(path.join(root,relative)),language+': image exists '+relative);check(caption.length>80&&!caption.startsWith('#'),language+': image has substantive description '+relative);}

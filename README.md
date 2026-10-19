@@ -1,10 +1,12 @@
 <p align="right"><a href="README.tr.md"><img src="docs/assets/read-in-turkish.svg" height="32" alt="Türkçe oku"></a></p>
 
-# PractiSQL
+<h1><img src="docs/assets/repository-wordmark.svg" width="280" alt="PractiSQL"></h1>
 
 ### Learn SQL. Run it. See the result.
 
 A desktop SQL learning workspace that brings local SQLite, an AI tutor, visual schemas and hands-on practice together through a coordinated **AI harness**.
+
+[Workspace](#a-workspace-you-can-make-your-own) · [AI harness](#the-ai-harness-behind-the-conversation) · [Lessons](#learn-a-concept-then-try-it) · [AI setup](#connect-the-ai-provider-you-prefer) · [Development](#development-and-repository-layout)
 
 <a href="https://github.com/canyrtcn/PractiSQL/releases"><img src="docs/assets/download-windows.en.svg" width="328" height="64" alt="Download PractiSQL for Windows"></a>
 
@@ -25,6 +27,12 @@ SQL runs on your device. An AI connection is optional: the editor, visual schema
 **Choose Light, Leaf or Dark without changing how you work.** SQL highlighting, Markdown, result tables and learning controls follow the selected theme. English and Turkish interfaces, adjustable pane widths, interface fonts and 75–150% scaling let you adapt the same three-pane workspace to your screen.
 
 The mascot, XP, badges and learning profile add a sense of progress. They sit alongside the work: the centre remains focused on writing queries and reading tables.
+
+## Your first session
+
+1. **Open an example or import a database.** Built-in learning workspaces give you tables and records to explore immediately.
+2. **Run a query and inspect the rows.** Keep the editor, results and visual schema together as you change the SQL.
+3. **Add a tutor when you want one.** Connect a ChatGPT account or an API provider, ask about the result and compare the explanation with the actual table.
 
 ## The AI harness behind the conversation
 
@@ -105,6 +113,18 @@ Expected numeric results are calculated independently from the original CSV reco
 **API providers:** OpenAI, Anthropic Claude, Google AI Studio, DeepSeek, OpenCode Zen & Go, xAI, Moonshot, Zhipu, Cohere, Mistral, Groq, OpenRouter, Together AI, Alibaba Qwen and Perplexity.
 
 Compatible custom HTTP/HTTPS endpoints are also supported. You choose the provider and model; no shared paid key is shipped. AI can receive your question, relevant conversation, schema and necessary observations or result rows. First-run setup explains this before you connect. [Privacy details](docs/PRIVACY.md).
+
+### Recommended models
+
+These are the models currently recommended in PractiSQL. Choose an available entry in your provider's model list.
+
+| Model | Provider |
+|---|---|
+| **GPT-6 Luna** | <img src="docs/assets/providers/openai-badge.svg" width="96" height="48" alt="OpenAI"> OpenAI |
+| **Muse Spark 1.3** | <img src="docs/assets/providers/muse-badge.svg" width="96" height="48" alt="Muse by Meta"> Meta |
+| **DeepSeek V4.1 Flash** | <img src="docs/assets/providers/deepseek-badge.svg" width="96" height="48" alt="DeepSeek"> DeepSeek |
+
+Model names and access can differ between providers and accounts. [Logo sources and attribution](docs/assets/providers/README.md).
 
 ## More screens and documentation
 

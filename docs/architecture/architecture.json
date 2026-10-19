@@ -1159,7 +1159,7 @@
   "references": {
     ".github/SECURITY.md": "e6fb3434cd1c699c61a41494c1dd38e8f3f1f9b5fe70194394ed0aef4a3c4e5d",
     "LICENSE": "c03af9304b8b44d8f65921a325a7f2077ebb89e5c64fc309106b3c547ef02d09",
-    "README.md": "e81dbbe5de19faa6b889f72f68aa2401431b610dbf3f8f0daaa84367bdf1ed1b",
+    "README.md": "81a0bbef277860c8751516493eaa3ca5feec8624236f1e39fa355e1b50f32de1",
     "app/ai-rate-limit.js": "fdf24873dfb664444f28728abe483a3f363e3aa61d16201a2cb1429ef67a2ff8",
     "app/chatgpt-account.js": "1ea42388b92788b93804a9f0b6fc3441039ce26af2b837e9e5e732c160a99f32",
     "app/database-inspection/runner.cjs": "32265046ec123e4248845436a523f67ff069bb7ebd8bb83102fc43e249d11d20",
@@ -1240,7 +1240,7 @@
     "docs/ARCHITECTURE.md": "4d30b38a892eee24be0a64f3184e110886129dbf3d7663ec202bf372f06f38bd",
     "docs/PRIVACY.md": "2b62397cf317235bbafd9676f40745efc83205c7a17fac115199489902e3c9f8",
     "docs/PUBLICATION.md": "bf52b57c8dbcdfd2d33dfe65b7c18e5c3e082a95e8fabed4ec5dccfca01f436f",
-    "docs/RELEASING.md": "b0d1dd89888f605bbb7ad4aa25531c74d0b0864821c5329011e366ffcaa7bef1",
+    "docs/RELEASING.md": "766d74595401ca511d6bdb3660ef54391dae6d8ca098c6e6389ad4b9cb70b1f0",
     "scripts/scan-source.cjs": "6ba6a60112dc3c777df16f996d262a0cefcbc13bda8e0dd898f534c91be6f660",
     "scripts/test-db.js": "4dfc5cf14336e25e98f779ec4d06bf5bbf6ba31180c880e3dc87c2d64757a3a7",
     "scripts/test-ipc.js": "eff34576d0d6fb851b3644937232afd99b7b574e5137743ff8521970831348bf",

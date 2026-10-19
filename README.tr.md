@@ -1,10 +1,12 @@
 <p align="right"><a href="README.md"><img src="docs/assets/read-in-english.svg" height="32" alt="Read in English"></a></p>
 
-# PractiSQL
+<h1><img src="docs/assets/repository-wordmark.svg" width="280" alt="PractiSQL"></h1>
 
 ### SQL öğren. Çalıştır. Sonucu gör.
 
 Yerel SQLite, AI öğretmen, görsel şema ve uygulamalı öğrenmeyi, bu akışları birlikte yöneten bir **AI harness** ile buluşturan masaüstü SQL çalışma alanı.
+
+[Çalışma alanı](#kendi-çalışma-ortamını-oluştur) · [AI harness](#sohbetin-arkasındaki-ai-harness) · [Dersler](#bir-kavram-öğren-sonra-dene) · [AI bağlantısı](#tercih-ettiğin-ai-sağlayıcısını-bağla) · [Geliştirme](#geliştirme-ve-repo-düzeni)
 
 <a href="https://github.com/canyrtcn/PractiSQL/releases"><img src="docs/assets/download-windows.tr.svg" width="328" height="64" alt="Windows için PractiSQL indir"></a>
 
@@ -25,6 +27,12 @@ SQL cihazında çalışır. AI bağlantısı isteğe bağlıdır; editör, görs
 **Çalışma biçimini koruyarak Açık, Yaprak veya Koyu temayı seç.** SQL renklendirmesi, Markdown, sonuç tabloları ve öğrenme kontrolleri seçilen temaya uyar. Türkçe ve İngilizce arayüz, ayarlanabilir panel genişlikleri, arayüz yazı tipleri ve %75–150 ölçek seçimi aynı üç panelli alanı ekranına uyarlamanı sağlar.
 
 Maskot, XP, rozetler ve öğrenme profili ilerlemeyi görünür kılar. Orta alan sorgu yazmaya ve tabloları incelemeye ayrılmıştır.
+
+## İlk çalışma oturumun
+
+1. **Bir örnek aç veya veritabanı yükle.** Hazır öğrenme alanları, hemen inceleyebileceğin tablolar ve kayıtlar sunar.
+2. **Sorguyu çalıştır, satırları incele.** SQL'i değiştirirken editörü, gerçek sonuçları ve görsel şemayı birlikte kullan.
+3. **İstediğinde öğretmeni bağla.** ChatGPT hesabı veya API sağlayıcısı ekle; sonuç hakkında soru sor ve açıklamayı gerçek tabloyla karşılaştır.
 
 ## Sohbetin arkasındaki AI harness
 
@@ -105,6 +113,18 @@ Beklenen sayısal sonuçlar, özgün CSV kayıtlarından ve ölçüm tanımında
 **API sağlayıcıları:** OpenAI, Anthropic Claude, Google AI Studio, DeepSeek, OpenCode Zen & Go, xAI, Moonshot, Zhipu, Cohere, Mistral, Groq, OpenRouter, Together AI, Alibaba Qwen ve Perplexity.
 
 Uyumlu özel HTTP/HTTPS uç noktaları da desteklenir. Sağlayıcını ve modelini sen seçersin; uygulamayla ortak bir ücretli anahtar dağıtılmaz. AI’a sorun, ilgili konuşma, şema ve gerekli gözlem veya sonuç satırları gönderilebilir. İlk kurulum bu paylaşımı bağlantıdan önce açıklar. [Gizlilik ayrıntıları](docs/PRIVACY.md).
+
+### Önerilen modeller
+
+PractiSQL içinde şu anda önerilen modeller bunlar. Sağlayıcının model listesinde hesabına açık olan seçeneği kullanabilirsin.
+
+| Model | Sağlayıcı |
+|---|---|
+| **GPT-6 Luna** | <img src="docs/assets/providers/openai-badge.svg" width="96" height="48" alt="OpenAI"> OpenAI |
+| **Muse Spark 1.3** | <img src="docs/assets/providers/muse-badge.svg" width="96" height="48" alt="Muse by Meta"> Meta |
+| **DeepSeek V4.1 Flash** | <img src="docs/assets/providers/deepseek-badge.svg" width="96" height="48" alt="DeepSeek"> DeepSeek |
+
+Model adları ve erişim sağlayıcıya ve hesaba göre değişebilir. [Logo kaynakları ve atıflar](docs/assets/providers/README.md).
 
 ## Daha fazla ekran ve belge
 

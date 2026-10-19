@@ -8,7 +8,7 @@ The repository must remain **private until its owner explicitly approves public 
 
 ### Update limitations observed in 3.4.261
 
-Local checks used the actual electron-updater 6.8.9 transport with a loopback feed, a non-executable payload fixture and an intercepted installer handoff. They covered newer/equal/lower versions, missing assets, unavailable metadata and SHA-512 mismatch. They did not install a future GitHub release.
+Local checks used the actual electron-updater 6.8.9 transport with a loopback feed, a non-executable payload fixture and an intercepted installer handoff. Thirteen scenarios covered newer/equal/lower versions, explicit installation, deferral followed by normal quit, SHA-512 mismatch, a missing installer, unavailable/missing/unauthorized/malformed metadata, interrupted transfers and cancellation before or during the response body. The renderer/preload/main event path was also checked in English and Turkish across all three themes (48 assertions). These tests did not install a future GitHub release.
 
 - Successful downloads identify the version and request an immediate install/restart decision.
 - **Deferring that prompt does not disable installation on a later normal quit.** The underlying updater retains `autoInstallOnAppQuit=true`. This needs an application change before promising that deferral is respected.
