@@ -12,7 +12,7 @@ Yerel SQLite, AI öğretmen, görsel şema ve uygulamalı öğrenmeyi, bu akış
 
 **Windows x64 · v3.4.262 · Sürüm hazırlığı** · **macOS hazırlanıyor.**
 
-Düğme Releases sayfasını açar. Sürüm hazırlanıyor; henüz kurulum dosyası eklenmedi. Proje gizliyken repo erişimi gerekir.
+Düğme Releases sayfasını açar. Windows kurucusu release taslağına eklendi; henüz yayımlanmadı. Proje gizliyken repo erişimi gerekir.
 
 ![SQL, yerel sonuçlar ve AI açıklamasını bir araya getiren PractiSQL çalışma alanı](docs/showcase/cards/product-overview.tr.png)
 
@@ -148,62 +148,91 @@ Uygun hatalarda özgün istek ve gerçek hata ya da işlem kanıtıyla tek, orta
 
 [Mimariyi ve kaynak eşlemesini incele](docs/tr/architecture.md) · [Sekiz görünümde 48 bileşen](docs/architecture/index.html?lang=tr) — kaynakları indirdikten sonra HTML gezginini yerel olarak açabilirsin.
 
-<details>
-<summary>Bir isteğin tüm harness boyunca izlediği doğrusal akış</summary>
+### Bir isteği sorudan sonuca kadar takip et
+
+**Numaralı çağrıları yukarıdan aşağıya takip et.** GitHub’ın yerel Mermaid sıralama diyagramı; bağlam özetlemeyi, salt okuma araçlarının devamını, kapsam kontrollerini, ayrı SQL yollarını, savepoint tamamlama/geri almayı ve tek ortak düzeltme hakkını kronolojik sırayla gösterir. Elle SQL yolu ve takip sorusunda kaynakları geri getirme de açıkça yer alır.
 
 ```mermaid
-flowchart TB
-    INPUT["Öğrencinin sorusu, seçtiği SQL veya alıntı"]
-    SCOPE["Çalışma alanı, sohbet, veritabanı kimliği ve revizyonunu kaydet"]
-    CONTEXT["Öğretmen kurallarını, şemayı, ilgili geçmişi ve özgün soruyu birleştir"]
-    CAPACITY{"Bağlam modelin kapasitesine sığıyor mu?"}
-    COMPACT["Eski içeriği özetle; özgün kaynak kimliklerini ve tam arşivleri sakla"]
-    MODEL["Seçilen model: Chat Completions, Messages veya Responses bağlantısı"]
-    TOOL{"Model salt okuma aracı istedi mi?"}
-    READTOOL["read_context: arşivlenmiş kaynaklar<br/>inspect_database: yakalanan veritabanından gözlemler"]
-    ANSWER["Açıklamayı, öğretim örneklerini ve çalıştırılabilir tam SQL partisini ayır"]
-    GUARD{"İstek kapsamı güncel ve işlem izinli mi?"}
-    STOP["İptal et veya eski yanıtı reddet; gecikmiş SQL’i uygulama"]
-    ROUTE{"SQL çalıştırılması gerekiyor mu?"}
-    TEXT["Açıklamayı ve çalıştırılmayacak öğretim örneklerini göster"]
-    READ["Salt okuma worker’ı<br/>Kopya veya bağlantı, süre ve sonuç sınırları"]
-    WRITE["AI yazma partisi<br/>SAVEPOINT, kısıtlar, tetikleyiciler ve ilgili veri koruma denetimleri"]
-    EDITOR["Elle SQL yazılan editör"]
-    MANUAL["Manuel editör veya açık transaction<br/>Ayrı yürütme kuralları; gerçek kısmi durum ve transaction kaydı"]
-    RESULT["Gerçek sonuçları, SQL’i, hataları ve değişiklikleri kaynak kimlikleriyle kaydet"]
-    REPAIR{"Hata düzeltmeye uygun ve ortak deneme hakkı kullanılmamış mı?"}
-    CORRECT["Özgün soru ve gerçek hata/kanıtla bir kez koşullu düzeltme yap"]
-    SHOW["Gerçek işlem sonuçlarını açıklamanın yanında göster"]
-    MEMORY["Takip soruları için sohbeti, işlem kayıtlarını ve tam sonuç arşivlerini sakla"]
-    INPUT --> SCOPE --> CONTEXT --> CAPACITY
-    CAPACITY -- Evet --> MODEL
-    CAPACITY -- Yer gerekiyor --> COMPACT --> MODEL
-    MODEL --> TOOL
-    TOOL -- Evet --> READTOOL --> MODEL
-    TOOL -- Hayır --> ANSWER --> GUARD
-    GUARD -- Hayır --> STOP
-    GUARD -- Evet --> ROUTE
-    ROUTE -- Yalnız açıklama --> TEXT --> SHOW
-    ROUTE -- Okuma --> READ --> RESULT
-    ROUTE -- AI yazma --> WRITE --> RESULT
-    EDITOR --> MANUAL --> RESULT
-    ANSWER -. Biçim hatası .-> REPAIR
-    RESULT -. Uygun yürütme veya anlatım hatası .-> REPAIR
-    REPAIR -- Evet --> CORRECT --> ANSWER
-    REPAIR -- Hayır --> SHOW
-    RESULT --> SHOW --> MEMORY
-    MEMORY -. Sonraki soruda kaynakları geri getir .-> CONTEXT
-    classDef scope fill:#e8f0df,stroke:#6a8c4f,color:#1f351d;
-    classDef model fill:#263e21,stroke:#6a8c4f,color:#ffffff;
-    classDef boundary fill:#f4ead8,stroke:#a37b43,color:#604923;
-    class SCOPE,CONTEXT,COMPACT,RESULT,MEMORY scope;
-    class MODEL,READTOOL model;
-    class GUARD,STOP,REPAIR,CORRECT boundary;
+sequenceDiagram
+    autonumber
+    actor Student as Öğrenci
+    participant App as PractiSQL harness
+    participant Sources as Bağlam ve arşivler
+    participant Model as Seçilen model
+    participant SQL as Yerel SQLite
+
+    Student->>App: Soru, seçilen SQL veya alıntı
+    App->>App: Çalışma alanını, sohbeti, veritabanı kimliğini,<br/>revizyonu ve işlem sınırlarını kaydet
+    App->>Sources: İlgili geçmişi, şemayı, gözlemleri<br/>ve özgün kaynak kimliklerini getir
+    Sources-->>App: Özgün soruyu öğretmen kuralları<br/>ve ilgili bağlamla birleştir
+    opt Bağlam modelin bütçesini aşıyorsa
+        App->>Sources: Eski içeriği yalnız gerektiğinde özetle<br/>Yanıt payını ayır, özgün arşivleri koru
+        Sources-->>App: Kaynaklarına geri dönülebilen sınırlı bağlam
+    end
+    App->>Model: Seçilen hesap veya API bağlantısıyla gönder<br/>Chat Completions, Messages veya Responses
+    loop İstek bütçesi içindeki model ve araç devamı
+        Model-->>App: Yerel protokolde read_context veya inspect_database çağrısı
+        App->>App: İstek kapsamını, iptali, süreyi<br/>ve salt okuma araç sınırlarını kontrol et
+        alt read_context
+            App->>Sources: İstenen özgün kaynak sayfasını oku
+            Sources-->>App: Mesajlar, SQL, işlemler veya tam sonuç arşivi
+        else inspect_database
+            App->>SQL: İlgili veritabanından salt okunur gözlem al
+            SQL-->>App: Kapsam ve sınırları belli gerçek gözlemler
+        end
+        App->>Model: Araç sonucunu aynı isteğe geri gönder
+    end
+    Model-->>App: Nihai yanıt
+    App->>App: Açıklamayı, öğretim örneklerini<br/>ve çalıştırılabilir tam SQL bütününü ayır
+    opt Biçim hatası uygunsa ve ortak düzeltme hakkı kullanılmadıysa
+        App->>Model: Özgün soru ve gerçek biçim hatasıyla<br/>bir kez koşullu düzeltme iste
+        Model-->>App: Düzeltilmiş yanıtın bütünü
+        App->>App: Yanıtın tüm kurallarını yeniden denetle
+    end
+    alt İstek iptal edilmiş, eskimiş veya işlem izinsizse
+        App-->>Student: İşlemin neden durduğunu göster<br/>Gecikmiş SQL’i uygulama
+    else İstek güncel ve işleme izin varsa
+        alt Yalnız açıklama
+            App->>App: Öğretim örneklerini çalıştırma
+        else Salt okunur sorgu
+            App->>SQL: Kopya veya bağlantı üzerinden okuma worker’ı<br/>Süre ve sonuç sınırlarını uygula
+            SQL-->>App: Gerçek sonuç tabloları veya yürütme hatası
+        else AI yazma işlemi
+            App->>SQL: SAVEPOINT aç ve SQL bütününü çalıştır
+            SQL->>SQL: Kısıtları, tetikleyicileri ve ilgili<br/>kapsamlı veri koruma koşullarını denetle
+            alt Denetimler geçerse
+                SQL-->>App: RELEASE ile gerçek sonuçları ve değişiklikleri döndür
+            else Yürütme veya koruma denetimi başarısızsa
+                SQL-->>App: Bu işlemi ROLLBACK ile geri al, gerçek hatayı döndür
+            end
+        end
+        App->>Sources: Sohbeti ve gerçek SQL sonuçlarını sakla<br/>Tam SQL, tablolar, hatalar, değişiklikler ve kaynak kimlikleri
+        opt SQL veya belirli anlatım hatası uygunsa ve ortak düzeltme hakkı kullanılmadıysa
+            App->>Model: Özgün soru ve gerçek hata ya da gözlemle<br/>bir kez koşullu düzeltme iste
+            Model-->>App: Düzeltilmiş yanıt veya SQL bütününü döndür
+            App->>App: Kuralları, güncel kapsamı ve sınırları tekrar denetle
+            opt Düzeltilmiş çalıştırılabilir SQL gerekiyorsa
+                App->>SQL: Uygun okuma veya yazma kurallarını uygula
+                SQL-->>App: Düzeltilmiş gerçek sonuç veya hata
+            end
+            App->>Sources: Düzeltilen denemede gerçekten olanı kaydet
+        end
+        App-->>Student: Açıklamayı gerçek sonuçlarla birlikte göster<br/>Hata ve değişiklikleri görünür kıl
+    end
+    Note over App,Model: İki uygun düzeltme noktası TEK ortak hakkı paylaşır.<br/>Her yanıt varsayılan olarak ikinci model incelemesine gitmez.
+    opt Öğrenci editörde kendisi SQL yazarsa
+        Student->>App: Elle SQL veya açık transaction çalıştır
+        App->>SQL: Ayrı manuel yürütme kurallarını uygula
+        SQL-->>App: Gerçek sonuç, kısmi işlem veya transaction durumu
+        App->>Sources: Gerçek işlemi kaynak bilgisiyle kaydet
+        App-->>Student: Elle çalıştırılan işlemin gözlenen sonucunu göster
+    end
+    Student->>App: Yapılan işle ilgili takip sorusu
+    App->>Sources: Sonraki istek için ilgili özgün bağlamı<br/>ve eksiksiz sonuç arşivini geri getir
 ```
 
-[Doğrusal akışı ve yürütme sınırlarını incele](docs/tr/request-flow.md).
+[Mermaid kaynağı ve işlem sınırları](docs/tr/request-flow.md).
 
-</details>
 
 ## Tercih ettiğin AI sağlayıcısını bağla
 
@@ -223,7 +252,7 @@ Hesabında kullanılabilen model seçeneğini kullan. Model adları ve erişim d
 
 ## Başlarken
 
-1. [Releases](https://github.com/canyrtcn/PractiSQL/releases) sayfasını aç. Windows sürümü hazırlanıyor; henüz kurulum dosyası eklenmedi.
+1. [Releases](https://github.com/canyrtcn/PractiSQL/releases) sayfasını aç. Windows kurucusu release taslağına eklendi; henüz yayımlanmadı.
 2. Kurucu yayımlandığında yükle ve ilk kurulumda dilini seç. macOS sürümü hazırlanıyor.
 3. Desteklenen veritabanını veya dosyanı yükle ya da hazır bir öğrenme örneği aç. SQL yazmaya ve çalıştırmaya hemen başlayabilirsin.
 4. Açıklama, sorgu üretimi veya AI destekli öğrenme akışları istediğinde AI bağlantısı ekle. Bu adımı sonraya bırakabilirsin.
