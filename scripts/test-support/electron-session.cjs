@@ -4,7 +4,8 @@ const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 function dispose(directory){
   const resolved=path.resolve(directory);assert.equal(path.dirname(resolved),path.resolve(os.tmpdir()));assert.match(path.basename(resolved),/^practisql-security-app-[A-Za-z0-9]+$/);assert(!fs.lstatSync(resolved).isSymbolicLink());
   const modules=path.join(resolved,'app/node_modules');if(fs.existsSync(modules))fs.unlinkSync(modules);
-  fs.rmSync(resolved,{recursive:true,force:true});
+  // Windows can release Chromium/LevelDB handles shortly after process exit.
+  fs.rmSync(resolved,{recursive:true,force:true,maxRetries:10,retryDelay:100});
 }
 function prepare(source){
   const directory=fs.mkdtempSync(path.join(os.tmpdir(),'practisql-security-app-')),root=path.join(directory,'app'),profile=path.join(directory,'profile'),pkg=JSON.parse(fs.readFileSync(path.join(source,'package.json')));
