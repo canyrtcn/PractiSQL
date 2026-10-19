@@ -16,6 +16,17 @@
 #badgeToasts .notice-copy strong{display:block;font-size:12px;font-weight:800;line-height:14px;margin:0}
 #badgeToasts .notice-copy>span{display:block;font-size:10px;line-height:14px;color:var(--muted)}
 #badgeToasts .welcome-mini img{width:26px;height:26px;flex:none;animation:none}
+#badgeToasts .update-mini{border-color:color-mix(in srgb,var(--accent) 48%,var(--border));gap:7px}
+#badgeToasts .update-mini .notice-copy{overflow:hidden}
+#badgeToasts .update-mini .notice-copy :is(strong,span){overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+#badgeToasts .update-action{flex:none;min-height:27px;margin:0;padding:3px 9px;border:1px solid var(--press);border-bottom-width:2px;border-radius:8px;background:var(--btn);color:var(--accent-ink);font:800 11px/1.2 var(--ui-font);white-space:nowrap;cursor:pointer;transition:filter .15s,transform .15s}
+#badgeToasts .update-action:hover{filter:brightness(1.08)}
+#badgeToasts .update-action:active{transform:translateY(1px)}
+#badgeToasts .update-action:disabled{cursor:progress;opacity:.75;filter:none;transform:none}
+#badgeToasts .update-progress{position:absolute;left:9px;right:9px;bottom:0;height:2px;overflow:hidden;border-radius:2px;background:var(--accent-soft)}
+#badgeToasts .update-progress[hidden]{display:none}
+#badgeToasts .update-progress>span{display:block;height:100%;background:var(--accent);transition:width .2s ease}
+@media(max-width:1100px){#badgeToasts .update-mini .notice-icon{display:none}#badgeToasts .update-mini{gap:5px;padding-left:7px}#badgeToasts .update-action{padding-inline:6px}}
 #badgeToasts :is(.toast-close,.bt-x){position:absolute;right:5px;top:50%;translate:0 -50%;display:grid;place-items:center;width:22px;height:24px;margin:0;padding:4px;border:0;border-radius:7px;background:transparent;color:var(--muted);cursor:pointer}
 #badgeToasts :is(.toast-close,.bt-x):hover{background:var(--panel2);color:var(--text)}
 #badgeToasts :is(.toast-close,.bt-x) svg{display:block;width:13px;height:13px}
@@ -33,5 +44,6 @@
 #badgeToasts :is(.notice-next,.notice-action):hover{border-color:var(--accent);background:var(--accent-soft)}
 #badgeToasts :is(button,.toast-copy,.notice-copy,.bt-tx):focus-visible{outline:2px solid var(--accent);outline-offset:1px}
 .no-anim #badgeToasts .notice-card{animation:none}
+.no-anim #badgeToasts .update-progress>span{transition:none}
 @keyframes noticeArrival{from{translate:0 -4px}to{translate:0 0}}
 @keyframes noticeDeparture{to{opacity:0;translate:0 -4px}}

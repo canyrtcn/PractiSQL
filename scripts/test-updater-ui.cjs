@@ -2,7 +2,7 @@
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
 const {prepare,open,dispose,wait}=require('./test-support/electron-session.cjs');
 const source=path.resolve(__dirname,'..'),out=path.resolve(process.argv[2]||'artifacts/updater-ui.json');assert(!fs.existsSync(out));fs.mkdirSync(path.dirname(out),{recursive:true});
-const targetVersion=require('../package.json').version.replace(/(\d+)$/,n=>String(Number(n)+1));
+const targetVersion=require('../package.json').version.replace(/(\d+)$/,n=>String(Number(n)+1)),screens=process.argv.includes('--screens'),screenDirectory=out.replace(/\.json$/,'-screens');if(screens)fs.mkdirSync(screenDirectory,{recursive:true});
 const proof={status:'running',visibleWindows:0,realModelCalls:0,installerExecuted:false,personalProfileUsed:false,checks:[],findings:[],languages:[]};let app,workspace;
 const check=(ok,label)=>{assert(ok,label);proof.checks.push(label);};
 (async()=>{try{
@@ -18,6 +18,17 @@ const check=(ok,label)=>{assert(ok,label);proof.checks.push(label);};
   const states={};
   for(const state of ['checking','available','progress','none']){
    await app.evaluate('window.publicationTest.emit({st:'+JSON.stringify(state)+'})');await wait(60);states[state]=await app.evaluate('document.getElementById("updStatus").textContent');
+   if(state==='available'){
+    check(await app.evaluate('!!document.querySelector(".update-mini .update-action")&&document.querySelector(".update-mini .update-action").textContent===window.I18N['+JSON.stringify(lang)+'].updNow&&document.getElementById("confirmModal").classList.contains("hidden")'),lang+'/'+theme+': a new version appears in the notification panel with a localized Update now action');
+    await app.evaluate('window.__updaterNotice=document.querySelector(".update-mini")');
+    for(const width of [1024,1280,1440]){
+     await app.send('Emulation.setDeviceMetricsOverride',{width,height:900,deviceScaleFactor:1,mobile:false});await wait(80);
+     check(await app.evaluate('(()=>{const c=document.querySelector(".update-mini"),b=c.querySelector(".update-action"),r=c.getBoundingClientRect(),a=b.getBoundingClientRect(),h=document.querySelector(".titlebar").getBoundingClientRect(),copy=c.querySelector(".notice-copy").getBoundingClientRect();return r.left>=0&&r.right<=innerWidth&&r.top>=h.top&&r.bottom<=h.bottom&&c.scrollWidth<=c.clientWidth+1&&a.width>=70&&a.left>=copy.right-1&&a.right<r.right;})()'),lang+'/'+theme+'/'+width+': notice and full action fit within the header');
+     if(screens&&lang==='tr'&&width!==1280){const shot=await app.send('Page.captureScreenshot',{format:'png',clip:{x:0,y:0,width,height:70,scale:1}});fs.writeFileSync(path.join(screenDirectory,theme+'-'+width+'.png'),Buffer.from(shot.data,'base64'));}
+    }
+   }
+   if(state==='progress')check(await app.evaluate('document.querySelector(".update-mini")===window.__updaterNotice&&document.querySelector(".update-progress").getAttribute("aria-valuenow")==="38"&&document.querySelectorAll(".update-mini").length===1'),lang+'/'+theme+': download progress updates one persistent notification');
+   if(state==='none')check(await app.evaluate('!document.querySelector(".update-mini")'),lang+'/'+theme+': no-update status removes any previous update notice');
   }
   check(states.checking===(lang==='en'?'Checking…':'Denetleniyor…')||states.checking===await app.evaluate('window.I18N['+JSON.stringify(lang)+'].updChecking'),lang+': checking state is localized');
   proof.lastProbe=states;
@@ -28,10 +39,17 @@ const check=(ok,label)=>{assert(ok,label);proof.checks.push(label);};
   check(error.notifications>0,lang+': update errors reach the top notification system');
   check(error.status===await app.evaluate('window.I18N['+JSON.stringify(lang)+'].updError'),lang+'/'+theme+': error replaces the checking status');await app.evaluate('document.getElementById("btnUpdCheck").click()');await wait(70);check(await app.evaluate('document.getElementById("updStatus").textContent')===states.checking,lang+'/'+theme+': retry starts a fresh check after error');
   await app.evaluate('window.publicationTest.emit({st:"ready"})');await wait(100);
-  check(await app.evaluate('(async()=>!document.getElementById("confirmModal").classList.contains("hidden")&&(await window.publicationTest.installs())===0)()'),lang+': a downloaded update asks before explicit installation');
+  check(await app.evaluate('(async()=>document.getElementById("confirmModal").classList.contains("hidden")&&!!document.querySelector(".update-mini .update-action")&&(await window.publicationTest.installs())===0)()'),lang+': a ready update waits for its notification action');
+  await app.evaluate('document.querySelector(".update-mini .update-action").click()');await wait(70);
+  check(await app.evaluate('!document.getElementById("confirmModal").classList.contains("hidden")'),lang+': Update now opens explicit restart confirmation');
   const ready=await app.evaluate('document.getElementById("updStatus").textContent');check(ready.includes(targetVersion),lang+': downloaded version is identified');
   await app.evaluate('document.getElementById("confirmCancel").click()');await wait(70);check(await app.evaluate('window.publicationTest.installs()')===0,lang+': declining does not immediately invoke installation');
-  await app.evaluate('window.publicationTest.emit({st:"ready"})');await wait(80);await app.evaluate('document.getElementById("confirmOk").click()');await wait(80);check(await app.evaluate('window.publicationTest.installs()')===1,lang+': confirming reaches the installer handoff exactly once');
+  check(await app.evaluate('!document.querySelector(".update-mini .update-action").disabled'),lang+': deferral leaves a usable Update now action');
+  await app.evaluate('document.querySelector(".update-mini .update-action").click()');await wait(80);await app.evaluate('document.getElementById("confirmOk").click()');await wait(80);check(await app.evaluate('window.publicationTest.installs()')===1,lang+': confirming reaches the installer handoff exactly once');
+  await app.evaluate('window.publicationTest.emit({st:"available"})');await wait(50);await app.evaluate('document.querySelector(".update-mini .update-action").click()');
+  check(await app.evaluate('document.querySelector(".update-mini .update-action").disabled&&document.getElementById("confirmModal").classList.contains("hidden")'),lang+'/'+theme+': clicking during download waits for verified bytes');
+  await app.evaluate('window.publicationTest.emit({st:"ready"})');await wait(80);check(await app.evaluate('!document.getElementById("confirmModal").classList.contains("hidden")'),lang+'/'+theme+': a requested update confirms only after the download is ready');await app.evaluate('document.getElementById("confirmCancel").click()');await wait(60);
+  await app.evaluate('document.querySelector(".update-mini .toast-close").click()');await wait(200);await app.evaluate('window.publicationTest.emit({st:"progress"})');await wait(60);check(await app.evaluate('!document.querySelector(".update-mini")'),lang+'/'+theme+': progress does not reopen a dismissed notification');
   proof.languages.push({lang,theme,states,error,ready});await app.shutdown();app=null;dispose(workspace.directory);workspace=null;
  }
  proof.status='passed';

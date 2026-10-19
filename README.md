@@ -160,6 +160,8 @@ scripts/   Portable verification and asset-generation tools
 
 Source modules are grouped under `app/`. Packaging maps them back to the established runtime paths. `npm ci` prepares the local SQLite worker assets automatically. Build an unsigned Windows installer with `npm run dist:win:unsigned`; signed builds additionally require a valid signing identity. Current output stays in `release/win-unpacked/`, with installers and update metadata directly in `release/`.
 
+With automatic checks enabled, a new version appears in the top notification panel with download progress and an **Update now** button. Installation asks for restart confirmation; deferring does not install the update when you close the app. While this repository is private, its anonymous GitHub update feed is unavailable.
+
 [Contributing](.github/CONTRIBUTING.md) · [Security and known limitations](.github/SECURITY.md) · [Releases and updates](docs/RELEASING.md)
 
 ## Windows security notice

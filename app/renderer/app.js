@@ -7231,6 +7231,19 @@ async function boot() {
   $('setLang').onchange = async () => { const nl = $('setLang').value === 'en' ? 'en' : 'tr'; if (nl === lang) return; lang = nl; settings.lang = lang; try { await persistSettings(true); } catch {} try { if (E && E.restartApp) { await E.restartApp(); return; } } catch {} location.reload(); };
   // ayarlar içi güncelleme kutusu
   try {
+    let updateInfo=null,installRequested=false,installConfirmOpen=false,updateNoticeDismissed=false;
+    const showUpdateNotice=()=>{
+      if(!updateInfo||updateNoticeDismissed)return;
+      window.PractiNotifications?.update({title:t('updNoticeTitle',{v:updateInfo.ver}),message:updateInfo.ready?t('updNoticeReady'):t('updDownloading',{p:updateInfo.pct||0}),actionLabel:t('updNow'),progress:updateInfo.ready?100:updateInfo.pct,busy:installRequested&&!updateInfo.ready,onAction:requestUpdateInstall,onDismiss:()=>{updateNoticeDismissed=true;installRequested=false;}});
+    };
+    async function requestUpdateInstall(){
+      if(!updateInfo||installConfirmOpen)return;
+      if(!updateInfo.ready){installRequested=true;showUpdateNotice();return;}
+      installConfirmOpen=true;
+      try { if(await uiConfirm(t('updReady',{v:updateInfo.ver})+' — '+t('updInstall')+'?')&&E?.updInstall)await E.updInstall(); }
+      catch { updateInfo=null;window.PractiNotifications?.update(null);$('updStatus').textContent=t('updError');toast(t('updError'),6500,'error'); }
+      finally { installRequested=false;installConfirmOpen=false;showUpdateNotice(); }
+    }
     const ub = $('btnUpdCheck');
     if (ub) ub.onclick = async () => {
       try { $('updStatus').textContent = t('updChecking'); } catch {}
@@ -7246,17 +7259,25 @@ async function boot() {
       try {
         const us = $('updStatus');
         if (!s) return;
-        if (s.st === 'checking') us.textContent = t('updChecking');
-        else if (s.st === 'available') us.textContent = t('updAvailable', { v: s.ver || '' });
-        else if (s.st === 'downloading') us.textContent = t('updDownloading', { p: s.pct || 0 });
-        else if (s.st === 'none') us.textContent = t('updNone');
+        if (s.st === 'checking') { us.textContent = t('updChecking');updateNoticeDismissed=false; }
+        else if (s.st === 'available') {
+          us.textContent = t('updAvailable', { v: s.ver || '' });
+          updateInfo={ver:s.ver||'',pct:0,ready:false};showUpdateNotice();
+        }
+        else if (s.st === 'downloading') {
+          us.textContent = t('updDownloading', { p: s.pct || 0 });
+          if(updateInfo){updateInfo.pct=s.pct||0;showUpdateNotice();}
+        }
+        else if (s.st === 'none') { us.textContent = t('updNone');updateInfo=null;installRequested=false;window.PractiNotifications?.update(null); }
         else if (s.st === 'error') {
+          updateInfo=null;installRequested=false;window.PractiNotifications?.update(null);
           us.textContent = t('updError');
           toast(t('updError'),6500,'error');
         }
         else if (s.st === 'ready') {
           us.textContent = t('updReady', { v: s.ver || '' });
-          if (await uiConfirm(t('updReady', { v: s.ver || '' }) + ' — ' + t('updInstall') + '?') && E.updInstall) E.updInstall();
+          updateInfo={ver:s.ver||'',pct:100,ready:true};showUpdateNotice();
+          if(installRequested)await requestUpdateInstall();
         }
       } catch {}
     });

@@ -94,7 +94,26 @@
     const image=document.createElement('img');image.src='./assets/icon.png';image.alt='';image.width=image.height=40;
     const copy=document.createElement('div');copy.className='notice-copy';const heading=document.createElement('strong'),detail=document.createElement('span');heading.textContent=title;detail.textContent=message;card.title=title+' — '+message;copy.append(heading,detail);card.append(image,copy,closeButton('toast-close',card));return adopt(card,{key,duration,kind:'welcome'});
   }
+  function update(options){
+    const key='application-update';let card=records.get(key)?.element;
+    if(!options){if(card)dismiss(card,{immediate:true});return;}
+    if(!card){
+      card=document.createElement('div');card.className='update-mini';card.setAttribute('role','status');
+      const icon=document.createElement('span');icon.className='notice-icon';icon.innerHTML='<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 16V4m-4 4 4-4 4 4M5 15v5h14v-5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      const copy=document.createElement('div');copy.className='notice-copy';copy.append(document.createElement('strong'),document.createElement('span'));
+      const action=document.createElement('button');action.type='button';action.className='update-action';
+      const progress=document.createElement('span');progress.className='update-progress';progress.setAttribute('role','progressbar');progress.setAttribute('aria-valuemin','0');progress.setAttribute('aria-valuemax','100');progress.appendChild(document.createElement('span'));
+      card.append(icon,copy,action,closeButton('toast-close',card),progress);
+      adopt(card,{key,duration:0,kind:'update',urgent:true});
+    }
+    card.querySelector('strong').textContent=options.title;card.querySelector('.notice-copy>span').textContent=options.message;card.title=options.title+' — '+options.message;
+    const action=card.querySelector('.update-action');action.textContent=options.actionLabel;action.disabled=!!options.busy;action.onclick=options.onAction;
+    card.querySelector('.toast-close').onclick=()=>{options.onDismiss?.();dismiss(card);};
+    const progress=card.querySelector('.update-progress'),value=Number.isFinite(options.progress)?Math.max(0,Math.min(100,options.progress)):null;
+    progress.hidden=value===null;progress.setAttribute('aria-label',options.message);if(value!==null){progress.setAttribute('aria-valuenow',String(value));progress.firstElementChild.style.width=value+'%';}
+    syncLayout();return card;
+  }
   document.addEventListener('visibilitychange',()=>{for(const record of active)document.hidden?pause(record):resume(record);});
   window.addEventListener('practisql:ready',promote,{once:true});
-  window.PractiNotifications={dock,adopt,toast,welcome,dismiss,clear(){for(const record of [...records.values()])dismiss(record.element,{immediate:true});},inspect:()=>({active:active.map(record=>({key:record.key,state:record.state})),queued:queue.map(record=>record.key),total:records.size})};
+  window.PractiNotifications={dock,adopt,toast,welcome,update,dismiss,clear(){for(const record of [...records.values()])dismiss(record.element,{immediate:true});},inspect:()=>({active:active.map(record=>({key:record.key,state:record.state})),queued:queue.map(record=>record.key),total:records.size})};
 })();

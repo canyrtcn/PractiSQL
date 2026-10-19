@@ -1,6 +1,7 @@
 // I18N sözlüğü: window.I18N = { tr: {...}, en: {...} }. {n} yer tutuculardır.
 window.I18N = {
 tr: {
+  updNoticeTitle:'Yeni sürüm · {v}',updNoticeReady:'Kuruluma hazır. Yeniden başlatman istenecek.',updNow:'Şimdi güncelle',
   setInterfaceScale:'Arayüz ölçeği',interfaceScaleAuto:'Otomatik · %{n}',interfaceScaleReset:'Sıfırla',interfaceScaleResetTitle:'Otomatik ölçeğe dön (Ctrl+0)',interfaceScaleHint:'Tüm arayüze hemen uygulanır ve seçimin hatırlanır.',interfaceScaleFailed:'Arayüz ölçeği kaydedilemedi. Önceki ayarın korundu.',
   settingsLicense:"MIT Lisansı · Üçüncü taraf lisansları saklıdır.",
   aiStop:'Durdur',aiStopTitle:'Yanıtı beklemeyi durdur',aiStopping:'Durduruluyor…',aiApplyingTitle:'Sonuç veritabanına uygulanıyor',aiCancelled:'Yanıt isteğini durdurdun. Veritabanında değişiklik yapılmadı.',
@@ -142,6 +143,7 @@ tr: {
   qLbl: 'Soru: ', selPart: 'Seçili kısım:', emptyAnsErr: 'Boş cevap — model çıktı üretemedi',
 },
 en: {
+  updNoticeTitle:'New version · {v}',updNoticeReady:'Ready to install. A restart is required.',updNow:'Update now',
   setInterfaceScale:'Interface scale',interfaceScaleAuto:'Automatic · {n}%',interfaceScaleReset:'Reset',interfaceScaleResetTitle:'Restore automatic scale (Ctrl+0)',interfaceScaleHint:'Applies to the whole interface immediately. Your choice is remembered.',interfaceScaleFailed:'Could not save the interface scale. Your previous setting was kept.',
   settingsLicense:"MIT License · Third-party licenses apply.",
   aiStop:'Stop',aiStopTitle:'Stop waiting for this response',aiStopping:'Stopping…',aiApplyingTitle:'Applying the result to your database',aiCancelled:'You stopped this response request. No database changes were made.',

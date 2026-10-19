@@ -10,6 +10,8 @@ The repository must remain **private until its owner explicitly approves public 
 
 Installation always requires the explicit install/restart action. Deferring that action leaves the downloaded update available without installing it on normal application exit. This applies to signed and unsigned builds; signed builds retain their publisher verification requirements.
 
+When automatic checks are enabled, a newer version discovered after launch appears in the shared top notification panel with its version, download progress and **Update now** action. The notice remains available until dismissed and uses the existing queue. Clicking during download waits for verified bytes; clicking a ready update asks for restart confirmation. Deferral leaves the action available. Download completion alone does not open an unsolicited confirmation dialog.
+
 A failed check or download updates both the notification and the localized Settings status. The checking state can be retried normally.
 
 Regression coverage uses the actual electron-updater 6.8.9 transport, a loopback feed and an intercepted installer handoff. Thirteen scenarios cover explicit/later installation, normal quit after deferral, newer/equal/lower versions, SHA-512 mismatch, missing assets, unavailable/unauthorized/malformed metadata, interrupted transfers and library-token cancellation. The renderer/preload/main flow is checked in English and Turkish across Light, Leaf and Dark themes. Test fixtures stay separate from personal profiles.
