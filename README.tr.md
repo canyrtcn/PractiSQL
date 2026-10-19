@@ -10,9 +10,9 @@ Yerel SQLite, AI öğretmen, görsel şema ve uygulamalı öğrenmeyi, bu akış
 
 <a href="https://github.com/canyrtcn/PractiSQL/releases"><img src="docs/assets/download-windows.tr.svg" width="328" height="64" alt="Windows için PractiSQL indir"></a>
 
-**Windows x64 · v3.4.262 · Sürüm hazırlığı** · **macOS hazırlanıyor.**
+**Windows x64 · v3.4.262** · **macOS hazırlanıyor.**
 
-Düğme Releases sayfasını açar. Windows kurucusu release taslağına eklendi; henüz yayımlanmadı. Proje gizliyken repo erişimi gerekir.
+Düğme Releases sayfasını açar. Windows x64 kurucusu Releases sayfasında yayımlandı. Proje gizliyken repo erişimi gerekir.
 
 ![SQL, yerel sonuçlar ve AI açıklamasını bir araya getiren PractiSQL çalışma alanı](docs/showcase/cards/product-overview.tr.png)
 
@@ -175,12 +175,12 @@ Hesabında kullanılabilen model seçeneğini kullan. Model adları ve erişim d
 
 ## Başlarken
 
-1. [Releases](https://github.com/canyrtcn/PractiSQL/releases) sayfasını aç. Windows kurucusu release taslağına eklendi; henüz yayımlanmadı.
-2. Kurucu yayımlandığında yükle ve ilk kurulumda dilini seç. macOS sürümü hazırlanıyor.
+1. [Releases](https://github.com/canyrtcn/PractiSQL/releases) sayfasını aç. Windows x64 kurucusu Releases sayfasında yayımlandı.
+2. Kurucuyu çalıştır ve ilk kurulumda dilini seç. macOS sürümü hazırlanıyor.
 3. Desteklenen veritabanını veya dosyanı yükle ya da hazır bir öğrenme örneği aç. SQL yazmaya ve çalıştırmaya hemen başlayabilirsin.
 4. Açıklama, sorgu üretimi veya AI destekli öğrenme akışları istediğinde AI bağlantısı ekle. Bu adımı sonraya bırakabilirsin.
 
-[Sürüm notları ve hazırlık durumu](docs/releases/v3.4.262.md) · [Kaynaktan çalıştır](#geliştirme-ve-repo-düzeni)
+[Sürüm notları](docs/releases/v3.4.262.md) · [Kaynaktan çalıştır](#geliştirme-ve-repo-düzeni)
 
 ## Daha fazla ekran ve belge
 

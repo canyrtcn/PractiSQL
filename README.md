@@ -12,7 +12,7 @@ A desktop SQL learning workspace that brings local SQLite, an AI tutor, visual s
 
 **Windows x64 · v3.4.262** · **macOS is in preparation.**
 
-The button opens Releases. The Windows installer is attached to the release draft; publication is pending. Repository access is required while the project is private.
+The button opens Releases. The Windows x64 installer is available in Releases. Repository access is required while the project is private.
 
 ![PractiSQL workspace with an SQL query, local results and an AI explanation](docs/showcase/cards/product-overview.en.png)
 
@@ -177,12 +177,12 @@ Choose an available model entry in your account. Model names and access can vary
 
 ## Get started
 
-1. Open [Releases](https://github.com/canyrtcn/PractiSQL/releases). The Windows installer is attached to the release draft; publication is pending.
-2. After an installer is published, install it and choose your language during first-run setup. macOS is in preparation.
+1. Open [Releases](https://github.com/canyrtcn/PractiSQL/releases). The Windows x64 installer is available in Releases.
+2. Run the installer and choose your language during first-run setup. macOS is in preparation.
 3. Load a supported database or file, or open a built-in learning example. Start writing and running SQL immediately.
 4. Connect AI when you want guided explanations, generated queries or AI-backed learning workflows. You can leave this step for later.
 
-[Release notes and preparation status](docs/releases/v3.4.262.md) · [Build from source](#development-and-repository-layout)
+[Release notes](docs/releases/v3.4.262.md) · [Build from source](#development-and-repository-layout)
 
 ## More screens and documentation
 
