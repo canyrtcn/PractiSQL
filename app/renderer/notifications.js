@@ -13,9 +13,11 @@
     if(!active.length)return;
     const right=document.querySelector('.tb-btns').getBoundingClientRect().left-8;
     const left=Math.max(...[header.querySelector('.tb-brandmark'),document.getElementById('ver')].filter(Boolean).map(e=>e.getBoundingClientRect().right))+8;
-    const width=Math.floor(Math.max(96,Math.min(440,2*(center-left),2*(right-center))));
-    const slogan=header.querySelector('.slogan');if(slogan)header.style.setProperty('--notification-slogan-width',Math.max(0,center-width/2-12-slogan.getBoundingClientRect().left)+'px');
-    dockElement.style.width=width+'px';dockElement.style.top=bar.top+4+'px';dockElement.style.setProperty('--notice-height',Math.min(40,bar.height-8)+'px');
+    const actionable=active[0]?.element.classList.contains('update-mini');
+    const width=Math.floor(Math.max(96,actionable?Math.min(480,right-left):Math.min(440,2*(center-left),2*(right-center))));
+    const position=actionable?Math.max(left+width/2,Math.min(center,right-width/2)):center;
+    const slogan=header.querySelector('.slogan');if(slogan)header.style.setProperty('--notification-slogan-width',Math.max(0,position-width/2-12-slogan.getBoundingClientRect().left)+'px');
+    dockElement.style.left=position+'px';dockElement.style.width=width+'px';dockElement.style.top=bar.top+4+'px';dockElement.style.setProperty('--notice-height',Math.min(40,bar.height-8)+'px');
     for(const copy of dockElement.querySelectorAll('.notice-card:not(.hidden) :is(.toast-copy,.notice-copy,.bt-tx)'))copy.tabIndex=copy.scrollHeight>copy.clientHeight?0:-1;
   }
   function syncQueue(){
