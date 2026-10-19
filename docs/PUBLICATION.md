@@ -15,7 +15,7 @@ Run `npm run scan:source` and inspect staged changes before publication. Pattern
 
 The author attribution explicitly requested for the Settings footer is public project information. The creator also explicitly authorised their name and avatar in the screenshots under `docs/screenshots/` and the presentation visuals derived from them. Learning statistics and progress in the current captures are synthetic demonstration values. These captures use isolated demonstration workspaces and exclude personal databases and conversations. This limited permission does not extend to profile files, private email addresses, credentials or workstation paths. See the [screenshot guide](en/screenshots.md) for the distinction between synthetic data, built-in fixtures and prepared teaching or exam content.
 
-The public gallery and presentation templates can be rebuilt with `npm run docs:showcase` and `npm run docs:showcase:render`. Rendering reads the committed screenshots and local assets; it does not access an application profile or call an AI provider.
+The public gallery and presentation templates can be rebuilt with `npm run docs:showcase` and `npm run docs:showcase:render`. Generated HTML templates and verification output stay under ignored `artifacts/`; only the final presentation PNGs, source manifest and useful gallery are committed. Rendering reads the committed screenshots and local assets; it does not access an application profile or call an AI provider.
 
 ## Versions
 

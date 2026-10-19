@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" role="img" aria-label="PractiSQL mascot" viewBox="0 0 256 256" fill="none">
+  <defs>
+    <linearGradient id="mascot-body-light" x1="46" y1="115" x2="211" y2="137" gradientUnits="userSpaceOnUse"><stop stop-color="#91d553"/><stop offset=".2" stop-color="#80ce41"/><stop offset=".65" stop-color="#79c638"/><stop offset="1" stop-color="#65aa2b"/></linearGradient>
+    <linearGradient id="mascot-rim-light" x1="77" y1="47" x2="173" y2="94" gradientUnits="userSpaceOnUse"><stop stop-color="#76a638"/><stop offset=".55" stop-color="#5d8d2b"/><stop offset="1" stop-color="#466f20"/></linearGradient>
+    <linearGradient id="mascot-foot-light" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#669d2b"/><stop offset="1" stop-color="#41671a"/></linearGradient>
+  </defs>
+  <g class="mascot-foot mascot-foot-left"><rect x="81" y="196" width="33" height="28" rx="9" fill="url(#mascot-foot-light)"/><path d="M89 207h16" stroke="#88b548" stroke-width="2" stroke-linecap="round"/></g>
+  <g class="mascot-foot mascot-foot-right"><rect x="144" y="196" width="33" height="28" rx="9" fill="url(#mascot-foot-light)"/><path d="M152 207h16" stroke="#88b548" stroke-width="2" stroke-linecap="round"/></g>
+  <path d="M46 70c0-14 163-14 163 0v109c0 14-7 23-22 23H68c-15 0-22-9-22-23V70Z" fill="url(#mascot-body-light)" stroke="#548f26" stroke-width="1.5"/>
+  <path d="M58 108v24" stroke="#cef3a2" stroke-width="10" stroke-linecap="round" opacity=".85"/>
+  <path d="M199 97v71c0 14-4 22-12 25" stroke="#4d8b20" stroke-opacity=".3" stroke-width="4" stroke-linecap="round"/>
+  <ellipse cx="127.5" cy="70" rx="81.5" ry="24" fill="url(#mascot-rim-light)"/>
+  <ellipse cx="127.5" cy="68.5" rx="58" ry="10.5" fill="#f6faef"/>
+  <path d="M66 56c29-11 91-12 122-2" stroke="#b4d978" stroke-opacity=".7" stroke-width="2.5" stroke-linecap="round"/>
+  <g class="mascot-eyes"><g class="mascot-pupils"><g class="mascot-eye-left"><circle cx="95" cy="145" r="9" fill="#1b2d20"/><circle cx="97" cy="142" r="2.6" fill="white"/></g><g class="mascot-eye-right"><circle cx="160" cy="145" r="9" fill="#1b2d20"/><circle cx="162" cy="142" r="2.6" fill="white"/></g></g></g>
+  <ellipse cx="76" cy="153" rx="10" ry="6" fill="#f4a7b5"/><ellipse cx="180" cy="153" rx="10" ry="6" fill="#f4a7b5"/>
+  <path d="M113 163c8 7 21 7 30 0" stroke="#25382b" stroke-width="4" stroke-linecap="round"/>
+</svg>

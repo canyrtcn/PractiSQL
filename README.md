@@ -1,24 +1,114 @@
 <p align="right"><a href="README.tr.md"><img src="docs/assets/read-in-turkish.svg" height="32" alt="Türkçe oku"></a></p>
 
-<h1><img src="docs/assets/repository-wordmark.svg" width="280" alt="PractiSQL"></h1>
+<p align="center"><picture><source media="(prefers-color-scheme: dark)" srcset="docs/assets/repository-wordmark-dark.svg"><img src="docs/assets/repository-wordmark.svg" width="360" alt="PractiSQL"></picture></p>
 
-### Learn SQL. Run it. See the result.
+<h3 align="center">Learn SQL. Run it. Understand it.</h3>
 
 A desktop SQL learning workspace that brings local SQLite, an AI tutor, visual schemas and hands-on practice together through a coordinated **AI harness**.
 
-[Workspace](#a-workspace-you-can-make-your-own) · [AI harness](#the-ai-harness-behind-the-conversation) · [Lessons](#learn-a-concept-then-try-it) · [AI setup](#connect-the-ai-provider-you-prefer) · [Development](#development-and-repository-layout)
+[Ask the tutor](#learn-sql-by-asking-questions) · [Practice](#practise-the-structure-of-sql) · [PDF workbooks](#take-a-complete-study-workbook-with-you) · [AI harness](#the-ai-harness-behind-the-conversation) · [Get started](#get-started)
 
 <a href="https://github.com/canyrtcn/PractiSQL/releases"><img src="docs/assets/download-windows.en.svg" width="328" height="64" alt="Download PractiSQL for Windows"></a>
 
 **Windows x64 · v3.4.262** · **macOS is in preparation.**
 
-The button opens Releases. While this repository is private, downloads require repository access. A macOS package is not available yet.
+The button opens Releases. The release is being prepared; no installer has been attached yet. Repository access is required while the project is private.
 
 ![PractiSQL workspace with an SQL query, local results and an AI explanation](docs/showcase/cards/product-overview.en.png)
 
 **Your query, actual results and explanation stay together.** The left pane organizes workspaces and conversations, the centre keeps SQL and result tables in reach, and the right pane brings together the tutor, schema, data tools and lessons. You can start with a built-in example or work with a local database of your own.
 
-SQL runs on your device. An AI connection is optional: the editor, visual schema and built-in learning material remain available without one.
+**Use it as a SQL playground without AI.** Load a SQLite database, SQL dump or CSV, write your own queries and inspect the actual results. The editor, schema viewer and local completion do not require an AI connection. Connect the tutor when you want explanations or generated SQL.
+
+## Learn SQL by asking questions
+
+![A question about WHERE and HAVING, the SQL explanation and actual query results](docs/showcase/cards/ai-tutor.en.png)
+
+**Ask about the concept, the query or the result in front of you.** Ask PractiSQL to explain a JOIN, write a query for your current schema, walk through existing SQL, or explain why a result changed. Follow-up questions stay connected to the workspace and conversation. You can select SQL or quote a specific part of an answer to narrow the next question.
+
+| What you want to learn | A question you can ask |
+|---|---|
+| Understand a concept | “When should I use WHERE, and when do I need HAVING?” |
+| Turn an idea into SQL | “Show completed sales by category using my current tables.” |
+| Read someone else's query | “Explain this SQL clause by clause. Only explain; do not run it.” |
+| Understand an observed result | “Why did this JOIN produce more rows?” |
+| Practise a topic | “Give me three grouping exercises. Keep the solutions for later.” |
+
+The AI harness supplies the relevant schema, conversation and observations, then records what actually ran. Teaching copy in this illustration is prepared demonstration content; the displayed query and result were executed locally.
+
+## Your first session
+
+1. **Open an example or import a database.** Built-in learning workspaces give you tables and records to explore immediately.
+2. **Run a query and inspect the rows.** Keep the editor, results and visual schema together as you change the SQL.
+3. **Add a tutor when you want one.** Connect a ChatGPT account or an API provider, ask about the result and compare the explanation with the actual table.
+
+## Write SQL and inspect what it does
+
+![A complete retail query and the result table it produces](docs/showcase/cards/query-results.en.png)
+
+**Follow the query all the way to its rows.** This example joins products, order items and orders, groups completed sales and calculates quantity and revenue. The table below comes from actual SQLite execution in the application.
+
+Use the editor for your own SQL, inspect a query plan, revisit query history or transfer a code block from the conversation into the editor. Copy and transfer preserve the SQL text. The model's explanation stays beside the work so you can compare its claims with the visible result.
+
+## Keep writing with local SQL completion
+
+![Schema-based completion in the SQL editor before the suggestion is accepted](docs/showcase/cards/query-completion.en.png)
+
+**Use Tab to accept a suggestion that follows your current schema.** Choose word completion, the next word, the next three words or the rest of a line. Suggestions use local SQL vocabulary, table names and columns. This editor assistance works without an AI account or model call; asking the tutor to generate SQL is a separate feature.
+
+## Learn a concept, then try it
+
+![A SELECT lesson with explanations and SQL examples](docs/showcase/cards/guided-learning.en.png)
+
+**Built-in lessons give each SQL concept a place to start.** Follow the learning path, read an explanation, inspect examples and open practice in a separate lesson workspace. The path includes selection, filtering, sorting, joins, grouping and more advanced SQL topics.
+
+Challenges turn those concepts into focused tasks with a schema and sample records. Answers are checked on three practice-data variants. PDF study notes bring lesson material and SQL observations into a document you can keep, with the PractiSQL wordmark and mascot.
+
+## Practise the structure of SQL
+
+![Schema-free SQL expression practice](docs/showcase/cards/sql-exercises.en.png)
+
+**Read the query and supply the missing expression.** Choose 10, 15 or 20 questions and a difficulty. Your selected AI provider prepares synthetic queries; the interface creates a blank for an SQL expression, validates query grammar and reviews the keyword answer locally.
+
+This exercise is about recognizing where a clause or function belongs. It does not send your personal schema or table records to the question generator. Answers and explanations are available when you finish the round.
+
+## Practise with a concrete SQL task
+
+![A SQL challenge with its task, answer and local validation feedback](docs/showcase/cards/practice-feedback.en.png)
+
+**Move from reading an example to solving a task.** Challenges provide a schema and sample records in a separate practice database. Your answer is checked against three fixture variants, with feedback you can use to revise the query. Your personal workspace is separate from the challenge data.
+
+## Test your understanding and review it
+
+![An SQL exam question with highlighted SQL and an optional full-query answer](docs/showcase/cards/sql-exams.en.png)
+
+**Exams combine questions, SQL evidence and review.** The schema viewer uses the exam's frozen database snapshot. Read the prompt, complete missing SQL or answer the selected question type, then review the result and feedback. Student SQL is checked on a database copy, and AI judgment is part of grading.
+
+For a fill-in question, a correct optional complete-query answer earns an additional 25 XP. Saved exam history and study workbooks help you return to earlier work; reward tracking prevents repeated rewards for the same question set.
+
+## Turn real data into a useful report
+
+![A data project with SQL, report results and feedback](docs/showcase/cards/data-projects.en.png)
+
+**Work from a documented source to a business question.** The project workflow can explore the official UCI catalogue, inspect a source and clarify a measurable assignment. The source is imported into a separate workspace, where you submit SQL and your interpretation.
+
+Expected numeric results are calculated independently from the original CSV records and measurement specification. AI feedback then considers the business interpretation with the available evidence. Project context, submissions, checks and feedback remain linked, so later discussion can refer to what was actually evaluated.
+
+## Take a complete study workbook with you
+
+![Inner workbook pages with explained SQL examples, verified results, answers and a SQL reference](docs/showcase/cards/study-notes.en.png)
+
+**Keep the explanation, the SQL and the practice material together.** The generated workbook includes a table guide, data dictionary, declared relationships, read-only query examples with actual results, exercises, an answer key and a SQL reference. Lesson explanations also have PDF export. The illustration shows real inner pages from an application-generated workbook, including its examples and answer material.
+
+The local workbook is built from your current database without an AI connection. Its sample queries are verified against that database when generated. PractiSQL's wordmark and mascot carry into the document; normal text and SQL retain readable fonts.
+
+## Understand the tables before the JOIN
+
+![The complete five-table retail relationship diagram](docs/showcase/cards/table-view.en.png)
+
+**See the complete relationship diagram.** The schema viewer shows tables, actual column names, primary and foreign keys, declared relationships and row counts. Zoom, pan and table selection help you follow a connection before writing a JOIN. The illustration above keeps all five demonstration tables inside the frame.
+
+Local SQLite databases and file imports can become learning workspaces. Supported server imports create a local learning copy; they are separate from ordinary query execution against that copy.
 
 ## A workspace you can make your own
 
@@ -28,11 +118,17 @@ SQL runs on your device. An AI connection is optional: the editor, visual schema
 
 The mascot, XP, badges and learning profile add a sense of progress. They sit alongside the work: the centre remains focused on writing queries and reading tables.
 
-## Your first session
+## Make practice a habit
 
-1. **Open an example or import a database.** Built-in learning workspaces give you tables and records to explore immediately.
-2. **Run a query and inspect the rows.** Keep the editor, results and visual schema together as you change the SQL.
-3. **Add a tutor when you want one.** Connect a ChatGPT account or an API provider, ask about the result and compare the explanation with the actual table.
+![Learning profile with XP, level, activity and achievement progress](docs/showcase/cards/learning-progress.en.png)
+
+**Your profile makes progress visible.** Earn XP through distinct credited SQL exercises, completed lessons and learning activities. Track the next level, badges, practice history and weekly goals. Stars recognize daily practice and defined milestones; repeating the same trivial query is not a shortcut to unlimited XP. Challenge rewards are granted once.
+
+The built-in challenges introduced above give you focused tasks and three dataset variants to test your answer. Return to an unfinished task, inspect feedback and build the skills that unlock later practice goals. Profile values in the illustrations are synthetic demonstration progress.
+
+![Mascot wardrobe with available and locked accessories and their goals](docs/showcase/cards/mascot-accessories.en.png)
+
+**Give your companion a look of its own.** Some accessories are available from the start. Others unlock when you meet their displayed XP and, where required, practice or challenge goals. Preview a locked item, see the requirement, then wear or remove an available accessory. Headwear, glasses, neckwear, outfits and companions let the mascot grow with your learning routine.
 
 ## The AI harness behind the conversation
 
@@ -54,57 +150,62 @@ Eligible failures can use one shared, conditional repair attempt with the origin
 
 [Explore the architecture and source map](docs/en/architecture.md) · [48 components across eight architecture views](docs/architecture/index.html?lang=en) — open the HTML explorer locally after downloading the source.
 
-## Write SQL and inspect what it does
+<details>
+<summary>Follow one request through the full harness</summary>
 
-![A complete retail query and the result table it produces](docs/showcase/cards/query-results.en.png)
+```mermaid
+flowchart TB
+    INPUT["Student question, selected SQL or quotation"]
+    SCOPE["Capture workspace, conversation, database identity and revision"]
+    CONTEXT["Assemble teacher rules, schema, relevant history and exact current request"]
+    CAPACITY{"Context fits the model window?"}
+    COMPACT["Summarize older material; retain original source IDs and full archives"]
+    MODEL["Selected model through Chat Completions, Messages or Responses"]
+    TOOL{"Read-only tool requested?"}
+    READTOOL["read_context: archived sources<br/>inspect_database: captured database observations"]
+    ANSWER["Separate explanation, teaching examples and one complete runnable SQL batch"]
+    GUARD{"Scope still current and action permitted?"}
+    STOP["Cancel or reject stale work; do not apply delayed SQL"]
+    ROUTE{"Execution required?"}
+    TEXT["Display the explanation and non-runnable teaching examples"]
+    READ["Read-only worker<br/>Snapshot or connection, deadline and result limits"]
+    WRITE["AI write batch<br/>SAVEPOINT, constraints, triggers and applicable preservation checks"]
+    EDITOR["Manual SQL editor"]
+    MANUAL["Manual editor or explicit transaction<br/>Separate execution contract and actual partial/transaction state"]
+    RESULT["Record actual tables, SQL, errors and changes with their source identities"]
+    REPAIR{"Eligible failure and shared repair budget unused?"}
+    CORRECT["One conditional repair using the original request and actual error/evidence"]
+    SHOW["Show actual outcomes beside the explanation"]
+    MEMORY["Persist conversation, operation records and full-result archives for follow-up questions"]
+    INPUT --> SCOPE --> CONTEXT --> CAPACITY
+    CAPACITY -- Yes --> MODEL
+    CAPACITY -- Pressure --> COMPACT --> MODEL
+    MODEL --> TOOL
+    TOOL -- Yes --> READTOOL --> MODEL
+    TOOL -- No --> ANSWER --> GUARD
+    GUARD -- No --> STOP
+    GUARD -- Yes --> ROUTE
+    ROUTE -- Explanation only --> TEXT --> SHOW
+    ROUTE -- Read --> READ --> RESULT
+    ROUTE -- AI write --> WRITE --> RESULT
+    EDITOR --> MANUAL --> RESULT
+    ANSWER -. Format failure .-> REPAIR
+    RESULT -. Eligible execution or teaching failure .-> REPAIR
+    REPAIR -- Yes --> CORRECT --> ANSWER
+    REPAIR -- No --> SHOW
+    RESULT --> SHOW --> MEMORY
+    MEMORY -. Next question retrieves its sources .-> CONTEXT
+    classDef scope fill:#e8f0df,stroke:#6a8c4f,color:#1f351d;
+    classDef model fill:#263e21,stroke:#6a8c4f,color:#ffffff;
+    classDef boundary fill:#f4ead8,stroke:#a37b43,color:#604923;
+    class SCOPE,CONTEXT,COMPACT,RESULT,MEMORY scope;
+    class MODEL,READTOOL model;
+    class GUARD,STOP,REPAIR,CORRECT boundary;
+```
 
-**Follow the query all the way to its rows.** This example joins products, order items and orders, groups completed sales and calculates quantity and revenue. The table below comes from actual SQLite execution in the application.
+[Read the linear flow and its execution boundaries](docs/en/request-flow.md).
 
-Use the editor for your own SQL, inspect a query plan, revisit query history or transfer a code block from the conversation into the editor. Copy and transfer preserve the SQL text. The model's explanation stays beside the work so you can compare its claims with the visible result.
-
-## Understand the tables before the JOIN
-
-![The complete five-table retail relationship diagram](docs/showcase/cards/table-view.en.png)
-
-**See the complete relationship diagram.** The schema viewer shows tables, actual column names, primary and foreign keys, declared relationships and row counts. Zoom, pan and table selection help you follow a connection before writing a JOIN. The illustration above keeps all five demonstration tables inside the frame.
-
-![A table preview with all four columns and eight product records](docs/showcase/cards/table-data.en.png)
-
-**Open a table and inspect its records.** Here the synthetic product catalogue is displayed as a real query result, with all four columns and eight rows visible. You can compare the actual values with the schema and the SQL that reads them.
-
-Local SQLite databases and file imports can become learning workspaces. Supported server imports create a local learning copy; they are separate from ordinary query execution against that copy.
-
-## Learn a concept, then try it
-
-![A SELECT lesson with explanations and SQL examples](docs/showcase/cards/guided-learning.en.png)
-
-**Built-in lessons give each SQL concept a place to start.** Follow the learning path, read an explanation, inspect examples and open practice in a separate lesson workspace. The path includes selection, filtering, sorting, joins, grouping and more advanced SQL topics.
-
-Challenges turn those concepts into focused tasks with a schema and sample records. Answers are checked on three practice-data variants. PDF study notes bring lesson material and SQL observations into a document you can keep, with the PractiSQL wordmark and mascot.
-
-## Practise the structure of SQL
-
-![Schema-free SQL expression practice](docs/showcase/cards/sql-exercises.en.png)
-
-**Read the query and supply the missing expression.** Choose 10, 15 or 20 questions and a difficulty. Your selected AI provider prepares synthetic queries; the interface creates a blank for an SQL expression, validates query grammar and reviews the keyword answer locally.
-
-This exercise is about recognizing where a clause or function belongs. It does not send your personal schema or table records to the question generator. Answers and explanations are available when you finish the round.
-
-## Test your understanding and review it
-
-![An SQL exam question with highlighted SQL and an optional full-query answer](docs/showcase/cards/sql-exams.en.png)
-
-**Exams combine questions, SQL evidence and review.** The schema viewer uses the exam's frozen database snapshot. Read the prompt, complete missing SQL or answer the selected question type, then review the result and feedback. Student SQL is checked on a database copy, and AI judgment is part of grading.
-
-For a fill-in question, a correct optional complete-query answer earns an additional 25 XP. Saved exam history and study workbooks help you return to earlier work; reward tracking prevents repeated rewards for the same question set.
-
-## Turn real data into a useful report
-
-![A data project with SQL, report results and feedback](docs/showcase/cards/data-projects.en.png)
-
-**Work from a documented source to a business question.** The project workflow can explore the official UCI catalogue, inspect a source and clarify a measurable assignment. The source is imported into a separate workspace, where you submit SQL and your interpretation.
-
-Expected numeric results are calculated independently from the original CSV records and measurement specification. AI feedback then considers the business interpretation with the available evidence. Project context, submissions, checks and feedback remain linked, so later discussion can refer to what was actually evaluated.
+</details>
 
 ## Connect the AI provider you prefer
 
@@ -116,21 +217,36 @@ Compatible custom HTTP/HTTPS endpoints are also supported. You choose the provid
 
 ### Recommended models
 
-These are the models currently recommended in PractiSQL. Choose an available entry in your provider's model list.
+- **GPT-6 Luna**
+- **Muse Spark 1.3**
+- **DeepSeek V4.1 Flash**
 
-| Model | Provider |
-|---|---|
-| **GPT-6 Luna** | <img src="docs/assets/providers/openai-badge.svg" width="96" height="48" alt="OpenAI"> OpenAI |
-| **Muse Spark 1.3** | <img src="docs/assets/providers/muse-badge.svg" width="96" height="48" alt="Muse by Meta"> Meta |
-| **DeepSeek V4.1 Flash** | <img src="docs/assets/providers/deepseek-badge.svg" width="96" height="48" alt="DeepSeek"> DeepSeek |
+Choose an available model entry in your account. Model names and access can vary; this list is a recommendation, not a measured quality ranking.
 
-Model names and access can differ between providers and accounts. [Logo sources and attribution](docs/assets/providers/README.md).
+## Get started
+
+1. Open [Releases](https://github.com/canyrtcn/PractiSQL/releases). The Windows release is being prepared; no installer asset has been attached yet.
+2. After an installer is published, install it and choose your language during first-run setup. macOS is in preparation.
+3. Load a supported database or file, or open a built-in learning example. Start writing and running SQL immediately.
+4. Connect AI when you want guided explanations, generated queries or AI-backed learning workflows. You can leave this step for later.
+
+[Release notes and preparation status](docs/releases/v3.4.262.md) · [Build from source](#development-and-repository-layout)
 
 ## More screens and documentation
 
-[Browse 84 application screens](docs/en/screenshots.md) · [English and Turkish presentation visuals](docs/assets/README.md) · [Architecture](docs/en/architecture.md)
+[Browse 90 application screens](docs/en/screenshots.md) · [English and Turkish presentation visuals](docs/assets/README.md) · [Architecture](docs/en/architecture.md)
 
 The creator's name and photo appear with permission. Demonstration workspaces, conversations, retail records and learning statistics are synthetic. Screens come from the actual application; teaching and exam copy is prepared demonstration content. SQL results and local checks were executed in the app.
+
+## Frequently asked questions
+
+**Do I need AI to use PractiSQL?** No. Load a SQLite database, SQL dump or CSV, write and run SQL, inspect results and relationships, and use local completion without an AI connection. Built-in lessons, challenges and the local study workbook also provide practice. AI is needed for model-generated answers, exams, expression-exercise generation and the AI parts of project work.
+
+**Does an imported server database remain a live server workspace?** Supported PostgreSQL, MySQL and SQL Server imports create a local SQLite learning copy. Querying that copy is separate from querying the original server.
+
+**Does a successful query prove the explanation is correct?** No. Execution, task correctness and teaching quality are separate concerns. Inspect the actual result and the reasoning; application checks cover their defined scope.
+
+**Where is my work stored?** Databases, conversations and preferences stay in the application profile. They are not encrypted by default. Saved connection credentials use operating-system protection; relevant data can be shared with your chosen AI connection when you use AI features. [Privacy](docs/PRIVACY.md).
 
 ## Development and repository layout
 
@@ -154,7 +270,7 @@ npm run test:docs
 app/       Electron application, renderer, SQLite workers and learning modules
 config/    Signed-release build configuration
 docs/      Bilingual architecture, screenshots and presentation assets
-scripts/   Portable verification and asset-generation tools
+scripts/   Portable verification and documentation-generation tools
 .github/   CI, contribution/security guidance and issue templates
 ```
 
@@ -163,6 +279,14 @@ Source modules are grouped under `app/`. Packaging maps them back to the establi
 With automatic checks enabled, a new version appears in the top notification panel with download progress and an **Update now** button. Installation asks for restart confirmation; deferring does not install the update when you close the app. While this repository is private, its anonymous GitHub update feed is unavailable.
 
 [Contributing](.github/CONTRIBUTING.md) · [Security and known limitations](.github/SECURITY.md) · [Releases and updates](docs/RELEASING.md)
+
+Generated presentation HTML and QA output stay under ignored `artifacts/`; the public tree contains the gallery, architecture guide and final visual assets.
+
+## Support and contribution
+
+Report reproducible problems through [Issues](https://github.com/canyrtcn/PractiSQL/issues), with the application version and steps to reproduce. Share synthetic data or a redacted example. Use the [security policy](.github/SECURITY.md) for sensitive findings, and never attach API keys, account tokens or a personal application profile.
+
+[Contributing](.github/CONTRIBUTING.md) · [Source publication policy](docs/PUBLICATION.md) · [Architecture and code map](docs/en/architecture.md) · [Learning workflow guide](docs/en/learning-workflows.md)
 
 ## Windows security notice
 

@@ -2,7 +2,7 @@
 
 [English](../en/screenshots.md) | [Türkçe](../tr/screenshots.md)
 
-All screenshots use the English interface. Browse 28 sections in Light, Leaf and Dark. The creator’s name and photo are included with explicit permission. Learning statistics are synthetic; personal databases and conversations are excluded.
+All screenshots use the English interface. Browse 30 sections in Light, Leaf and Dark. The creator’s name and photo are included with explicit permission. Learning statistics are synthetic; personal databases and conversations are excluded.
 
 [Gallery / Galeri](../showcase/index.html?lang=en) · [Presentation visuals / Sunum görselleri](../showcase/index.html?lang=en#presentation)
 
@@ -38,3 +38,5 @@ Retail records and workspace names are synthetic. Built-in lesson/challenge fixt
 | First-run privacy information | [PNG](../screenshots/light/26-privacy.png) | [PNG](../screenshots/leaf/26-privacy.png) | [PNG](../screenshots/dark/26-privacy.png) |
 | SQL logic exercises | [PNG](../screenshots/light/27-sql-exercises.png) | [PNG](../screenshots/leaf/27-sql-exercises.png) | [PNG](../screenshots/dark/27-sql-exercises.png) |
 | Table records | [PNG](../screenshots/light/28-table-data.png) | [PNG](../screenshots/leaf/28-table-data.png) | [PNG](../screenshots/dark/28-table-data.png) |
+| Ask and understand SQL | [PNG](../screenshots/light/29-ai-tutor.png) | [PNG](../screenshots/leaf/29-ai-tutor.png) | [PNG](../screenshots/dark/29-ai-tutor.png) |
+| Local SQL completion | [PNG](../screenshots/light/30-query-completion.png) | [PNG](../screenshots/leaf/30-query-completion.png) | [PNG](../screenshots/dark/30-query-completion.png) |

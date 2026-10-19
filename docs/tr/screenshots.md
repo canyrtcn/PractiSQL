@@ -2,7 +2,7 @@
 
 [English](../en/screenshots.md) | [Türkçe](../tr/screenshots.md)
 
-Ekranların tamamı İngilizce arayüzdedir. Açık, Yaprak ve Koyu temada 28 bölüm bulunur. Geliştiricinin adı ve fotoğrafı açık izniyle korunmuştur. Öğrenme istatistikleri sentetiktir; kişisel veritabanı ve sohbetleri alınmamıştır.
+Ekranların tamamı İngilizce arayüzdedir. Açık, Yaprak ve Koyu temada 30 bölüm bulunur. Geliştiricinin adı ve fotoğrafı açık izniyle korunmuştur. Öğrenme istatistikleri sentetiktir; kişisel veritabanı ve sohbetleri alınmamıştır.
 
 [Gallery / Galeri](../showcase/index.html?lang=tr) · [Presentation visuals / Sunum görselleri](../showcase/index.html?lang=tr#presentation)
 
@@ -38,3 +38,5 @@ Perakende kayıtları ve çalışma alanı adları sentetiktir. Hazır ders/chal
 | İlk kullanım gizlilik bilgisi | [PNG](../screenshots/light/26-privacy.png) | [PNG](../screenshots/leaf/26-privacy.png) | [PNG](../screenshots/dark/26-privacy.png) |
 | SQL mantığı alıştırmaları | [PNG](../screenshots/light/27-sql-exercises.png) | [PNG](../screenshots/leaf/27-sql-exercises.png) | [PNG](../screenshots/dark/27-sql-exercises.png) |
 | Tablo kayıtları | [PNG](../screenshots/light/28-table-data.png) | [PNG](../screenshots/leaf/28-table-data.png) | [PNG](../screenshots/dark/28-table-data.png) |
+| Sorarak SQL öğren | [PNG](../screenshots/light/29-ai-tutor.png) | [PNG](../screenshots/leaf/29-ai-tutor.png) | [PNG](../screenshots/dark/29-ai-tutor.png) |
+| Yerel SQL tamamlama | [PNG](../screenshots/light/30-query-completion.png) | [PNG](../screenshots/leaf/30-query-completion.png) | [PNG](../screenshots/dark/30-query-completion.png) |

@@ -1,12 +1,12 @@
 {
-  "version": "3.4.261",
+  "version": "3.4.262",
   "interfaceLanguage": "en",
   "themes": [
     "light",
     "leaf",
     "dark"
   ],
-  "sections": 28,
+  "sections": 30,
   "screenshots": [
     {
       "id": "01-workspace",
@@ -341,6 +341,30 @@
       },
       "file": "docs/screenshots/light/28-table-data.png",
       "sha256": "6817b530f6c75c8bee78111bb97505c81fd5614e70e9a53742f409d2d1b0cbd4",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "29-ai-tutor",
+      "theme": "light",
+      "title": {
+        "en": "Ask and understand SQL",
+        "tr": "Sorarak SQL öğren"
+      },
+      "file": "docs/screenshots/light/29-ai-tutor.png",
+      "sha256": "eeb536d343ec4df7fed3478d68f25a4a737731851eb36934f921e504850b2c0d",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "30-query-completion",
+      "theme": "light",
+      "title": {
+        "en": "Local SQL completion",
+        "tr": "Yerel SQL tamamlama"
+      },
+      "file": "docs/screenshots/light/30-query-completion.png",
+      "sha256": "c74e5a66df0661c6ba93696d23534f9f5ed6d82c9d17eb5db58d27d0f3450991",
       "width": 1600,
       "height": 1000
     },
@@ -681,6 +705,30 @@
       "height": 1000
     },
     {
+      "id": "29-ai-tutor",
+      "theme": "leaf",
+      "title": {
+        "en": "Ask and understand SQL",
+        "tr": "Sorarak SQL öğren"
+      },
+      "file": "docs/screenshots/leaf/29-ai-tutor.png",
+      "sha256": "7563669db69007f97bcb311e97a2a82836d5d5ec17dc05522b16272e600c742e",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "30-query-completion",
+      "theme": "leaf",
+      "title": {
+        "en": "Local SQL completion",
+        "tr": "Yerel SQL tamamlama"
+      },
+      "file": "docs/screenshots/leaf/30-query-completion.png",
+      "sha256": "8fb9b704736281167f89a6daa6f22e930ea37434d2536b24f416a7198f8c2134",
+      "width": 1600,
+      "height": 1000
+    },
+    {
       "id": "01-workspace",
       "theme": "dark",
       "title": {
@@ -1015,6 +1063,30 @@
       "sha256": "5c35c69f60fb2005d3c78c9a2e5973db1145eb5eb3231432b3a97831879ba25f",
       "width": 1600,
       "height": 1000
+    },
+    {
+      "id": "29-ai-tutor",
+      "theme": "dark",
+      "title": {
+        "en": "Ask and understand SQL",
+        "tr": "Sorarak SQL öğren"
+      },
+      "file": "docs/screenshots/dark/29-ai-tutor.png",
+      "sha256": "9ec22234172f447d511315556475ac4ac73b378b1befcfc2a9a8a3fa900ced99",
+      "width": 1600,
+      "height": 1000
+    },
+    {
+      "id": "30-query-completion",
+      "theme": "dark",
+      "title": {
+        "en": "Local SQL completion",
+        "tr": "Yerel SQL tamamlama"
+      },
+      "file": "docs/screenshots/dark/30-query-completion.png",
+      "sha256": "58d507e4b98984d2349c357c7b6aeae20c50bec36b54006739a8d3ee92721698",
+      "width": 1600,
+      "height": 1000
     }
   ],
   "profile": "The creator explicitly authorised their name and photo. Learning statistics and progress in these images are synthetic demonstration values.",
@@ -1217,22 +1289,6 @@
         "y": 325,
         "width": 1000,
         "height": 400
-      },
-      "languages": [
-        "en",
-        "tr"
-      ]
-    },
-    {
-      "id": "table-data",
-      "theme": "leaf",
-      "source": "28-table-data",
-      "kind": "detail",
-      "crop": {
-        "x": 288,
-        "y": 118,
-        "width": 866,
-        "height": 730
       },
       "languages": [
         "en",
@@ -1560,38 +1616,6 @@
       ]
     },
     {
-      "id": "table-data-light",
-      "theme": "light",
-      "source": "28-table-data",
-      "kind": "detail",
-      "crop": {
-        "x": 288,
-        "y": 118,
-        "width": 866,
-        "height": 730
-      },
-      "languages": [
-        "en",
-        "tr"
-      ]
-    },
-    {
-      "id": "table-data-dark",
-      "theme": "dark",
-      "source": "28-table-data",
-      "kind": "detail",
-      "crop": {
-        "x": 288,
-        "y": 118,
-        "width": 866,
-        "height": 730
-      },
-      "languages": [
-        "en",
-        "tr"
-      ]
-    },
-    {
       "id": "themes-workspace",
       "theme": "leaf",
       "source": "01-workspace",
@@ -1689,15 +1713,82 @@
       ]
     },
     {
-      "id": "themes-table-data",
+      "id": "ai-tutor",
       "theme": "leaf",
-      "source": "28-table-data",
-      "kind": "themes",
+      "source": "29-ai-tutor",
+      "kind": "detail",
       "crop": {
-        "x": 288,
-        "y": 493,
-        "width": 866,
-        "height": 352
+        "x": 1016,
+        "y": 360,
+        "width": 568,
+        "height": 614
+      },
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "query-completion",
+      "theme": "light",
+      "source": "30-query-completion",
+      "kind": "detail",
+      "crop": {
+        "x": 300,
+        "y": 118,
+        "width": 680,
+        "height": 248
+      },
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "study-notes",
+      "theme": "leaf",
+      "source": "20-study-notes",
+      "kind": "pdf",
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "learning-progress",
+      "theme": "leaf",
+      "source": "17-profile",
+      "kind": "progress",
+      "crop": {
+        "x": 590,
+        "y": 60,
+        "width": 420,
+        "height": 760
+      },
+      "widget": {
+        "source": "01-workspace",
+        "crop": {
+          "x": 12,
+          "y": 634,
+          "width": 254,
+          "height": 230
+        }
+      },
+      "languages": [
+        "en",
+        "tr"
+      ]
+    },
+    {
+      "id": "mascot-accessories",
+      "theme": "leaf",
+      "source": "19-mascot",
+      "kind": "detail",
+      "crop": {
+        "x": 495,
+        "y": 165,
+        "width": 605,
+        "height": 738
       },
       "languages": [
         "en",

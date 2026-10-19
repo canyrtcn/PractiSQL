@@ -3,13 +3,16 @@ const fs=require('node:fs'),path=require('node:path'),assert=require('node:asser
 const root=path.resolve(__dirname,'..'),folder=path.join(root,'docs/architecture'),map=JSON.parse(fs.readFileSync(path.join(folder,'architecture.json')));
 const esc=value=>String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const mark=fs.readFileSync(path.join(root,'app/renderer/assets/wordmark.svg')).toString('base64'),icon=fs.readFileSync(path.join(root,'app/renderer/assets/icon.png')).toString('base64');
-fs.writeFileSync(path.join(root,'docs/assets/repository-wordmark.svg'),`<svg xmlns="http://www.w3.org/2000/svg" width="400" height="76" viewBox="0 0 400 76" role="img" aria-label="PractiSQL"><rect width="400" height="76" rx="12" fill="#f7faf3"/><image x="0" y="6" width="64" height="64" href="data:image/png;base64,${icon}"/><image x="82" y="8" width="308" height="60" href="data:image/svg+xml;base64,${mark}"/></svg>`);
-for(const name of ['openai','muse','deepseek']){
- const logo=fs.readFileSync(path.join(root,'docs/assets/providers',name+'.svg')).toString('base64');
- const box=name==='deepseek'?{x:10,y:20,w:108,h:23}:{x:44,y:12,w:40,h:40};
- // The original provider artwork is embedded unchanged on a neutral surface.
- fs.writeFileSync(path.join(root,'docs/assets/providers',name+'-badge.svg'),`<svg xmlns="http://www.w3.org/2000/svg" width="128" height="64" viewBox="0 0 128 64" role="img" aria-label="${name==='muse'?'Muse by Meta':name==='openai'?'OpenAI':'DeepSeek'}"><rect x=".5" y=".5" width="127" height="63" rx="10" fill="#fff" stroke="#dce3d5"/><image x="${box.x}" y="${box.y}" width="${box.w}" height="${box.h}" href="data:image/svg+xml;base64,${logo}"/></svg>`);
+// Transparent, padded lockups match the reader's GitHub color scheme.
+for(const dark of [false,true]){
+ const original=fs.readFileSync(path.join(root,'app/renderer/assets/wordmark.svg'),'utf8');
+ const artwork=(dark?original.replaceAll('#22211f','#e6edf3').replaceAll('#518f00','#9ad150'):original);
+ const encoded=Buffer.from(artwork).toString('base64');
+ fs.writeFileSync(path.join(root,'docs/assets/repository-wordmark'+(dark?'-dark':'')+'.svg'),`<svg xmlns="http://www.w3.org/2000/svg" width="520" height="112" viewBox="0 0 520 112" role="img" aria-label="PractiSQL"><image x="20" y="20" width="72" height="72" href="data:image/png;base64,${icon}"/><image x="112" y="17" width="386" height="77" href="data:image/svg+xml;base64,${encoded}"/></svg>`);
 }
+// Reuse the application's vector character with its native transparent canvas.
+const mascot=fs.readFileSync(path.join(root,'app/renderer/index.html'),'utf8').match(/<svg class="rm mascot-model"[\s\S]*?<\/svg>/)[0].replace('<svg class="rm mascot-model"','<svg xmlns="http://www.w3.org/2000/svg" role="img" aria-label="PractiSQL mascot"').replace(' aria-hidden="true"','');
+fs.writeFileSync(path.join(root,'docs/assets/learning-companion.svg'),mascot+'\n');
 const content={
  en:{
   title:'The PractiSQL AI harness',subtitle:'Context, model tools, SQLite execution and learning workflows in one coordinated system.',scope:'REQUEST OWNERSHIP & LIFECYCLE',guards:['Workspace + conversation','Database identity + revision','Cancellation + deadlines','Selected action + user limits'],
@@ -31,21 +34,21 @@ const content={
   button:'Download for Windows',buttonDetail:'Setup installer · x64',buttonAlt:'Open PractiSQL Windows releases'
  },
  tr:{
-  title:'PractiSQL AI harness',subtitle:'Bağlam, model araçları, SQLite yürütmesi ve öğrenme akışlarını yöneten bütünleşik sistem.',scope:'İSTEĞİN SAHİPLİĞİ VE YAŞAM DÖNGÜSÜ',guards:['Çalışma alanı + sohbet','Veritabanı kimliği + revizyon','İptal + süre sınırları','Seçilen işlem + kullanıcı sınırları'],
-  lanes:['BAĞLAM VE BELLEK','MODEL VE ARAÇ ORKESTRASYONU','YEREL SQLITE VE İŞLEM KANITI'],
-  context:['Güncel görevi birleştir',['Öğretmen personası ve SQL sözleşmesi','Gerçek katalog, şema ve gözlemler','İlgili geçmiş, seçili SQL ve alıntılar','Son kullanıcı isteği aynen korunur']],
+  title:'PractiSQL AI harness',subtitle:'Bağlam, model araçları, SQLite yürütmesi ve öğrenme akışlarını yöneten bütünleşik sistem.',scope:'İSTEK KAPSAMI VE YAŞAM DÖNGÜSÜ',guards:['Çalışma alanı + sohbet','Veritabanı kimliği + revizyon','İptal + süre sınırları','Seçilen işlem + kullanıcı sınırları'],
+  lanes:['BAĞLAM VE BELLEK','MODEL VE ARAÇ YÖNETİMİ','YEREL SQLITE VE İŞLEM KANITI'],
+  context:['Güncel görevi birleştir',['Öğretmen yönergeleri ve SQL kuralları','Gerçek katalog, şema ve gözlemler','İlgili geçmiş, seçili SQL ve alıntılar','Son kullanıcı isteği aynen korunur']],
   memory:['Bağlam penceresini yönet',['Model kapasitesi ve yanıt payı','Eski içerikte koşullu sıkıştırma','Özgün kaynaklar ve kimlikleri saklanır']],
   archive:['Özgün kaynağı geri getir',['read_context; mesajları, SQL’i, işlem kayıtlarını','ve tam sonuç arşivlerini sayfalar halinde okur.','Geçmiş sonuçlar kendi kaynağını korur.']],
-  model:['Seçilen model ve doğal protokoller',['Chat Completions · Messages · Responses','API sağlayıcısı veya ChatGPT hesap bağlantısı']],
-  tools:['read_context','inspect_database'],toolNote:'Salt okuma gözlemleri aynı model isteğine döner.',
-  answer:['Anlatımı yürütülebilir SQL’den ayır',['Kod rolü ve tamamlanma kontrolleri','Açık çalıştırmama ve veri koruma sınırları','Uygun SQL, yürütme sözleşmesini izler']],
-  repair:['Tek ve koşullu düzeltme',['Uygun biçim, SQL veya belirli anlatım hatası','Özgün istek + gerçek hata ya da işlem kanıtı','Düzeltilmiş tam parti yeniden denetlenir']],
-  read:['Okuma worker’ı',['Salt okunur SQL ifadesi','Snapshot / bağlantı yolu','Süre ve sonuç sınırları']],
-  write:['Otomatik yazma',['SAVEPOINT sınırı','SQLite kısıtları + tetikleyiciler','RELEASE veya ROLLBACK']],
-  checks:['Uygun veri güvencelerini denetle',['Dış anahtar tutarlılığı ve kapsamlı koruma','Önce/sonra gözlemleri kendi kaynağını taşır','Manuel işlemler ayrı yolu izler']],
-  result:['Gerçekleşen işlemi kaydet',['Sonuç tabloları, tam SQL, hata ve değişiklikler','İşlem kimlikleri ve tam sonuç arşivleri','Kanıtlar takip sorularında erişilebilir kalır']],
+  model:['Seçilen model ve API bağlantısı',['Chat Completions · Messages · Responses','API sağlayıcısı veya ChatGPT hesap bağlantısı']],
+  tools:['read_context','inspect_database'],toolNote:'Salt okunur araç sonuçları aynı isteğe döner.',
+  answer:['Anlatımı yürütülebilir SQL’den ayır',['Örnek kod ve tam sorgu ayrımı','Çalıştırma izni ve veri koruma sınırları','SQL, belirlenen işlem yoluna yönlendirilir']],
+  repair:['Hataya göre tek düzeltme',['Biçim, SQL veya belirli anlatım hatalarında','Özgün istek + gerçek hata veya gözlem','Düzeltilmiş SQL bütünü yeniden denetlenir']],
+  read:['Okuma işlemi',['Salt okunur sorgu','Kopya / bağlantı yolu','Süre ve sonuç sınırları']],
+  write:['AI yazma işlemi',['SAVEPOINT sınırı','SQLite kısıtları + tetikleyiciler','RELEASE veya ROLLBACK']],
+  checks:['Veri koruma kontrolleri',['Dış anahtarlar ve istenen koruma koşulları','İşlem öncesi ve sonrası kaynaklı gözlemler','Elle yazılan işlemler ayrı yolu izler']],
+  result:['Gerçekleşen işlemi kaydet',['Sonuç tabloları, tam SQL, hata ve değişiklikler','İşlem kimlikleri ve eksiksiz sonuç arşivi','Gözlemlere takip sorularında erişilir']],
   learning:'ORTAK BAĞLAM VE YÜRÜTME TEMELİNİ KULLANAN ÖĞRENME AKIŞLARI',
-  flows:[['Dersler ve PDF',['Yerel öğretim verileri','Gözlemlenen SQL örnekleri']],['Challenge’lar',['Ayrı deneme verisi','Üç veri varyantı']],['Sınavlar',['Sabit şema kopyası','Yürütme + AI değerlendirmesi']],['SQL alıştırmaları',['Şemasız sentetik sorgular','Yerel anahtar kelime kontrolü']],['Veri projeleri',['Doğrulanan UCI kaynağı','Bağımsız sayısal kontroller']]],
+  flows:[['Dersler ve PDF',['Yerel öğretim verileri','Gözlemlenen SQL örnekleri']],['Challenge’lar',['Ayrı deneme verisi','Üç farklı veri kümesi']],['Sınavlar',['Sabit şema kopyası','SQL + AI değerlendirmesi']],['SQL alıştırmaları',['Şemasız sentetik sorgular','Yerel anahtar kelime kontrolü']],['Veri projeleri',['Doğrulanan UCI kaynağı','Bağımsız sayısal kontroller']]],
   footer:'SQLite ve uygulama kontrolleri tanımlı kapsamı denetler. Anlatım ve iş yorumunda model değerlendirmesi de yer alır.',legend:['İstek / yürütme','Kaynak getirme / geri besleme','Koşullu düzeltme'],loop:'Gerçek sonuçlar sonraki bağlama taşınır',
   button:'Windows için indir',buttonDetail:'Kurulum dosyası · x64',buttonAlt:'PractiSQL Windows sürümlerini aç'
  }

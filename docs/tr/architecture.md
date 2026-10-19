@@ -6,24 +6,62 @@ PractiSQL, cihazda çalışan bir SQLite çalışma alanını isteğe bağlı bi
 
 ![PractiSQL AI harness: bağlam, model araçları, SQL kontrolleri ve öğrenme akışları](../architecture/ai-harness.tr.svg)
 
-Şema üç ana katmanı birlikte gösterir: kaynak kimliğiyle saklanan bağlam ve bellek, model ile araç orkestrasyonu, yerel SQLite yürütmesi ve gerçekleşen işlem kayıtları. Alt sıradaki öğrenme yolları bu temeli kendi veri ve değerlendirme kurallarıyla kullanır. Yeşil oklar istek/yürütme yolunu, kesikli çizgiler kaynak getirmeyi ve geri beslemeyi, kehribar çizgiler tek ve koşullu düzeltmeyi gösterir.
+Şema üç ana katmanı birlikte gösterir: kaynak kimliğiyle saklanan bağlam ve bellek, model ve araç çağrılarının yönetimi, yerel SQLite yürütmesi ve gerçekleşen işlem kayıtları. Alt sıradaki öğrenme yolları bu temeli kendi veri ve değerlendirme kurallarıyla kullanır. Yeşil oklar istek/yürütme yolunu, kesikli çizgiler kaynak getirmeyi ve geri beslemeyi, kehribar çizgiler tek ve koşullu düzeltmeyi gösterir.
 
 ![Güncel SQL çalışma alanı, yerel sonuçlar ve öğretici açıklama](../screenshots/leaf/01-workspace.png)
 
-Bu demoda sentetik perakende verileri kullanılır. SQL editörü ve sonuç tablosu yerel yürütmeyi gösterir; hazırlanmış öğretim mesajı konuşmanın bu sonuçları nasıl açıklayabileceğini örnekler. [Ekran görüntüsü galerisi](screenshots.md), 28 bölümü üç temada gösterir.
+Bu demoda sentetik perakende verileri kullanılır. SQL editörü ve sonuç tablosu yerel yürütmeyi gösterir; hazırlanmış öğretim mesajı konuşmanın bu sonuçları nasıl açıklayabileceğini örnekler. [Ekran görüntüsü galerisi](screenshots.md), 30 bölümü üç temada gösterir.
 
 ## Bir sorunun izlediği yol
 
 ```mermaid
-flowchart LR
-    S[Öğrenci isteği] --> B[Şema ve ilgili konuşma]
-    B --> M[Seçilen model]
-    M -->|Gerekirse| A[Salt okuma araçları]
-    A --> M
-    M --> Y[SQL ve anlatım ayrımı]
-    Y --> C[Yerel SQLite yürütmesi]
-    C --> K[Gerçek sonuç ve işlem kaydı]
-    K --> B
+flowchart TB
+    INPUT["Öğrencinin sorusu, seçtiği SQL veya alıntı"]
+    SCOPE["Çalışma alanı, sohbet, veritabanı kimliği ve revizyonunu kaydet"]
+    CONTEXT["Öğretmen kurallarını, şemayı, ilgili geçmişi ve özgün soruyu birleştir"]
+    CAPACITY{"Bağlam modelin kapasitesine sığıyor mu?"}
+    COMPACT["Eski içeriği özetle; özgün kaynak kimliklerini ve tam arşivleri sakla"]
+    MODEL["Seçilen model: Chat Completions, Messages veya Responses bağlantısı"]
+    TOOL{"Model salt okuma aracı istedi mi?"}
+    READTOOL["read_context: arşivlenmiş kaynaklar<br/>inspect_database: yakalanan veritabanından gözlemler"]
+    ANSWER["Açıklamayı, öğretim örneklerini ve çalıştırılabilir tam SQL partisini ayır"]
+    GUARD{"İstek kapsamı güncel ve işlem izinli mi?"}
+    STOP["İptal et veya eski yanıtı reddet; gecikmiş SQL’i uygulama"]
+    ROUTE{"SQL çalıştırılması gerekiyor mu?"}
+    TEXT["Açıklamayı ve çalıştırılmayacak öğretim örneklerini göster"]
+    READ["Salt okuma worker’ı<br/>Kopya veya bağlantı, süre ve sonuç sınırları"]
+    WRITE["AI yazma partisi<br/>SAVEPOINT, kısıtlar, tetikleyiciler ve ilgili veri koruma denetimleri"]
+    EDITOR["Elle SQL yazılan editör"]
+    MANUAL["Manuel editör veya açık transaction<br/>Ayrı yürütme kuralları; gerçek kısmi durum ve transaction kaydı"]
+    RESULT["Gerçek sonuçları, SQL’i, hataları ve değişiklikleri kaynak kimlikleriyle kaydet"]
+    REPAIR{"Hata düzeltmeye uygun ve ortak deneme hakkı kullanılmamış mı?"}
+    CORRECT["Özgün soru ve gerçek hata/kanıtla bir kez koşullu düzeltme yap"]
+    SHOW["Gerçek işlem sonuçlarını açıklamanın yanında göster"]
+    MEMORY["Takip soruları için sohbeti, işlem kayıtlarını ve tam sonuç arşivlerini sakla"]
+    INPUT --> SCOPE --> CONTEXT --> CAPACITY
+    CAPACITY -- Evet --> MODEL
+    CAPACITY -- Yer gerekiyor --> COMPACT --> MODEL
+    MODEL --> TOOL
+    TOOL -- Evet --> READTOOL --> MODEL
+    TOOL -- Hayır --> ANSWER --> GUARD
+    GUARD -- Hayır --> STOP
+    GUARD -- Evet --> ROUTE
+    ROUTE -- Yalnız açıklama --> TEXT --> SHOW
+    ROUTE -- Okuma --> READ --> RESULT
+    ROUTE -- AI yazma --> WRITE --> RESULT
+    EDITOR --> MANUAL --> RESULT
+    ANSWER -. Biçim hatası .-> REPAIR
+    RESULT -. Uygun yürütme veya anlatım hatası .-> REPAIR
+    REPAIR -- Evet --> CORRECT --> ANSWER
+    REPAIR -- Hayır --> SHOW
+    RESULT --> SHOW --> MEMORY
+    MEMORY -. Sonraki soruda kaynakları geri getir .-> CONTEXT
+    classDef scope fill:#e8f0df,stroke:#6a8c4f,color:#1f351d;
+    classDef model fill:#263e21,stroke:#6a8c4f,color:#ffffff;
+    classDef boundary fill:#f4ead8,stroke:#a37b43,color:#604923;
+    class SCOPE,CONTEXT,COMPACT,RESULT,MEMORY scope;
+    class MODEL,READTOOL model;
+    class GUARD,STOP,REPAIR,CORRECT boundary;
 ```
 
 | Aşama | Uygulamanın yaptığı |
@@ -64,7 +102,7 @@ SQL’in çalışması, doğru görev sonucunu vermesi ve açıklamanın doğru 
 ## Ayrı öğrenme yolları
 
 - **Dersler ve PDF:** Kendi öğretim verileri ve SQLite gözlemleri kullanılır. Üretilen ders SQL’i kişisel çalışma alanına kendiliğinden uygulanmaz.
-- **Challenge:** Ayrı deneme DB’sinde, üç fixture çeşidinde kontrol edilir. Şema alanları ve örnek kayıtlar öğrenciye tablo olarak sunulur.
+- **Challenge:** Ayrı deneme DB’sinde, üç farklı deneme verisinde kontrol edilir. Şema alanları ve örnek kayıtlar öğrenciye tablo olarak sunulur.
 - **Sınav:** Soruların üretimi, cevapların kopyada yürütülmesi, bağlantı ayarlarının yakalanması ve notlandırma ayrı akıştır.
 - **SQL alıştırmaları:** AI, sentetik ve tam sorgular üretir. Arayüz seçilen SQL ifadesini boşluğa çevirir; sözdizimini boş ve geçici SQLite bağlantısında kontrol eder. Anahtar kelime cevapları yerelde karşılaştırılır. Kişisel şema veya kayıtlar alıştırma isteğine girmez.
 - **Veri projesi:** UCI kaynağı doğrulanır, iş sorusu netleştirilir, bağımsız çalışma alanı kurulur. Sayısal sonuçlar özgün kayıtlardan bağımsız hesaplanır; AI iş yorumunu kanıtlara bakarak değerlendirir. Ödül kararı uygulama kodundadır.

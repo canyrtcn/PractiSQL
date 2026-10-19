@@ -58,7 +58,7 @@ app.whenReady().then(async()=>{
    }
   }
   for(const [source,hash]of Object.entries(data.references))check(crypto.createHash('sha256').update(fs.readFileSync(path.join(root,source))).digest('hex')===hash,'Source fingerprint matches: '+source);
-  const markdown=['README.md','README.tr.md','docs/ARCHITECTURE.md','docs/en/architecture.md','docs/tr/architecture.md','docs/en/screenshots.md','docs/tr/screenshots.md','docs/en/appearance.md','docs/tr/appearance.md','docs/PUBLICATION.md'];
+  const markdown=['README.md','README.tr.md','docs/ARCHITECTURE.md','docs/en/architecture.md','docs/tr/architecture.md','docs/en/screenshots.md','docs/tr/screenshots.md','docs/en/appearance.md','docs/tr/appearance.md','docs/PUBLICATION.md','docs/assets/README.md','docs/en/request-flow.md','docs/tr/request-flow.md','docs/en/learning-workflows.md','docs/tr/learning-workflows.md','docs/releases/v3.4.262.md'];
   for(const file of markdown){const text=fs.readFileSync(path.join(root,file),'utf8');for(const match of text.matchAll(/\\]\\(([^\\s)]+)\\)/g)){const target=match[1];if(/^(?:https?:|#)/.test(target))continue;check(fs.existsSync(path.resolve(root,path.dirname(file),decodeURIComponent(target.split(/[?#]/)[0]))),'Local document link exists: '+file+' -> '+target);}}
   for(const language of ['en','tr']){
    const file=path.join(root,'docs/architecture/request-flow.'+language+'.svg');await win.loadFile(file);win.setContentSize(1520,690);await evaluate('new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))');
