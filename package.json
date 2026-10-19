@@ -1,7 +1,7 @@
 {
   "name": "practisql",
   "version": "3.4.262",
-  "description": "PractiSQL — A simple, AI-powered SQL playground.",
+  "description": "PractiSQL — AI-powered SQL playground.",
   "main": "app/main.js",
   "build": {
     "appId": "com.canyrtcn.practisql",

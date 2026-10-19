@@ -1205,7 +1205,7 @@
     "app/renderer/exam-sql.js": "d1794fa904f172beb057ae769563dcf3869d70156cf99f749ea806801a54030b",
     "app/renderer/exam-study.js": "2bc44c11e6aff964d87d0669e1e46321dfcc371a1702747386dd10e1f7f6e966",
     "app/renderer/explicit-request-limits.js": "b3943db6a9b651577ac844da1e759252e6af2d7010e3d1e592b2f0017c5d863a",
-    "app/renderer/index.html": "ee27be3b6de670148e6fc7ddb85e10a41cde71029e52b8d1ec6d1cd8ed50a49b",
+    "app/renderer/index.html": "a13c1085199ae00f51943ecb3804139ac421acdfe134c8e78317b517689bffce",
     "app/renderer/learn-detail.js": "62d53a49f524f304c08546c96fe9d0651d204f861288a2479cdcfa0eb98ac116",
     "app/renderer/lesson-pdf.js": "b19528b264411269ec4b5781914143d881cf49f30c4834817b5505abac205657",
     "app/renderer/operation-results.js": "e8fc7e712dfcb042e1c5c2c5c36adcff6a1b01fb3ca0ded7b7b93c67ecf2d0f5",

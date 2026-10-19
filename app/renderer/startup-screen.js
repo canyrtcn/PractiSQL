@@ -3,7 +3,7 @@
   const splash = document.getElementById('splash');
   if (!splash) return;
   const language=window.PractiInitialAppearance?.language==='tr'?'tr':'en';
-  document.querySelectorAll('[data-i18n="slogan"]').forEach(el=>{el.textContent=language==='tr'?'Yapay zekâ destekli sade SQL playground':'A simple, AI-powered SQL playground';});
+  document.querySelectorAll('[data-i18n="slogan"]').forEach(el=>{el.textContent=language==='tr'?'Yapay zekâ destekli SQL playground':'AI-powered SQL playground';});
   const state = window.__startupSplash = { phase: 'painting', startedAt: performance.now() };
   const frame = () => new Promise(resolve => {
     const fallback=setTimeout(resolve,80);
