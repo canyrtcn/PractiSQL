@@ -4,3 +4,8 @@
   !insertmacro skipPageIfUpdated
   !insertmacro MUI_PAGE_WELCOME
 !macroend
+
+; Launch from the installation directory without depending on a shortcut.
+!macro customInstall
+  StrCpy $launchLink "$appExe"
+!macroend

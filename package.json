@@ -1,6 +1,6 @@
 {
   "name": "practisql",
-  "version": "3.4.264",
+  "version": "3.4.265",
   "description": "PractiSQL — AI-powered SQL playground.",
   "main": "app/main.js",
   "build": {
@@ -64,6 +64,7 @@
     "test:db": "node scripts/test-db.js",
     "test:ipc": "node scripts/test-ipc.js",
     "test:connection": "node scripts/test-connection-probe.cjs",
+    "test:installer": "node scripts/test-installer-launch.cjs",
     "test:security": "node --test scripts/test-security.cjs",
     "test:stream": "node --test scripts/test-chatgpt-stream.cjs",
     "test:schema": "node scripts/test-schema.cjs",

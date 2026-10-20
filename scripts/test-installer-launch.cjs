@@ -1,0 +1,34 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict'),{spawn,spawnSync}=require('node:child_process');
+const root=path.resolve(__dirname,'..'),args=process.argv.slice(2),out=path.resolve(args.find(a=>!a.startsWith('--'))||'artifacts/installer-launch.json'),baseline=args.includes('--no-launch'),compileOnly=args.includes('--compile-only');
+assert.equal(process.platform,'win32','Native NSIS launch regression requires Windows');assert(!fs.existsSync(out),'Preserve earlier installer evidence');
+const proof={at:new Date().toISOString(),status:'running',version:require('../package.json').version,nativeLaunches:!compileOnly&&!baseline,visibleWindows:0,personalDataUsed:false,checks:[],cases:[]},check=(ok,label)=>{assert(ok,label);proof.checks.push(label);};
+const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+const work=out.replace(/\.json$/,'-fixture');assert(!fs.existsSync(work));fs.mkdirSync(work,{recursive:true});
+const run=async(exe,argv,cwd)=>{const child=spawn(exe,argv,{cwd,windowsHide:true,stdio:'ignore'});await new Promise((resolve,reject)=>{const timer=setTimeout(()=>{child.kill();reject(Error('NSIS fixture timed out'));},15000);child.on('error',error=>{clearTimeout(timer);reject(error);});child.on('exit',code=>{clearTimeout(timer);code===0?resolve():reject(Error('NSIS fixture exited '+code));});});};
+(async()=>{try{
+ const {NSIS_PATH,NsisTargetOptions,nsisTemplatesDir}=require('app-builder-lib/out/targets/nsis/nsisUtil'),{getBinFromUrl}=require('app-builder-lib/out/binDownload');NsisTargetOptions.resolve({});
+ const nsis=await NSIS_PATH(),resources=await getBinFromUrl('nsis-resources','3.4.1','Dqd6g+2buwwvoG1Vyf6BHR1b+25QMmPcwZx40atOT57gH27rkjOei1L0JTldxZu4NFoEmW4kJgZ3DlSWVON3+Q=='),compiler=path.join(nsis,'makensis.exe'),plugin=path.join(resources,'plugins/x86-unicode');
+ const assisted=fs.readFileSync(path.join(nsisTemplatesDir,'assistedInstaller.nsh'),'utf8'),common=fs.readFileSync(path.join(nsisTemplatesDir,'common.nsh'),'utf8'),section=fs.readFileSync(path.join(nsisTemplatesDir,'installSection.nsh'),'utf8');
+ const callback=assisted.match(/\bFunction StartApp\s[\s\S]*?\bFunctionEnd/)[0];
+ check(assisted.includes('!define MUI_FINISHPAGE_RUN_FUNCTION "StartApp"'),'Finish page retains the native Run application checkbox and callback');
+ check(section.indexOf('!insertmacro customInstall')>section.indexOf('StrCpy $launchLink "$newStartMenuLink"')&&section.indexOf('!insertmacro customInstall')<section.indexOf('!macro doStartApp'),'Product hook runs after shortcut selection and before every launch route');
+ const fixture=path.join(work,'launch-probe.cs'),stub=path.join(work,'PractiSQL.exe');
+ fs.writeFileSync(fixture,'using System; using System.IO; using System.Reflection; class LaunchProbe { static void Main(string[] args) { File.WriteAllText(Assembly.GetExecutingAssembly().Location + ".launched", String.Join("|", args)); } }');
+ const csc=path.join(process.env.SystemRoot,'Microsoft.NET/Framework64/v4.0.30319/csc.exe'),compiled=spawnSync(csc,['/nologo','/target:winexe','/out:'+stub,fixture],{windowsHide:true,encoding:'utf8'});assert.equal(compiled.status,0,compiled.stderr||compiled.stdout);
+ const cases=[{id:'existing-menu-link',link:'present',run:true,updated:false,route:'finish'},{id:'deleted-menu-link',link:'deleted',run:true,updated:false,route:'finish'},{id:'no-menu-link',link:'missing',run:true,updated:false,route:'finish'},{id:'update-finish',link:'deleted',run:true,updated:true,route:'finish'},{id:'silent-update-restart',link:'deleted',run:true,updated:true,route:'silent'},{id:'run-unchecked',link:'present',run:false,updated:false,route:'finish'},{id:'update-run-unchecked',link:'missing',run:false,updated:true,route:'finish'}];
+ for(const item of cases){
+  const folder=path.join(work,item.id+' - Öğrenme Alanı'),menu=path.join(folder,'Start Menu'),target=path.join(folder,'PractiSQL.exe'),marker=target+'.launched',record=path.join(folder,'target.txt');fs.mkdirSync(menu,{recursive:true});fs.copyFileSync(stub,target);
+  const linked=item.link!=='missing',invoke=item.run&&!baseline&&!compileOnly;
+  const program=`Unicode true\nSilentInstall silent\nRequestExecutionLevel user\nOutFile "${path.join(work,item.id+'.exe')}"\n!include "LogicLib.nsh"\n!addincludedir "${nsisTemplatesDir}"\n!addincludedir "${path.join(nsisTemplatesDir,'include')}"\n!addplugindir /x86-unicode "${plugin}"\n!include "StdUtils.nsh"\n!define PRODUCT_NAME "PractiSQL installer launch regression"\n!define PRODUCT_FILENAME "PractiSQL"\n!define VERSION "${proof.version}"\n!define isUpdated '${item.updated?1:0} == 1'\nVar appExe\nVar launchLink\n!include "common.nsh"\n!include "${path.join(root,'app/assets/installer.nsh')}"\n${callback}\nSection\nStrCpy $INSTDIR "${folder}"\nSetOutPath "$INSTDIR"\nStrCpy $appExe "$INSTDIR\\PractiSQL.exe"\n${linked?'CreateShortCut "$INSTDIR\\Start Menu\\PractiSQL.lnk" "$appExe"':''}\nStrCpy $launchLink "${linked?'$INSTDIR\\Start Menu\\PractiSQL.lnk':'$appExe'}"\n!ifmacrodef customInstall\n!insertmacro customInstall\n!endif\n${item.link==='deleted'?'Delete "$INSTDIR\\Start Menu\\PractiSQL.lnk"':''}\nFileOpen $3 "${record}" w\nFileWriteUTF16LE $3 "$launchLink"\nFileClose $3\n${invoke?(item.route==='finish'?'Call StartApp':'!insertmacro StartApp'):''}\nSectionEnd\n`;
+  const script=path.join(work,item.id+'.nsi');fs.writeFileSync(script,program);const built=spawnSync(compiler,['-V2','-INPUTCHARSET','UTF8',script],{cwd:work,windowsHide:true,encoding:'utf8'});assert.equal(built.status,0,built.stderr||built.stdout);
+  await run(path.join(work,item.id+'.exe'),[],work);check(fs.readFileSync(record,'utf16le').toLowerCase()===target.toLowerCase(),item.id+': launch target is the installed EXE rather than a shortcut');
+  if(invoke){for(let i=0;i<50&&!fs.existsSync(marker);i++)await wait(100);check(fs.existsSync(marker),item.id+': actual Windows launch completed without opening an application window');check(fs.readFileSync(marker,'utf8')===(item.updated?'--updated':''),item.id+': normal/update launch arguments are preserved');}
+  else{await wait(250);check(!fs.existsSync(marker),item.id+(item.run?': explicit compile-only check does not start an app':': no launch occurs when Run is not selected'));}
+  if(item.link==='deleted')check(!fs.existsSync(path.join(menu,'PractiSQL.lnk')),item.id+': missing shortcut does not need to be recreated');
+  proof.cases.push(item);
+ }
+ proof.status='passed';
+}catch(error){proof.status='failed';proof.error=error.stack;process.exitCode=1;}
+finally{fs.mkdirSync(path.dirname(out),{recursive:true});fs.writeFileSync(out,JSON.stringify(proof,null,2)+'\n');console.log(JSON.stringify({status:proof.status,checks:proof.checks.length,cases:proof.cases.length,visibleWindows:proof.visibleWindows,error:proof.error}));}
+})();
