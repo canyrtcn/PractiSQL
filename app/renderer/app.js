@@ -2270,8 +2270,8 @@ async function testConnection() {
   connState = 'unknown'; connMsg = '';
   $('aiDot').className = 'dot off'; $('aiStatus').textContent = t('connTesting');
   try {
-    // liste + ping birbirinden bağımsız — paralel koş, test tek RTT sürsün.
-    const pingP = chat([{ role: 'user', content: 'ping' }], 5,'connection-test');
+    // Probe authentication and the selected model with a small, isolated request.
+    const pingP = chat([{ role: 'user', content: 'Reply only with OK.' }], 64,'connection-test');
     const listP = fetchModels(true);
     await pingP; await listP;
     connState = 'ok'; connMsg = `OK — ${modelCache.length} • ${settings.model}`;
@@ -2307,6 +2307,14 @@ function assertContextWire(route,messages,tools,outputReserve){
  const plan=window.AiContextBudget.plan({capacity:route.capacity,messages,tools:tools||[],outputReserve,calibration:contextUsageCalibration(route)});
  if(plan.overLimit)throw Error('The active sources exceed this model context window. Original conversation was preserved.');
 }
+function connectionProbeReachedModel(route,transport,response){
+  // A valid token-limit response proves the connection. It is not a completed
+  // answer and must never bypass completion checks for ordinary requests.
+  if(route.purpose!=='connection-test')return false;
+  if(transport==='responses')return response.status==='incomplete'&&response.incomplete_details?.reason==='max_output_tokens'&&Array.isArray(response.output);
+  if(transport==='messages')return response.type==='message'&&response.role==='assistant'&&response.stop_reason==='max_tokens'&&Array.isArray(response.content);
+  return response.choices?.[0]?.finish_reason==='length'&&response.choices[0].message?.role==='assistant';
+}
 async function chatOnce(transport, messages, maxTokens, signal, route) {
   route=route||captureContextRoute();
   route.requestControl?.assertActive();
@@ -2334,7 +2342,7 @@ async function chatOnce(transport, messages, maxTokens, signal, route) {
       // Output capacity is resolved after the complete native input is assembled.
     };
 
-    const outputLimit=requestOutputLimit(route,(maxTokens&&maxTokens<500)?4000:maxTokens,transport,base.input,toolDefinitions);
+    const outputLimit=requestOutputLimit(route,route.purpose==='connection-test'?maxTokens:(maxTokens&&maxTokens<500)?4000:maxTokens,transport,base.input,toolDefinitions);
     if(outputLimit)base.max_output_tokens=outputLimit;
     let useTemp = !/gpt/i.test(String(connection.model)), expandedBudget = false;
     for (let k = 0; k < 3; k++) {
@@ -2349,6 +2357,7 @@ async function chatOnce(transport, messages, maxTokens, signal, route) {
       }
       const j = await r.json();
       recordUsage(j);
+      if(connectionProbeReachedModel(route,transport,j))return '';
       if (j.status === 'incomplete' && j.incomplete_details?.reason !== 'max_output_tokens') {
         throw new Error('HTTP 200 incomplete (' + t('incompleteOut') + ')');
       }
@@ -2394,6 +2403,7 @@ async function chatOnce(transport, messages, maxTokens, signal, route) {
     if (!r.ok) { const t = await r.text().catch(() => ''); throw window.AiContextRejection.httpError(r.status,t); }
     const j = await r.json();
     recordUsage(j);
+    if(connectionProbeReachedModel(route,transport,j))return '';
     if (j.stop_reason === 'max_tokens') {
       if (body.max_tokens < contextOutputLimit(route,16384) && (!maxTokens || maxTokens >= 500)) return chatOnce(transport, messages, contextOutputLimit(route,16384), signal, {...route,retry:'output-budget'});
       throw new Error(t('incompleteOut'));
@@ -2416,6 +2426,7 @@ async function chatOnce(transport, messages, maxTokens, signal, route) {
   if (!r.ok) { const t = await r.text().catch(() => ''); throw window.AiContextRejection.httpError(r.status,t); }
   const j = await r.json();
   recordUsage(j);
+  if(connectionProbeReachedModel(route,transport,j))return '';
   if (j.choices?.[0]?.finish_reason === 'length') {
     if (body.max_tokens < contextOutputLimit(route,16384) && (!maxTokens || maxTokens >= 500)) return chatOnce(transport, messages, contextOutputLimit(route,16384), signal, {...route,retry:'output-budget'});
     throw new Error(t('incompleteOut'));
