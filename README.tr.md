@@ -161,6 +161,8 @@ Uygun hatalarda özgün istek ve gerçek hata ya da işlem kanıtıyla tek, orta
 
 **ChatGPT hesabı:** Ayarlar → Sağlayıcı → ChatGPT Account → ChatGPT ile giriş yap. Hesap akışıyla oturum aç; bu yol için ayrıca API anahtarı yapıştırman gerekmez. Kullanılabilen modeller, plan uygunluğu ve kullanım limitleri hesabına bağlıdır.
 
+**Abonelik koşulu:** PractiSQL'in yapay zekâ özelliklerini ChatGPT hesabın üzerinden kullanabilmek için uygun bir ücretli ChatGPT aboneliği gerekir. Free hesaplar bu bağlantı yöntemiyle AI isteği gönderemez. OpenAI, bağlı uygulamalarda plan kullanımı için şu anda **Plus ve Pro** aboneliklerini belgeliyor; **Go desteği doğrulanmadı**. Bu koşul ChatGPT planıyla AI kullanımına aittir; yerel SQL özellikleri abonelik olmadan çalışır. [Güncel OpenAI koşulları](https://learn.chatgpt.com/docs/sign-in-with-chatgpt).
+
 **API sağlayıcıları:** OpenAI, Anthropic Claude, Google AI Studio, DeepSeek, OpenCode Zen & Go, xAI, Moonshot, Zhipu, Cohere, Mistral, Groq, OpenRouter, Together AI, Alibaba Qwen ve Perplexity.
 
 Uyumlu özel HTTP/HTTPS uç noktaları da desteklenir. Sağlayıcını ve modelini sen seçersin; uygulamayla ortak bir ücretli anahtar dağıtılmaz. AI’a sorun, ilgili konuşma, şema ve gerekli gözlem veya sonuç satırları gönderilebilir. İlk kurulum bu paylaşımı bağlantıdan önce açıklar. [Gizlilik ayrıntıları](docs/PRIVACY.md).
