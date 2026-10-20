@@ -163,7 +163,7 @@ Eligible failures can use one shared, conditional repair attempt with the origin
 
 **ChatGPT account:** Settings → Provider → ChatGPT Account → Sign in with ChatGPT. Follow the account sign-in flow; this route does not require pasting a separate API key. Model availability, plan eligibility and usage limits depend on your account.
 
-**Subscription requirement:** Powering PractiSQL's AI features through ChatGPT sign-in requires an eligible paid ChatGPT subscription. Free accounts cannot use this connection method for AI requests. OpenAI currently documents **Plus and Pro** for plan usage in connected apps; **Go support has not been verified**. This requirement applies to ChatGPT plan usage; local SQL features work without a subscription. [Current OpenAI eligibility](https://learn.chatgpt.com/docs/sign-in-with-chatgpt).
+**Subscription requirement:** Using PractiSQL's AI features through ChatGPT sign-in requires **ChatGPT Go, Plus or a higher subscription**. Free accounts are not supported for this connection method. Local SQL features work without a subscription.
 
 **API providers:** OpenAI, Anthropic Claude, Google AI Studio, DeepSeek, OpenCode Zen & Go, xAI, Moonshot, Zhipu, Cohere, Mistral, Groq, OpenRouter, Together AI, Alibaba Qwen and Perplexity.
 
