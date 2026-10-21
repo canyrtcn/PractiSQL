@@ -1,0 +1,39 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
+const {open,prepare,dispose,wait}=require('./test-support/electron-session.cjs');
+const source=path.resolve(process.argv[2]||'.'),out=path.resolve(process.argv[3]||'artifacts/sql-completion-ui.json'),packaged=process.argv[4]?path.resolve(process.argv[4]):null;assert(!fs.existsSync(out));
+const proof={status:'running',checks:[],examples:[],packaged:!!packaged,visibleWindows:0,personalDataUsed:false,realModelCalls:0};let app,workspace;
+const check=(value,label)=>{assert(value,label);proof.checks.push(label);};
+async function until(expression){for(let i=0;i<100;i++){if(await app.evaluate(expression))return;await wait(50);}assert.fail('Timed out: '+expression);}
+async function mode(value){await app.evaluate('document.getElementById("btnSettings").click();(()=>{const select=document.getElementById("setAssistMode");select.value='+JSON.stringify(value)+';select.dispatchEvent(new Event("change",{bubbles:true}));})();document.getElementById("btnSettingsClose").click()');check(await app.evaluate('localStorage.getItem("sqlpg-assistmode")==='+JSON.stringify(value)),value+': settings selection is persisted');}
+async function editor(marked){const position=marked.indexOf('¦');assert(position>=0);await app.evaluate('('+function(text,position){const e=document.getElementById('editor');e.value=text;e.setSelectionRange(position,position);e.focus();window.__pg.assist();}+')('+JSON.stringify(marked.replace('¦',''))+','+position+')');}
+async function accept(marked,expected,label){await editor(marked);const position=marked.indexOf('¦'),text=marked.replace('¦',''),word=/[\p{L}_][\p{L}\p{N}_$]*$/u.exec(text.slice(0,position))?.[0]||'',ghost=expected.slice(word.length);await until('document.querySelector("#sqlEditor .ghost")?.textContent==='+JSON.stringify(ghost)+'||document.getElementById("editorSuggestion").textContent==='+JSON.stringify('Tab → '+expected));await app.send('Input.dispatchKeyEvent',{type:'keyDown',key:'Tab',code:'Tab'});await app.send('Input.dispatchKeyEvent',{type:'keyUp',key:'Tab',code:'Tab'});const completed=text.slice(0,position-word.length)+expected+text.slice(position);check(await app.evaluate('document.getElementById("editor").value==='+JSON.stringify(completed)),label);proof.examples.push({input:marked,completion:expected});return completed;}
+const schemaSql='CREATE TABLE customers(customer_id INTEGER PRIMARY KEY,first_name TEXT,last_name TEXT,debt_to_income_pct REAL,left_branch_code TEXT); CREATE TABLE loans(loan_id INTEGER PRIMARY KEY,customer_id INTEGER REFERENCES customers(customer_id),branch_id INTEGER); CREATE TABLE installments(installment_id INTEGER PRIMARY KEY,loan_id INTEGER REFERENCES loans(loan_id),due_amount REAL); CREATE TABLE branches(branch_id INTEGER PRIMARY KEY,name TEXT); CREATE TABLE products(product_id INTEGER PRIMARY KEY,name TEXT); CREATE TABLE accounts(account_id INTEGER PRIMARY KEY,customer_id INTEGER); CREATE TABLE payments(payment_id INTEGER PRIMARY KEY,amount REAL); INSERT INTO customers VALUES(1,\'Sample\',\'Customer\',0.2,\'A\'); INSERT INTO loans VALUES(1,1,1); INSERT INTO installments VALUES(1,1,120);';
+const query=`SELECT c.customer_id, c.first_name || ' ' || c.last_name AS full_name, l.loan_id, l.branch_id, i.due_amount,
+ ROW_NUMBER() OVER (
+  PARTITION BY c.customer_id
+  ORDER BY i.due_amount D¦
+ ) AS rn
+FROM customers AS c
+LEFT JOIN loans AS l ON c.customer_id = l.customer_id
+LEFT JOIN installments AS i ON l.loan_id = i.loan_id`;
+(async()=>{try{
+ workspace=prepare(source);let main=path.join(workspace.root,'main.js'),executable;
+ if(packaged){const runtime=path.join(workspace.directory,'runtime');fs.cpSync(packaged,runtime,{recursive:true});const application=path.join(runtime,'resources/app');for(const name of ['sql-completion.js','sql-completion-worker.js'])check(fs.readFileSync(path.join(application,'renderer',name)).equals(fs.readFileSync(path.join(source,'app/renderer',name))),'Packaged completion matches source: '+name);main=path.join(application,'main.js');fs.writeFileSync(main,"require('electron').app.on('browser-window-created',(_event,window)=>{window.show=()=>{};window.focus=()=>{};});\n"+fs.readFileSync(main,'utf8'));executable=path.join(runtime,'PractiSQL.exe');}
+ fs.writeFileSync(main,fs.readFileSync(main,'utf8').replace('webPreferences: {','webPreferences: {offscreen:true,backgroundThrottling:false,'));
+ app=await open({source,prepared:workspace,executable,config:{lang:'tr',theme:'dark',profile:{name:'Completion fixture'},showMascot:false,tips:false,soundEnabled:false,welcomed:true,autoUpdate:false,onboarding:{completed:true,providerChoice:'later'}}});await until('window.__startupSplash?.phase==="hidden"');await app.evaluate('window.__pg.run('+JSON.stringify(schemaSql)+')');
+ for(const value of ['word','next1','next3','line']){
+  await mode(value);const completed=await accept(query,'DESC',value+': native Tab accepts DESC inside the window without changing the suffix');
+  await app.evaluate('window.__pg.run('+JSON.stringify(completed)+')');check(await app.evaluate('!window.__pg.lastErr()&&window.__pg.resultSets()[0].values[0][5]===1'),value+': the completed window query executes through the existing SQLite engine');
+ }
+ await mode('next3');await accept(query.replace('D¦','DESC')+'\nLE¦','LEFT JOIN','A new JOIN follows the completed ON predicate instead of a left-prefixed column');
+ for(const [value,expected]of [['word','LEFT'],['next1','LEFT JOIN'],['next3','LEFT JOIN loans ON'],['line','LEFT JOIN loans ON loans.customer_id = c.customer_id']]){await mode(value);await accept('SELECT * FROM customers c LE¦',expected,value+': native Tab uses the configured continuation budget');}
+ await mode('next3');await accept('SELECT * FROM customers c LEFT¦','LEFT JOIN loans ON','A fully typed keyword can still extend into a multi-word suggestion');
+ await accept('SELECT * FROM customers c LEFT JO¦ loans l ON l.customer_id=c.customer_id','JOIN','Existing JOIN target and condition remain untouched');
+ await accept('SELECT * FROM installments i ORDER BY i.due_amount D¦, i.loan_id','DESC','A mid-line sort completion preserves the next ordering key');
+ await editor(query);await app.send('Input.insertText',{text:'E'});await until('document.querySelector("#sqlEditor .ghost")?.textContent==="SC"');await app.send('Input.dispatchKeyEvent',{type:'keyDown',key:'Tab',code:'Tab'});await app.send('Input.dispatchKeyEvent',{type:'keyUp',key:'Tab',code:'Tab'});check(await app.evaluate('document.getElementById("editor").value==='+JSON.stringify(query.replace('D¦','DESC'))),'Typing another character replaces a pending suggestion without duplicating the word');
+ await editor(query);await accept('SELECT * FROM customers c LE¦','LEFT JOIN loans ON','A previous window-analysis response cannot replace a newer JOIN completion');
+ await editor('¦');await wait(150);check(await app.evaluate('!document.querySelector("#sqlEditor .ghost")&&!document.getElementById("editorSuggestion").textContent'),'An empty editor stays empty in next-three-words mode');
+ await app.evaluate('window.__pg.blank("Separate completion schema");window.__pg.run("CREATE TABLE replacement(id INTEGER PRIMARY KEY,label TEXT);")');await editor('SELECT c.de¦ FROM customers c');await wait(150);check(await app.evaluate('!document.querySelector("#sqlEditor .ghost")&&!document.getElementById("editorSuggestion").textContent'),'Switching databases invalidates old table and column metadata');
+ proof.status='passed';
+}catch(error){proof.status='failed';proof.error=error.stack;proof.rendererErrors=app?.events.filter(event=>event.method==='Runtime.exceptionThrown');process.exitCode=1;}finally{if(app)await app.shutdown().catch(()=>app.close());if(workspace)dispose(workspace.directory);fs.mkdirSync(path.dirname(out),{recursive:true});fs.writeFileSync(out,JSON.stringify(proof,null,2));console.log(JSON.stringify(proof));}})();
