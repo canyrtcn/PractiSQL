@@ -1,6 +1,6 @@
 {
   "name": "practisql",
-  "version": "3.4.265",
+  "version": "3.4.266",
   "description": "PractiSQL — AI-powered SQL playground.",
   "main": "app/main.js",
   "build": {
@@ -81,6 +81,8 @@
     "test:companion": "node scripts/test-companion-ui.cjs",
     "test:workshop": "node scripts/test-home-workshop.cjs",
     "test:interface-details": "node scripts/test-interface-details.cjs",
+    "editor:build": "node scripts/build-sql-editor.cjs",
+    "test:editor": "node --test scripts/test-editor-policy.cjs && node scripts/test-editor-ui.cjs",
     "test:layout": "node --test scripts/test-window-layout.cjs scripts/test-interface-scale.cjs",
     "postinstall": "node scripts/prepare-runtime.cjs",
     "docs:assets": "node scripts/build-repository-assets.cjs",
@@ -95,11 +97,20 @@
     "sql.js": "^1.12.0"
   },
   "devDependencies": {
+    "@codemirror/commands": "6.11.1",
+    "@codemirror/lang-sql": "6.10.0",
+    "@codemirror/language": "6.13.1",
+    "@codemirror/state": "6.7.6",
+    "@codemirror/view": "6.43.15",
+    "@lezer/common": "1.5.3",
+    "@lezer/highlight": "1.2.5",
     "electron": "^33.0.0",
     "electron-builder": "^25.1.8",
-    "elkjs": "^0.11.0"
+    "elkjs": "^0.11.0",
+    "esbuild": "0.28.2"
   },
   "allowScripts": {
-    "electron@33.4.11": true
+    "electron@33.4.11": true,
+    "esbuild@0.28.2": true
   }
 }

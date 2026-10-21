@@ -9,6 +9,7 @@
 <link rel="preload" as="font" type="font/ttf" crossorigin href="./assets/fonts/practisql-display/PractiSQLDisplay-Regular.ttf">
 <script src="./theme-init.js"></script>
 <link rel="stylesheet" href="./styles.css">
+<link rel="stylesheet" href="./sql-editor.css">
 <link rel="stylesheet" href="./interface.css">
 <link id="upgradeStyles" rel="stylesheet" href="./upgrade.css">
 <link rel="stylesheet" href="./profile-setup.css">
@@ -85,10 +86,11 @@
     <div class="workspace-heading"><h1 data-i18n="sqlWorkshop">SQL atölyesi</h1><span id="workspaceMeta" class="hint"></span></div>
     <div id="lessonSession" class="lesson-session hidden"><span id="lessonSessionName"></span><button id="btnBackLesson" class="btn small" data-i18n="backLesson">Derse dön</button></div>
     <div class="editor-wrap">
-      <div class="ed-box"><pre id="edHi" aria-hidden="true"></pre><textarea id="editor" spellcheck="false"></textarea><div id="selMenu" class="hidden"><button id="btnAskSel" data-i18n="askAiSel">AI'a Sor</button><button id="btnAddChat" data-i18n="addToChat">Sohbete Ekle</button></div></div>
+      <div class="ed-box"><textarea id="editor" spellcheck="false"></textarea><div id="selMenu" class="hidden"><button id="btnAskSel" data-i18n="askAiSel">AI'a Sor</button><button id="btnAddChat" data-i18n="addToChat">Sohbete Ekle</button></div></div>
       <div class="editor-bar">
         <span class="editor-shortcut hint" data-i18n-title="runHint"><kbd>Ctrl</kbd><span>+</span><kbd>Enter</kbd></span>
         <label class="assist-switch" data-i18n-title="assistTitle" title="Asistan: yazarken öner"><input type="checkbox" id="assistTgl" checked><span data-i18n="assistLbl">Asistan</span></label>
+        <span id="editorSuggestion" class="editor-suggestion hidden" role="status" aria-live="polite"></span>
         <span class="bar-btns">
           <span id="runMeta" class="hint"></span>
           <button id="btnEdZoomOut" class="btn small" data-i18n-title="zoomOut" title="Shrink text (Ctrl+Scroll)">A−</button>
@@ -411,6 +413,9 @@
 <script defer src="./project-discovery-ui.js"></script>
 <script defer src="./window-layout.js"></script>
 <script defer src="./interface-scale.js"></script>
+<script defer src="./sql-completion.js"></script>
+<script defer src="./repair-presentation.js"></script>
+<script defer src="./vendor/sql-editor.js"></script>
 <script defer src="./app.js"></script>
 </body>
 </html>

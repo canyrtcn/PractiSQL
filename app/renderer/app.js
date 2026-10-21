@@ -2618,119 +2618,31 @@ function sqlHi(src) {
   }
   return out;
 }
-let assistOn = true;
-function assistWords() {
-  const ws = new Set();
-  try {
-    SQL_KW.forEach(w => ws.add(w.toUpperCase()));
-    SQL_FN.forEach(w => ws.add(w));
-    SQL_TY.forEach(w => ws.add(w.toUpperCase()));
-    const ts = getTables().slice(0, 20);
-    ts.forEach(t => ws.add(t));
-    ts.forEach(t => { try { tableInfo(t).cols.forEach(c => ws.add(c.name)); } catch {} });
-  } catch {}
-  return ws;
-}
-function currentWord() {
-  const e = $('editor'); if (!e) return null;
-  const p = e.selectionStart == null ? e.value.length : e.selectionStart;
-  const m = /[a-zA-Z_çğıöşüÇĞİÖŞÜ][a-zA-Z0-9_$çğıöşüÇĞİÖŞÜ]*$/.exec(e.value.slice(0, p));
-  return m ? { w: m[0], start: p - m[0].length } : null;
-}
+let assistOn = true, editorComposing = false;
+const completionVocabulary={keywords:[...SQL_KW].map(w=>w.toUpperCase()),functions:[...SQL_FN].map(w=>w.toUpperCase()),types:[...SQL_TY].map(w=>w.toUpperCase())};
+const completeSql = window.SqlCompletion.create(completionVocabulary);
+let completionMetadata = null;
 function assistMode() { try { return localStorage.getItem('sqlpg-assistmode') || 'word'; } catch { return 'word'; } }
-function assistPhrases() {
-  // Şemaya uygun kalıp adayları (ayar kipine göre hayalet uzar).
-  const ph = [];
-  try {
-    getTables().slice(0, 20).forEach(tn => {
-      ph.push('SELECT * FROM ' + qid(tn) + ';');
-      ph.push('SELECT COUNT(*) FROM ' + qid(tn) + ';');
-    });
-  } catch {}
-  return ph;
-}
-function assistNext(prev, before) {
-  // Boşluktan sonraki kelime (kip word değilse): şemaya uygun tek aday.
-  try {
-    const lw = String(prev || '').toLowerCase();
-    const ts = getTables().slice(0, 20);
-    if (!ts.length) return null;
-    if (lw === 'from' || lw === 'join') return qid(ts[0]);
-    if (lw === 'select') return '*';
-    if (lw === 'order' || lw === 'group') return 'BY';
-    if (lw === 'where' || lw === 'by' || lw === 'and' || lw === 'or' || lw === 'on') {
-      let tbl = ts[0];
-      try {
-        const fm = /\bfrom\s+([a-zA-Z_çğıöşüÇĞİÖŞÜ][a-zA-Z0-9_$çğıöşüÇĞİÖŞÜ]*)/i.exec(String(before || ''));
-        if (fm && ts.indexOf(fm[1]) >= 0) tbl = fm[1];
-      } catch {}
-      try { const ci = tableInfo(tbl); if (ci && ci.cols && ci.cols.length) return ci.cols[0].name; } catch {}
-    }
-  } catch {}
-  return null;
+function assistSchema() {
+  if(completionMetadata?.database===db&&completionMetadata.revision===SCHEMA_GEN)return completionMetadata.tables;
+  const tables=[];
+  if(db)for(const name of [...getTables(),...getViews()]){
+    try { tables.push({name,columns:(db.exec('PRAGMA table_info('+qid(name)+')')[0]?.values||[]).map(row=>row[1]),foreignKeys:(db.exec('PRAGMA foreign_key_list('+qid(name)+')')[0]?.values||[]).map(row=>({id:row[0],seq:row[1],table:row[2],from:row[3],to:row[4]}))}); } catch {}
+  }
+  completionMetadata={database:db,revision:SCHEMA_GEN,tables};return tables;
 }
 function assistTop() {
-  const e = $('editor'); if (!e || !assistOn) return null;
-  if(e.selectionStart!==e.selectionEnd)return null;
-  const pos = (e.selectionStart == null ? e.value.length : e.selectionStart);
-  const before = e.value.slice(0, pos);
-  if(/[\w$çğıöşüÇĞİÖŞÜ]/.test(e.value[pos]||''))return null;
-  let quote=null,comment=null;
-  for(let i=0;i<before.length;i++){
-    const c=before[i],next=before[i+1];
-    if(comment==='line'){if(c==='\n')comment=null;continue;}
-    if(comment==='block'){if(c==='*'&&next==='/'){comment=null;i++;}continue;}
-    if(quote){const end=quote==='['?']':quote;if(c===end){if(quote!=='['&&next===end)i++;else quote=null;}continue;}
-    if(c==='-'&&next==='-'){comment='line';i++;}else if(c==='/'&&next==='*'){comment='block';i++;}else if(["'",'"','`','['].includes(c))quote=c;
-  }
-  if(quote || comment)return null;
-  const mode = assistMode();
-  if(mode!=='word'){
-    const fragment=before.split(/[;\n]/).at(-1).trimStart();
-    const phrase=fragment&&assistPhrases().find(p=>p.toLowerCase().startsWith(fragment.toLowerCase())&&p.length>fragment.length);
-    if(phrase){const rest=phrase.slice(fragment.length);const chunks=rest.match(/"(?:[^"]|"")*"|[^\s]+|\s+/g)||[];let count=0,top='';const budget=mode==='line'?Infinity:mode==='next3'?3:1;for(const chunk of chunks){if(/\S/.test(chunk)){if(count>=budget)break;count++;}top+=chunk;}if(top.trim())return {start:pos,word:'',top:top.trimEnd()};}
-  }
-  const m = /[a-zA-Z_çğıöşüÇĞİÖŞÜ][a-zA-Z0-9_$çğıöşüÇĞİÖŞÜ]*$/.exec(before);
-  if (m && m[0].length >= 2) {
-    const w = m[0], lw = w.toLowerCase(), start = pos - w.length;
-    // Kip uzatması: öneke uyan şema kalıbı varsa kip kadarını öner.
-    if (mode !== 'word') {
-      try {
-        const ph = assistPhrases().find(p => p.toLowerCase().startsWith(lw) && p.length > w.length);
-        if (ph) {
-          const rest = ph.slice(w.length);
-          const tokens = rest.split(/\s+/);
-          const want = mode === 'next3' ? 4 : (mode === 'line' ? tokens.length : 2);
-          const sug = tokens.slice(0, want).join(' ');
-          return { start, word: w, top: ph.slice(0, w.length + sug.length) };
-        }
-      } catch {}
-    }
-    const top = [...assistWords()].find(x => x.toLowerCase().startsWith(lw) && x.toLowerCase() !== lw);
-    return top ? { start, word: w, top } : null;
-  }
-  // Kelime yok (boşluktan sonra): kip word değilse sonraki kelimeyi öner.
-  if (mode !== 'word') {
-    try {
-      const pm = /([a-zA-Z_çğıöşüÇĞİÖŞÜ][a-zA-Z0-9_$çğıöşüÇĞİÖŞÜ]*)\s+$/.exec(before);
-      if (pm) {
-        const nx = assistNext(pm[1], before);
-        if (nx) return { start: pos, word: '', top: nx };
-      }
-    } catch {}
-  }
-  return null;
+  const e=$('editor');if(!e||!assistOn||editorComposing||e.selectionStart!==e.selectionEnd)return null;
+  const cached=completionPending;
+  if(cached?.ready&&cached.doc===e.sqlEditor?.view.state.doc&&cached.position===e.selectionStart&&cached.mode===assistMode()&&cached.database===db&&cached.revision===SCHEMA_GEN)return cached.suggestion;
+  return completeSql({text:e.value,position:e.selectionStart??e.value.length,mode:assistMode(),schema:assistSchema()});
 }
 function assistUpdate() { syncEdHi(); }
 function assistAccept() {
-  const e = $('editor'); if (!e) return false;
-  const g = assistTop(); if (!g) return false;
-  const pos = (e.selectionStart == null ? e.value.length : e.selectionStart);
-  e.value = e.value.slice(0, g.start) + g.top + e.value.slice(pos);
-  const np = g.start + g.top.length;
-  try { e.setSelectionRange(np, np); e.focus(); } catch {}
-  syncEdHi();
-  return true;
+  const e=$('editor'),g=assistTop();if(!e||!g)return false;
+  e.setRangeText(g.top,g.start,e.selectionStart,'end');
+  if(!e.sqlEditor)e.dispatchEvent(new InputEvent('input',{bubbles:true,inputType:'insertReplacementText',data:g.top}));
+  syncEdHi();return true;
 }
 function editorSelection() {
   try {
@@ -2743,9 +2655,9 @@ let edZoom = 0;
 function currentEdSize() { try { const v = parseFloat(getComputedStyle($('editor')).fontSize); return isNaN(v) ? 13.5 : v; } catch { return 13.5; } }
 function applyEdZoom() {
   try {
-    const e = $('editor'), h = $('edHi');
+    const e = $('editor');
     if (e) e.style.fontSize = edZoom + 'px';
-    if (h) h.style.fontSize = edZoom + 'px';
+    e?.sqlEditor?.setFontSize(edZoom);
   } catch {}
 }
 function hideSelMenu() { try { const m = $('selMenu'); if (m) m.classList.add('hidden'); } catch {} }
@@ -2757,8 +2669,7 @@ function takeSelectedChatSql() {
   attachment.pending=false;
   return {sql:attachment.sql,messageId:message.id};
 }
-// programaatik yazımlarda fon hep buradan — backdrop senkron tutulur,
-// yoksa eski highlight yeni metnin üstüne biner (harf çorbası).
+// Programmatic replacements use the same document as interactive editing.
 function setEditor(v) {
   const e = $('editor'); if (!e) return;
   e.value = String(v == null ? '' : v);
@@ -2778,26 +2689,45 @@ function paintSqlHighlight(surface,html){
   range.deleteContents();const fragment=range.createContextualFragment(parts.slice(start,parts.length-end).join('')),inserted=[...fragment.childNodes];range.insertNode(fragment);
   highlightedSurfaces.set(surface,{html,parts,nodes:valid?[...old.nodes.slice(0,start),...inserted,...(end?old.nodes.slice(-end):[])]:inserted});
 }
+let editorPaintTimer=0,lastTypingAt=0,completionWorker=null,completionRequest=0,completionPending=null,workerMetadata=null;
+function scheduleEditorPaint() {
+  lastTypingAt=Date.now();
+  clearTimeout(editorPaintTimer);completionPending=null;completionRequest++;
+  $('editorSuggestion')?.classList.add('hidden');
+  if(!editorComposing)editorPaintTimer=setTimeout(syncEdHi,65);
+}
 function syncEdHi() {
-  const e = $('editor'), h = $('edHi');
-  if (!e || !h) return;
-  // Textarea-backdrop tekniği metrik farkı affetmez: seçim aralığı varken ghost
-  // enjekte etme (fon kayar, seçim bloğu şaşmış görünür). Sondaki hayalet satır
-  // da kaldırıldı — kaydırmada katman farkı yaratır.
-  let html = sqlHi(e.value);
-  // Sondaki Enter telafisi: değeri \n ile biten metinde textarea sondaki boş
-  // satırı gösterir, pre göstermez (fon bir satır kısa kalır, dipte seçim kayar).
-  try { if (e.value.endsWith('\n')) html += '\n'; } catch {}
-  try {
-    const g = assistTop();
-    const collapsed = (e.selectionStart == null || e.selectionStart === e.selectionEnd);
-    if (g && collapsed) {
-      const pos = (e.selectionStart == null ? e.value.length : e.selectionStart);
-      html = sqlHi(e.value.slice(0, pos)) + '<span class="ghost">' + esc(g.top.slice(g.word.length)) + '</span>' + sqlHi(e.value.slice(pos));
-    }
-  } catch {}
-  paintSqlHighlight(h,html);
-  try { h.scrollTop = e.scrollTop; } catch {}
+  clearTimeout(editorPaintTimer);editorPaintTimer=0;
+  const e=$('editor'),hint=$('editorSuggestion');if(!e?.sqlEditor)return;
+  const show=g=>{
+    const pos=e.selectionStart,line=e.sqlEditor.view.state.doc.lineAt(pos);
+    const inline=g&&g.top.toLowerCase().startsWith(g.word.toLowerCase())&&!line.text.slice(pos-line.from).trim();
+    e.sqlEditor.setGhost(inline?g.top.slice(g.word.length):'',pos);
+    if(hint){hint.textContent=g&&!inline?'Tab → '+g.top:'';hint.classList.toggle('hidden',!hint.textContent);}
+  };
+  const id=++completionRequest;
+  if(!assistOn||editorComposing||e.selectionStart!==e.selectionEnd){completionPending=null;show(null);return;}
+  if(!completionWorker){
+    completionWorker=new Worker('./sql-completion-worker.js');
+    completionWorker.postMessage({type:'vocabulary',value:completionVocabulary});
+    completionWorker.onmessage=event=>{
+      const pending=completionPending;
+      if(event.data.id!==completionRequest||pending?.id!==event.data.id||pending.doc!==e.sqlEditor.view.state.doc||pending.position!==e.selectionStart||e.selectionStart!==e.selectionEnd||!assistOn||editorComposing||pending.mode!==assistMode()||pending.database!==db||pending.revision!==SCHEMA_GEN)return;
+      pending.suggestion=event.data.suggestion;pending.ready=true;
+      show(event.data.suggestion);
+    };
+  }
+  const schema=assistSchema();
+  if(workerMetadata!==schema){completionWorker.postMessage({type:'schema',value:schema});workerMetadata=schema;}
+  completionPending={id,doc:e.sqlEditor.view.state.doc,position:e.selectionStart,mode:assistMode(),database:db,revision:SCHEMA_GEN};
+  completionWorker.postMessage({type:'suggest',id,value:{text:e.value,position:e.selectionStart,mode:completionPending.mode}});
+}
+function periodicAutoSave() {
+  // Writes already save immediately. A periodic safety snapshot can wait until
+  // a typing burst or an AI operation has finished instead of interrupting it.
+  if(aiBusy||Date.now()-lastTypingAt<1500){setTimeout(periodicAutoSave,1500);return;}
+  try { if(getTables().length)persistAuto(); } catch {}
+  setTimeout(periodicAutoSave,60000);
 }
 function applyAppearance() {
   try {
@@ -3085,6 +3015,7 @@ function mdBlocks(text) {
 }
 const CODE_FOLD_LINES = 20, CODE_FOLD_CHARS = 900, CODE_FOLD_SHOW = 12;
 function renderRich(box, text) {
+  window.PractiSqlEditor.disposeWithin(box);
   box.innerHTML = '';
   window.ResponseFences.scan(text).segments.forEach(piece => {
     if(piece.type==='code'&&piece.lang==='action')return;
@@ -3112,9 +3043,9 @@ function renderRich(box, text) {
       if (lines.length > CODE_FOLD_LINES || code.length > CODE_FOLD_CHARS) {
         wrap.classList.add('folded');
         const preShort = document.createElement('pre');
-        preShort.innerHTML = sqlHi(lines.slice(0, CODE_FOLD_SHOW).join('\n'));
-        const preFull = document.createElement('pre');
-        preFull.innerHTML = sqlHi(code);
+        preShort.innerHTML = sqlHi(lines.slice(0, CODE_FOLD_SHOW).join('\n').slice(0,6000));
+        const preFull = document.createElement(isSql?'div':'pre');
+        let fullPainted=false;
         preFull.classList.add('hidden');
         const foot = document.createElement('div'); foot.className = 'code-fold';
         const btn = document.createElement('button'); btn.className = 'chip code-fold-btn'; btn.type = 'button';
@@ -3128,6 +3059,8 @@ function renderRich(box, text) {
           open = !open;
           preShort.classList.toggle('hidden', open);
           preFull.classList.toggle('hidden', !open);
+          if(open&&!fullPainted){if(isSql)window.PractiSqlEditor.readOnly(preFull,code);else preFull.textContent=code;fullPainted=true;}
+          if(!open){window.PractiSqlEditor.disposeWithin(preFull);preFull.replaceChildren();fullPainted=false;}
           btn.textContent = open ? t('codeLess') : t('codeMore', { n: total });
           try { if (l) l.scrollTop = Math.max(0, st + (btn.getBoundingClientRect().top - ay)); } catch {}
         };
@@ -3168,13 +3101,14 @@ function setChatQuote(quote) {
 }
 function offerChatQuote() {
   const selection=window.getSelection?.(),menu=$('chatQuoteMenu');
-  if(!selection||selection.isCollapsed||!selection.rangeCount){menu?.classList.add('hidden');return;}
+  const code=window.PractiSqlEditor.selectedCodeWithin($('chatLog'));
+  if(!code&&(!selection||selection.isCollapsed||!selection.rangeCount)){menu?.classList.add('hidden');return;}
   const element=node=>node?.nodeType===1?node:node?.parentElement;
-  const range=selection.getRangeAt(0),start=element(range.startContainer),end=element(range.endContainer);
+  const range=code?null:selection.getRangeAt(0),start=code?.element||element(range.startContainer),end=code?.element||element(range.endContainer);
   const bubble=start?.closest('.bubble.ai');
   if(!bubble||bubble!==end?.closest('.bubble.ai')||start?.closest('.msg-time,.code-head,.code-fold')||end?.closest('.msg-time,.code-head,.code-fold')){menu?.classList.add('hidden');return;}
-  selectedChatQuote={messageId:bubble.dataset.message,text:selection.toString()};
-  const rect=range.getBoundingClientRect();
+  selectedChatQuote={messageId:bubble.dataset.message,text:code?code.text:selection.toString()};
+  const rect=code?.rect||range.getBoundingClientRect();
   menu.style.left=Math.max(8,Math.min(innerWidth-160,rect.left))+'px';
   menu.style.top=Math.max(8,Math.min(innerHeight-48,rect.bottom+5))+'px';
   menu.classList.remove('hidden');
@@ -3190,7 +3124,7 @@ function renderChatLog() {
   if(changedChat)chatMessageViews.clear();
   $('btnChatLatest')?.classList.add('hidden');
   const msgs = activeChat().messages;
-  if (!msgs.length) { chatMessageViews.clear();const tips = mascotTricks(); const tip = Array.isArray(tips) ? tips[tipIdx % tips.length] : ''; log.innerHTML = `<div class="empty-state"><span class="peek"><img class="mascot" src="./assets/mascot.png" width="72" alt=""></span><p class="hint">${esc(t('emptyChat'))}</p><button class="sql-tip" id="sqlTip">💡 ${esc(tip)}</button></div>`; const tb = $('sqlTip'); if (tb) tb.onclick = () => { tipIdx++; try { renderChatLog(); } catch {} }; return; }
+  if (!msgs.length) { window.PractiSqlEditor.disposeWithin(log);chatMessageViews.clear();const tips = mascotTricks(); const tip = Array.isArray(tips) ? tips[tipIdx % tips.length] : ''; log.innerHTML = `<div class="empty-state"><span class="peek"><img class="mascot" src="./assets/mascot.png" width="72" alt=""></span><p class="hint">${esc(t('emptyChat'))}</p><button class="sql-tip" id="sqlTip">💡 ${esc(tip)}</button></div>`; const tb = $('sqlTip'); if (tb) tb.onclick = () => { tipIdx++; try { renderChatLog(); } catch {} }; return; }
   const nodes=[],nextViews=new Map();
   const visible=Math.max(60,Number(log.dataset.visible)||60),visibleMessages=msgs.slice(-visible);
   if(msgs.length>visible){const more=log.querySelector('.chat-history-more')||document.createElement('button');more.className='btn small chat-history-more';more.textContent=t('chatOlder');more.onclick=()=>{const height=log.scrollHeight,scroll=log.scrollTop;log.dataset.visible=String(visible+60);renderChatLog();log.scrollTop=scroll+log.scrollHeight-height;};nodes.push(more);}
@@ -3198,7 +3132,10 @@ function renderChatLog() {
     if (!m || m.hidden) return; // koşu bitene dek gizli tutulan final mesajı
     if (!m || !String(m.content || '').trim()) return;
     if(!m.id)m.id=uid('m');
-    const signature=JSON.stringify([lang,m.id,m.role,m.content,m.ts,m.quote?.text,m.execution?.status,m.execution?.error,m.aiAnswer]);
+    const shownAnswer=m.aiAnswer?window.AiAnswerEnvelope.display(window.AiAnswerEnvelope.restore(m.aiAnswer)):String(m.content||'');
+    const shown=m.repairPresentation?window.RepairPresentation.display(shownAnswer,{...m.repairPresentation,completed:m.execution?.status==='completed'}):shownAnswer;
+    if(!shown.trim())return;
+    const signature=JSON.stringify([lang,m.id,m.role,shown,m.ts,m.quote?.text,m.execution?.status,m.execution?.error]);
     const cached=chatMessageViews.get(m);
     if(cached?.signature===signature){nodes.push(cached.node);nextViews.set(m,cached);return;}
     // Eylem blokları (```action) icraattır, sohbet metni değil — salt-aksiyon
@@ -3221,14 +3158,14 @@ function renderChatLog() {
       if(m.execution?.status==='blocked'){
         const notice=document.createElement('div');notice.className='execution-notice';notice.setAttribute('role','note');notice.textContent=t('executionBlocked')+(m.execution.error?' '+m.execution.error:'');d.appendChild(notice);
       }
-      const full = document.createElement('div'); renderRich(full, m.aiAnswer?window.AiAnswerEnvelope.display(window.AiAnswerEnvelope.restore(m.aiAnswer)):txt); d.appendChild(full);
+      const full = document.createElement('div'); renderRich(full, shown); d.appendChild(full);
     }
     if (m.ts) { const tm = document.createElement('div'); tm.className = 'msg-time'; try { tm.textContent = new Date(m.ts).toLocaleTimeString(t('locale'), { hour: '2-digit', minute: '2-digit' }); } catch {} d.appendChild(tm); }
     nodes.push(d);nextViews.set(m,{signature,node:d});
   });
   // Insert only new/changed bubbles, preserving selection, focus and expanded code.
   const wanted=new Set(nodes);
-  for(const child of Array.from(log.childNodes))if(!wanted.has(child))child.remove();
+  for(const child of Array.from(log.childNodes))if(!wanted.has(child)){if(child.nodeType===1)window.PractiSqlEditor.disposeWithin(child);child.remove();}
   let cursor=log.firstChild;
   for(const node of nodes){if(node===cursor)cursor=cursor.nextSibling;else log.insertBefore(node,cursor);}
   chatMessageViews=nextViews;
@@ -3416,6 +3353,8 @@ async function repairChat(messages,allowNoSql=false,responseBudget={used:false},
   const source=options.source||captureAiContext();assertAiContext(source);consumeResponseRepair(responseBudget);
   const repairMessages=window.AiRequestSnapshot.forRepair(responseBudget.requestSnapshot,messages),last=repairMessages.at(-1);
   if(last?.role==='user'&&typeof last.content==='string')last.content+='\n\n'+t('repairCurrentArea',{name:dbName});
+  const presentationRule=window.RepairPresentation.instruction(responseBudget.presentationRequest||'',lang);
+  if(presentationRule&&last?.role==='user'&&typeof last.content==='string')last.content+='\n\n'+presentationRule;
   let answer=await chat(repairMessages,undefined,'sql-repair',responseRoutes.get(responseBudget));assertAiContext(source);
   answer=await completeTruncated(answer,undefined,allowNoSql,repairMessages,responseBudget);assertAiContext(source);
   const controls=window.ResponseFences.scan(window.AiAnswerEnvelope.execution(answer)).blocks.filter(b=>b.lang==='action');
@@ -3830,6 +3769,7 @@ async function aiAsk(mode, ovSql, retrySelection) {
       let rr = null;
       // A child FK constrains existing child rows; it does not require each parent
       // to have children. Preserve intentionally empty branches in a valid setup.
+      responseBudget.presentationRequest=mode==='fix'?'debug '+extra:extra;
       const runOptions={request:extra,responseBudget};
       try { rr = await runAiSql(runOptions); } catch {}
       // An explicit new_db action creates the destination of this same request.
@@ -3844,6 +3784,8 @@ async function aiAsk(mode, ovSql, retrySelection) {
         throw Object.assign(new Error(rr.error),{staleAi:true});
       }
       if (rr?.correctedAnswer) ans = rr.correctedAnswer;
+      const repairPresentation=!!rr?.correctedAnswer&&mode!=='fix'&&!window.RepairPresentation.wantsDiagnostics(extra);
+      if(hm&&repairPresentation)hm.repairPresentation={automatic:true,request:extra};
       const done = !!(rr && !rr.blocked);
       if(!done&&!rr?.recorded)await rememberConversationOperation({source:'ai',request:extra,sql:lastAiExecution.sql||(lastBlocks||[]).join(';\n'),status:'blocked',error:lastAiExecution.error||lastError},replyChat,hm?.scope);
       if(hm)hm.execution={status:done?'completed':rr?.partial?'partial':'blocked',operation:rr?.operationId||replyChat.operations?.at(-1)?.id,...(!done?{error:lastAiExecution.error||lastError}:{})};
@@ -3860,7 +3802,7 @@ async function aiAsk(mode, ovSql, retrySelection) {
           if (tail) {
             hm.content = full.slice(0, cut).trim();
             delete hm.hidden;
-            try { const closing=chatAppend('assistant',tail,false,{chat:replyChat,scope:hm.scope});if(closing)closing.execution={...hm.execution}; } catch {}
+            try { const closing=chatAppend('assistant',tail,false,{chat:replyChat,scope:hm.scope});if(closing){closing.execution={...hm.execution};if(repairPresentation)closing.repairPresentation={automatic:true,request:extra};} } catch {}
           } else {
             hm.content = full;
             delete hm.hidden;
@@ -7385,16 +7327,17 @@ async function sideDbLoad() {
   const _bq = $('btnQuizSide'); if (_bq) _bq.onclick = quizOpen;
   const ed = $('editor');
   if (ed) {
-    ed.addEventListener('input', syncEdHi);
-    ed.addEventListener('scroll', () => { const h = $('edHi'); if (h) { try { h.scrollTop = ed.scrollTop; h.scrollLeft = ed.scrollLeft; } catch {} } });
-    // Seçim başlayınca/değişince fonu tazele: seçimsizken enjekte edilen hayalet
-    // öneri fonda kalıp alt satırları kaydırıyordu (seçim kayması). Seçim varken
-    // syncEdHi hayaleti zaten katmaz, seçim kalkınca hayalet geri gelir.
+    window.PractiSqlEditor.mount(ed);
+    ed.addEventListener('input', scheduleEditorPaint);
+    ed.addEventListener('compositionstart',()=>{editorComposing=true;scheduleEditorPaint();});
+    ed.addEventListener('compositionend',()=>{editorComposing=false;scheduleEditorPaint();});
+    ed.addEventListener('keyup',event=>{if(['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','End','PageUp','PageDown'].includes(event.key))scheduleEditorPaint();});
+    // Selection changes invalidate only the completion, never the SQL document.
     ed.addEventListener('select', () => {
-      try { syncEdHi(); const h = $('edHi'); if (h) { h.scrollTop = ed.scrollTop; h.scrollLeft = ed.scrollLeft; } } catch {}
+      try { scheduleEditorPaint(); } catch {}
     });
     ed.addEventListener('keydown', (e) => {
-      if (e.key === 'Tab') { e.preventDefault(); if (!assistAccept()) { try { const p = ed.selectionStart; ed.setRangeText('  ', p, p, 'end'); syncEdHi(); } catch {} } }
+      if (e.key === 'Tab' && !e.isComposing && !editorComposing) { e.preventDefault(); if (!assistAccept()) { try { const p = ed.selectionStart; ed.setRangeText('  ', p, p, 'end'); syncEdHi(); } catch {} } }
       if (e.key === 'Escape') hideSelMenu();
     });
     ed.addEventListener('mouseup', (e) => {
@@ -7433,14 +7376,15 @@ async function sideDbLoad() {
   try {
     assistOn = localStorage.getItem('sqlpg-assist') !== '0';
     const tg = $('assistTgl');
-    if (tg) { tg.checked = assistOn; tg.onchange = () => { assistOn = tg.checked; try { localStorage.setItem('sqlpg-assist', assistOn ? '1' : '0'); } catch {} }; }
+    if (tg) { tg.checked = assistOn; tg.onchange = () => { assistOn = tg.checked; try { localStorage.setItem('sqlpg-assist', assistOn ? '1' : '0'); } catch {} syncEdHi(); }; }
     const am = $('setAssistMode');
     if (am) { try { am.value = assistMode(); } catch {} am.onchange = () => { try { localStorage.setItem('sqlpg-assistmode', am.value); } catch {} try { syncEdHi(); } catch {} }; }
   } catch {}
   try { if (Array.isArray(settings.hist) && settings.hist.length) { const olds = settings.hist.slice(0, 30); history = []; olds.slice().reverse().forEach(h => pushHist(h.sql, h.ok, h.t, h.err)); } } catch {}
   applyAppearance(); syncEdHi(); initGutters(); initDiagramGrip(); initDiagramTools(); enhanceSelects();
   if(E)await window.PractiInterfaceScale.init({settings,t,syncDropdown,notify:toast});
-  try { setInterval(() => { try { if (getTables().length) persistAuto(); } catch {} }, 60000); } catch {}
+  $('aiPrompt').addEventListener('input',()=>{lastTypingAt=Date.now();});
+  setTimeout(periodicAutoSave,60000);
   const sF = $('setFont'); if (sF) sF.onchange = () => { try { localStorage.setItem('sqlpg-fs', sF.value); } catch {} applyAppearance(); };
   const sTypeface=$('setTypeface');if(sTypeface)sTypeface.onchange=()=>{try{localStorage.setItem('sqlpg-typeface',sTypeface.value);}catch{}applyAppearance();};
   const sCF = $('setChatFont'); if (sCF) sCF.onchange = () => { try { localStorage.setItem('sqlpg-cfs', sCF.value); } catch {} applyAppearance(); };
@@ -7468,7 +7412,7 @@ async function sideDbLoad() {
     if (e.key === 'Escape') { const detail = $('learnDetailModal'); if (detail && !detail.classList.contains('hidden')) { detail.classList.add('hidden'); return; } $('settingsModal').classList.add('hidden'); $('diagramOverlay').classList.add('hidden'); $('profileModal').classList.add('hidden'); try { $('guideModal').classList.add('hidden'); } catch {} try { $('gearModal').classList.add('hidden'); } catch {} try { $('badgeModal').classList.add('hidden'); } catch {} try { if ($('quizOverlay') && !$('quizOverlay').classList.contains('hidden')) quizClose(); } catch {} }
   });
   $('aiPrompt').addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); $('btnGen').click(); }
+    if (e.key === 'Enter' && !e.shiftKey && !e.isComposing) { e.preventDefault(); $('btnGen').click(); }
   });
   $('editor').addEventListener('keydown', (e) => {
     if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') { e.preventDefault(); runQuery(); }

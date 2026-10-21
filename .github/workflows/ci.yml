@@ -19,6 +19,7 @@ jobs:
       - run: npm run test:db
       - run: npm run test:ipc
       - run: npm run test:connection
+      - run: npm run test:editor
       - run: npm run test:installer -- --compile-only
       - run: npm run test:security
       - run: npm run test:updater

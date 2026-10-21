@@ -24,7 +24,7 @@ const check=(ok,name)=>{assert(ok,name);proof.checks.push(name);};let app,worksp
     check(await app.evaluate(`document.documentElement.dataset.uiFont===${JSON.stringify(typeface)}&&localStorage.getItem('sqlpg-typeface')===${JSON.stringify(typeface)}`),theme+': typeface preference persists: '+typeface);
     if(typeface==='brand')check(await app.evaluate('getComputedStyle(document.body).fontFamily.includes("Nunito")&&!getComputedStyle(document.body).fontFamily.includes("PractiSQL Display")'),theme+': display lettering is separated from readable interface text');
   }
-  check(await app.evaluate('getComputedStyle(document.getElementById("editor")).fontFamily.toLowerCase().includes("consolas")'),theme+': SQL editor retains its monospace typeface');
+  check(await app.evaluate('getComputedStyle(document.querySelector("#sqlEditor .cm-scroller")).fontFamily.toLowerCase().includes("consolas")'),theme+': SQL editor retains its monospace typeface');
   await app.evaluate('Object.defineProperty(document,"hidden",{configurable:true,get:()=>false});window.__pg.roaming.target({x:850,y:10000,tx:850,ty:10000,stopped:true});window.PractiMascotMotion.stop();');
   await wait(700);
   const restingFeet=await app.evaluate('document.querySelector("#roamFace .mascot-foot-left rect").getBoundingClientRect().bottom');

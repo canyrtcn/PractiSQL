@@ -1,0 +1,19 @@
+/* The SQL document stays intact; CodeMirror virtualizes its visible lines. */
+#editor.editor-bridge{display:none!important}
+.sql-editor-host{height:185px;min-height:185px;max-height:60vh;resize:vertical;overflow:hidden}
+.sql-editor-host .cm-editor{height:100%;background:transparent;color:var(--text)}
+.sql-editor-host .cm-editor.cm-focused,.sql-code-view .cm-editor.cm-focused{outline:none}
+.sql-editor-host .cm-scroller{overflow:auto;scrollbar-gutter:stable;font:400 var(--sql-editor-font-size,13.5px)/1.75 Consolas,"Cascadia Code",monospace}
+.sql-editor-host .cm-content{padding:19px 0;caret-color:var(--accent)}
+.sql-editor-host .cm-line{padding:0 18px}
+.sql-editor-host .cm-placeholder{color:var(--muted);font:inherit}
+.sql-editor-host .cm-cursor,.sql-code-view .cm-cursor{border-left-color:var(--accent)}
+.sql-editor-host .cm-selectionBackground,.sql-code-view .cm-selectionBackground{background:color-mix(in srgb,var(--accent) 27%,transparent)!important}
+.sql-editor-host .cm-content ::selection,.sql-code-view .cm-content ::selection{background:color-mix(in srgb,var(--accent) 27%,transparent)}
+.sql-editor-host .ghost{white-space:pre;pointer-events:none}
+.sql-code-view{max-height:420px;overflow:hidden;font-family:Consolas,"Cascadia Code",monospace}
+.sql-code-view .cm-editor{height:420px;max-height:45vh;background:transparent;color:var(--text)}
+.sql-code-view .cm-scroller{overflow:auto;font:400 11.5px/1.7 Consolas,"Cascadia Code",monospace}
+.sql-code-view .cm-line{padding:0 10px}
+.sql-code-view .cm-content{padding:8px 0}
+@media(max-height:650px){.sql-editor-host{height:140px;min-height:140px}.sql-editor-host .cm-content{padding:14px 0}}

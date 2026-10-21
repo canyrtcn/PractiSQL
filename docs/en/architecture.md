@@ -4,6 +4,8 @@ PractiSQL is a local SQLite learning workspace with an optional AI tutor. Its AI
 
 [Türkçe](../tr/architecture.md) · [Interactive architecture presentation](../architecture/index.html?lang=en) · [Source diagram](../architecture/ai-harness.en.svg)
 
+The SQL editor uses an incremental CodeMirror document. Local workers handle SQL syntax parsing and completion analysis; only the visible code ranges receive rendered highlight spans. Editing a large script therefore does not rebuild the whole highlighted document on each keystroke. Suggestions use cached schema definitions, columns, aliases and declared foreign keys, without querying table records. Highlighting, completion, selection and copying remain available for large scripts. These presentation workers do not execute SQL or alter the execution paths described below.
+
 ![PractiSQL request and execution flow](../architecture/ai-harness.en.svg)
 
 The diagram connects three layers: source-backed context and memory, model and tool orchestration, and local SQLite execution with actual operation records. The learning workflows below share this foundation with their own data and evaluation rules. Green arrows show request/execution flow, dashed lines show source retrieval and feedback, and amber lines show the single conditional repair path.
