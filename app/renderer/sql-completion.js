@@ -108,10 +108,12 @@
     return qualified!==spelling(c)&&uniqueSources.filter(other=>columns(other).includes(c)).length===1?[qualified,spelling(c)]:[qualified];
    }));
    const qualifier=last?.value==='.'?tokens.at(-2)?.value:null;
-   const wildcard=upper==='*'&&(is(tokens.at(-2),'SELECT','DISTINCT')||tokens.at(-2)?.value==='.');
+   const wildcard=upper==='*'&&(is(tokens.at(-2),'SELECT','DISTINCT')||tokens.at(-2)?.value==='.'||clause==='SELECT'&&!insideExpression&&tokens.at(-2)?.value===',');
    const operand=last&&(wildcard||last.quoted||last.value===')'||is(last,'END','NULL','TRUE','FALSE')||/^[\p{L}\p{N}_]/u.test(last.value)&&!reserved.has(last.upper));
    const expression=[...columnNames,...funcs,'CASE','NULL'];
    const frame=windowScope&&['ROWS','RANGE','GROUPS'].includes(clause);
+   const frameTokens=frame?local.slice(local.findLastIndex(t=>is(t,'ROWS','RANGE','GROUPS'))+1):[];
+   const frameBetween=frameTokens.some(t=>is(t,'BETWEEN')),frameEnd=frameTokens.some(t=>is(t,'AND'));
    let candidates=[];
    if(qualifier){const source=uniqueSources.find(s=>(s.alias||s.table.name).toLowerCase()===qualifier.toLowerCase())||(!uniqueSources.length&&tables.has(qualifier.toLowerCase())?{table:tables.get(qualifier.toLowerCase())}:null);candidates=columns(source).map(spelling);}
    else if(['FROM','JOIN','INTO','UPDATE'].includes(upper))candidates=schema.map(t=>spelling(t.name));
@@ -123,10 +125,12 @@
    else if(upper==='NULLS')candidates=['FIRST','LAST'];
    else if(upper==='COLLATE')candidates=['NOCASE','BINARY','RTRIM'];
    else if(frame){
-    if(upper==='UNBOUNDED')candidates=['PRECEDING','FOLLOWING'];
+    if(upper==='UNBOUNDED')candidates=[frameEnd?'FOLLOWING':'PRECEDING'];
     else if(upper==='CURRENT')candidates=['ROW'];
-    else if(upper==='BETWEEN'||['ROWS','RANGE','GROUPS','AND'].includes(upper))candidates=['UNBOUNDED PRECEDING','CURRENT ROW','BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW'];
-    else if(upper==='PRECEDING'||upper==='FOLLOWING'||upper==='ROW')candidates=['AND CURRENT ROW'];
+    else if(upper==='AND')candidates=['CURRENT ROW','UNBOUNDED FOLLOWING'];
+    else if(upper==='BETWEEN')candidates=['UNBOUNDED PRECEDING','CURRENT ROW'];
+    else if(['ROWS','RANGE','GROUPS'].includes(upper))candidates=['UNBOUNDED PRECEDING','CURRENT ROW','BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW'];
+    else if(upper==='PRECEDING'||upper==='FOLLOWING'||upper==='ROW')candidates=frameBetween&&!frameEnd?['AND CURRENT ROW']:[];
     else candidates=['PRECEDING','FOLLOWING'];
    }
    else if(windowScope&&last===windowScope.token)candidates=['PARTITION BY','ORDER BY','ROWS','RANGE','GROUPS'];

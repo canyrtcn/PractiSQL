@@ -91,7 +91,7 @@ test('window clauses and nested queries keep their own grammar and source aliase
 });
 
 test('grammar positions distinguish expression starts, completed expressions and JOIN modifiers',()=>{
- for(const sql of ['SELECT * FR¦','SELECT c.* FR¦','SELECT DISTINCT * FR¦'])assert.equal(top(sql), 'FROM',sql);
+ for(const sql of ['SELECT * FR¦','SELECT c.* FR¦','SELECT DISTINCT * FR¦','SELECT customer_id, * FR¦'])assert.equal(top(sql), 'FROM',sql);
  assert.equal(top('SELECT DISTINCT fir¦ FROM customers'),'first_name');
  assert.equal(top('SELECT i.due_amount * COU¦ FROM installments i'),'COUNT');
  assert.equal(top('SELECT * FROM customers c WHERE c.first_name IS NO¦'),'NOT NULL');
@@ -104,6 +104,14 @@ test('grammar positions distinguish expression starts, completed expressions and
  assert.equal(top('SELECT "order".fir¦ FROM customers AS "order"'),'first_name');
  for(const sql of ['SELECT (SELECT SUM(i.due_amount) FROM installments i) FR¦','SELECT c.first_name AS full_name FR¦','SELECT COUNT(*) FR¦'])assert.equal(top(sql),'FROM',sql);
  assert.equal(top('INS¦'),'INSERT INTO');assert.equal(top('DEL¦'),'DELETE FROM');assert.equal(top('CRE¦'),'CREATE TABLE');
+});
+
+test('window frame continuations respect start bounds, end bounds and BETWEEN',()=>{
+ const prefix='SELECT SUM(i.due_amount) OVER (ORDER BY i.loan_id ',suffix=') FROM installments i';
+ for(const expression of ['ROWS UNBOUNDED PRECEDING ¦','ROWS CURRENT ROW ¦','ROWS UNBOUNDED F¦','ROWS BETWEEN CURRENT ROW AND UNBOUNDED P¦'])assert.equal(top(prefix+expression+suffix),null,expression);
+ assert.equal(top(prefix+'ROWS BETWEEN UNBOUNDED PRECEDING A¦'+suffix),'AND CURRENT ROW');
+ assert.equal(top(prefix+'ROWS BETWEEN CURRENT ROW AND UNB¦'+suffix),'UNBOUNDED FOLLOWING');
+ assert.equal(top(prefix+'ROWS 2 P¦'+suffix),'PRECEDING');
 });
 
 test('context and continuation rules also work with unrelated, Unicode and quoted schemas',()=>{
@@ -124,7 +132,7 @@ test('accepted complete suggestions remain valid SQLite in representative contex
  const initialize=require('sql.js'),SQL=await initialize(),db=new SQL.Database();
  try{
   db.run('CREATE TABLE customers(customer_id INTEGER,first_name TEXT,last_name TEXT,debt_to_income_pct REAL,left_branch_code TEXT); CREATE TABLE loans(loan_id INTEGER,customer_id INTEGER,branch_id INTEGER); CREATE TABLE installments(installment_id INTEGER,loan_id INTEGER,due_amount REAL); CREATE TABLE orders(order_id INTEGER,customer_id INTEGER,amount REAL);');
-  for(const [marked,tables] of [[screenshot.replace('¦','D¦'),schema],['SELECT * FROM customers c LE¦',linked],['SELECT * FROM customers c JOIN orders o ON¦',linked],['SELECT * FROM customers c ORDER BY c.customer_id D¦',schema]]){
+  for(const [marked,tables] of [[screenshot.replace('¦','D¦'),schema],['SELECT * FROM customers c LE¦',linked],['SELECT * FROM customers c JOIN orders o ON¦',linked],['SELECT * FROM customers c ORDER BY c.customer_id D¦',schema],['SELECT SUM(i.due_amount) OVER (ORDER BY i.loan_id ROWS BETWEEN CURRENT ROW AND UNB¦) FROM installments i',schema],['SELECT customer_id, * FR¦ customers',schema]]){
    const result=suggestion(marked,'line',tables);assert(result,marked);const position=marked.indexOf('¦'),text=marked.replace('¦',''),completed=text.slice(0,result.start)+result.top+text.slice(position);assert.doesNotThrow(()=>db.exec(completed),completed);
   }
  }finally{db.close();}
