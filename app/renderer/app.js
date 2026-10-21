@@ -1862,6 +1862,7 @@ function cellHtml(v) {
 function showResults(resArr, ms) {
   showResults.lastMs = ms;
   const resBox = $('results');
+  window.PractiResultTable.disposeWithin(resBox);
   resBox.innerHTML = '';
   let total = 0;
   resArr.forEach((r, i) => {
@@ -1872,9 +1873,9 @@ function showResults(resArr, ms) {
     wrap.innerHTML = `<div class="meta">${origin}${r.values.length} ${esc(t('rowsUnit'))}${resArr.length===1?' • '+esc(ms)+' ms':''}</div>`;
     const tw = document.createElement('div');
     tw.className = 'rtable';
-    tw.innerHTML = `<table><thead><tr>${r.columns.map(c => `<th>${esc(c)}</th>`).join('')}</tr></thead><tbody>${
-      r.values.slice(0, 2000).map(row => `<tr>${row.map(cellHtml).join('')}</tr>`).join('')
-    }</tbody></table>${r.values.length > 2000 ? `<div class="meta">${esc(t('first2000'))}</div>` : ''}`;
+    wrap.appendChild(tw);resBox.appendChild(wrap);
+    if(r.values.length>100)window.PractiResultTable.mount(tw,r,{cellHtml,headingHtml:c=>`<th>${esc(c)}</th>`,cellText:v=>v===null||v===undefined?'NULL':v instanceof Uint8Array?'⬢ '+v.length+' B':window.SqliteValues.text(v)});
+    else tw.innerHTML=`<table><thead><tr>${r.columns.map(c=>`<th>${esc(c)}</th>`).join('')}</tr></thead><tbody>${r.values.map(row=>`<tr>${row.map(cellHtml).join('')}</tr>`).join('')}</tbody></table>`;
     tw.querySelectorAll('th').forEach((th, ci) => { th.onclick = () => sortBy(ci, i); th.title = '↕'; });
     if (!tw.dataset.deleg) {
       tw.dataset.deleg = '1';
@@ -1886,8 +1887,6 @@ function showResults(resArr, ms) {
       });
       tw.style.cursor = 'copy';
     }
-    wrap.appendChild(tw);
-    resBox.appendChild(wrap);
   });
   $('runMeta').textContent = `${total} ${esc(t('rowsUnit'))} • ${ms} ms`;
 }

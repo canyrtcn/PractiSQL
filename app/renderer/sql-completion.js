@@ -58,11 +58,18 @@
    if(mode==='word'&&typed.length<2)return null;
    const tokens=parsed.tokens.slice(),partial=tokens.at(-1);
    if(typed&&partial?.end===position&&!partial.quoted)tokens.pop();
-   const depth=parsed.depth,last=tokens.at(-1),upper=last?.upper;
+   // A completed statement or untouched empty editor is not a request for a new query.
+   if(!typed&&!tokens.length)return null;
+   const last=tokens.at(-1),upper=last?.upper;
+   if(!typed&&!last?.quoted&&['=','<','>','!','+','-','/','%','|','LIMIT','OFFSET'].includes(upper))return null;
    // A future FROM belongs to the same statement, never to a later batch item.
    const entire=scan(text,parsed.statementStart,true).tokens;
    const scopes=[];for(const token of tokens){if(token.value==='('&&!token.quoted)scopes.push(token.start);else if(token.value===')'&&!token.quoted)scopes.pop();}
-   const scopeStart=scopes.at(-1)??parsed.statementStart;
+   // Function/expression parentheses share the surrounding query's aliases.
+   // A real nested SELECT starts its own source scope.
+   let depth=parsed.depth;
+   while(depth>0&&!tokens.some(t=>t.depth===depth&&t.start>scopes[depth-1]&&!t.quoted&&['SELECT','WITH'].includes(t.upper)))depth--;
+   const scopeStart=depth?scopes[depth-1]:parsed.statementStart;
    const scopeEnd=depth?entire.find(t=>t.start>=position&&t.value===')'&&t.depth===depth-1)?.start??Infinity:Infinity;
    const inScope=t=>t.start>=scopeStart&&t.start<scopeEnd&&t.depth===depth;
    const same=tokens.filter(inScope),allSame=entire.filter(inScope);

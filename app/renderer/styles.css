@@ -361,6 +361,10 @@ button:focus{outline:none}
 .rtable{border:1px solid var(--border);border-radius:12px;overflow-x:auto;overflow-y:hidden;max-height:400px;max-width:100%;width:100%;
   background:var(--panel);box-shadow:var(--shadow);animation:rise .25s ease;overscroll-behavior-x:contain}
 .rtable.armed{overflow-y:auto}
+.rtable.virtual-results{contain:layout style;overflow-anchor:none}
+.rtable.virtual-results table{table-layout:fixed}
+.rtable .result-spacer td{padding:0;border:0;min-width:0;font-size:0;line-height:0}
+.rtable .result-spacer:hover td{background:transparent}
 .rtable table{border-collapse:collapse;width:max-content;min-width:100%;font-size:12.5px;table-layout:auto}
 .rtable th{position:sticky;top:0;background:var(--panel2);color:var(--accent);cursor:pointer;min-width:88px;
   text-align:left;padding:8px 12px;border-bottom:1px solid var(--border);white-space:nowrap;font-weight:600}

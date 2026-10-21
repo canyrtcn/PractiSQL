@@ -4,6 +4,19 @@ const {create}=require('../app/renderer/sql-completion.js'),presentation=require
 const schema=[{name:'customers',columns:['customer_id','name','city']},{name:'orders',columns:['order_id','customer_id','amount']}];
 const complete=create();
 function suggest(sql,mode='line',tables=schema){const marker=sql.indexOf('|'),text=sql.replace('|','');return complete({text,position:marker<0?text.length:marker,mode,schema:tables});}
+
+test('an empty editor or completed statement never invents a new SELECT',()=>{
+ for(const mode of ['word','next1','next3','line'])for(const sql of ['', ' ', 'SELECT 1;', 'SELECT 1;   ', 'SELECT 1;\n', '-- note\n', 'SELECT 1; /* done */'])assert.equal(suggest(sql,mode),null,mode+': '+sql);
+ assert.equal(suggest('SELECT 1;\nSEL','word').top,'SELECT');
+ assert.equal(suggest('SELECT 1;\nSEL','line').top,'SELECT * FROM');
+});
+
+test('values and numbers are never replaced by an arbitrary column or statement',()=>{
+ for(const sql of ['SELECT * FROM customers c WHERE c.city = ','SELECT * FROM orders o WHERE o.amount > ','SELECT * FROM customers LIMIT ','SELECT * FROM customers LIMIT 10 OFFSET ','UPDATE customers SET city = ','SELECT 1 + ','INSERT INTO orders VALUES ('])assert.equal(suggest(sql),null,sql);
+ assert.equal(suggest('SELECT SUM(o.am|) FROM orders o').top,'amount');
+ assert.equal(suggest('SELECT COALESCE(SUM(o.am|),0) FROM orders o').top,'amount');
+ assert.equal(suggest('SELECT * FROM orders o WHERE (o.am| > 10)').top,'amount');
+});
 test('word, next word, three words and line produce distinct lengths',()=>{
  const one=[schema[0]];
  assert.equal(suggest('SEL','word',one).top,'SELECT');

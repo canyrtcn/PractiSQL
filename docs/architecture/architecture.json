@@ -1,5 +1,5 @@
 {
-  "version": "3.4.266",
+  "version": "3.4.267",
   "date": "2026-10-20",
   "defaultLocale": "en",
   "views": [
@@ -1159,7 +1159,7 @@
   "references": {
     ".github/SECURITY.md": "470353c7e0447bd45fea3e4040507f03253c3cc762bac12ed424e9f6f93d648d",
     "LICENSE": "c03af9304b8b44d8f65921a325a7f2077ebb89e5c64fc309106b3c547ef02d09",
-    "README.md": "93d3269bc5292cb7660b8fce85342000f404dbace3bca1aa72dc586dee83155f",
+    "README.md": "c72762c1da3c7995d4f501bc532bd835575702b535876ffb12dce2d83e368f53",
     "app/ai-rate-limit.js": "fdf24873dfb664444f28728abe483a3f363e3aa61d16201a2cb1429ef67a2ff8",
     "app/chatgpt-account.js": "1ea42388b92788b93804a9f0b6fc3441039ce26af2b837e9e5e732c160a99f32",
     "app/database-inspection/runner.cjs": "32265046ec123e4248845436a523f67ff069bb7ebd8bb83102fc43e249d11d20",
@@ -1200,12 +1200,12 @@
     "app/renderer/ai-tool-protocol.js": "f223e067cab9e967db279fc9d433d73883b81e6fbfa857a56edb4982e33e3a78",
     "app/renderer/ai-usage.js": "8e563d1f9910f880292790b5fdbb58893b1b759f7be9fc798f9337fe7ff36c0f",
     "app/renderer/ai-wait-progress.js": "8a4f9c4937837db81be0a25fffc2484e880beff30af05fe740049b3dd999a632",
-    "app/renderer/app.js": "2ba1237351f551a40888071c7f82d9ba8a4bcf2446eece7c498cb5351cc0c5d5",
+    "app/renderer/app.js": "470ccb43f856ee5ea8965ef3a2e2db8be2b265926152822531bc7443189c0cf1",
     "app/renderer/exam-presentation.js": "aacd1cfad8ebad25c8b7236909e3196a9211a881c6fd6014d5504c7331758919",
     "app/renderer/exam-sql.js": "d1794fa904f172beb057ae769563dcf3869d70156cf99f749ea806801a54030b",
     "app/renderer/exam-study.js": "2bc44c11e6aff964d87d0669e1e46321dfcc371a1702747386dd10e1f7f6e966",
     "app/renderer/explicit-request-limits.js": "b3943db6a9b651577ac844da1e759252e6af2d7010e3d1e592b2f0017c5d863a",
-    "app/renderer/index.html": "2e46d2f4b3a3c2c0775e07b12f69e05ec07244c5ca5916976089ff84b24cdfff",
+    "app/renderer/index.html": "f6a396eb5a0f7836539308379a535b8c0de53855040ddc82c243e5a28a6823ed",
     "app/renderer/learn-detail.js": "62d53a49f524f304c08546c96fe9d0651d204f861288a2479cdcfa0eb98ac116",
     "app/renderer/lesson-pdf.js": "b19528b264411269ec4b5781914143d881cf49f30c4834817b5505abac205657",
     "app/renderer/operation-results.js": "e8fc7e712dfcb042e1c5c2c5c36adcff6a1b01fb3ca0ded7b7b93c67ecf2d0f5",

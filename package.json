@@ -1,6 +1,6 @@
 {
   "name": "practisql",
-  "version": "3.4.266",
+  "version": "3.4.267",
   "description": "PractiSQL — AI-powered SQL playground.",
   "main": "app/main.js",
   "build": {
@@ -82,7 +82,7 @@
     "test:workshop": "node scripts/test-home-workshop.cjs",
     "test:interface-details": "node scripts/test-interface-details.cjs",
     "editor:build": "node scripts/build-sql-editor.cjs",
-    "test:editor": "node --test scripts/test-editor-policy.cjs && node scripts/test-editor-ui.cjs",
+    "test:editor": "node --test scripts/test-editor-policy.cjs && node scripts/test-editor-ui.cjs && node scripts/test-workspace-responsiveness.cjs",
     "test:layout": "node --test scripts/test-window-layout.cjs scripts/test-interface-scale.cjs",
     "postinstall": "node scripts/prepare-runtime.cjs",
     "docs:assets": "node scripts/build-repository-assets.cjs",
