@@ -1,10 +1,17 @@
 /* Incremental SQL parsing stays off the renderer's input/layout thread. */
 import {EditorState, ChangeSet} from '@codemirror/state';
-import {SQLite} from '@codemirror/lang-sql';
+import {SQLite, SQLDialect} from '@codemirror/lang-sql';
 import {TreeFragment} from '@lezer/common';
 import {tags, tagHighlighter, highlightTree} from '@lezer/highlight';
 
-const parser=SQLite.language.parser;
+// Use the chat highlighter's vocabulary at build time, including its precedence.
+// SQLite's default dialect lists shell commands rather than SQL functions.
+const vocabulary=PRACTISQL_SQL_COLOURS;
+const parser=SQLDialect.define({...SQLite.spec,
+  keywords:SQLite.spec.keywords+' '+vocabulary.KW.join(' '),
+  types:SQLite.spec.types+' '+vocabulary.TY.filter(word=>!vocabulary.KW.includes(word)).join(' '),
+  builtin:vocabulary.FN.filter(word=>!vocabulary.KW.includes(word)).join(' ')
+}).language.parser;
 const colours=tagHighlighter([
   {tag:tags.keyword,class:'sql-kw'},
   {tag:[tags.standard(tags.name),tags.function(tags.variableName)],class:'sql-fn'},

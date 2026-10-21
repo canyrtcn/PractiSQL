@@ -1,5 +1,5 @@
 {
-  "version": "3.4.268",
+  "version": "3.4.269",
   "date": "2026-10-21",
   "defaultLocale": "en",
   "views": [
@@ -1159,7 +1159,7 @@
   "references": {
     ".github/SECURITY.md": "470353c7e0447bd45fea3e4040507f03253c3cc762bac12ed424e9f6f93d648d",
     "LICENSE": "c03af9304b8b44d8f65921a325a7f2077ebb89e5c64fc309106b3c547ef02d09",
-    "README.md": "05bde2fd3290c98e8e01b6085b3a245b8db029228b5aa17de016d400bfd96a2e",
+    "README.md": "05a90e92c8829fe475fec2b158fb8c3f4a1b110940230caf1266486a49d24200",
     "app/ai-rate-limit.js": "fdf24873dfb664444f28728abe483a3f363e3aa61d16201a2cb1429ef67a2ff8",
     "app/chatgpt-account.js": "1ea42388b92788b93804a9f0b6fc3441039ce26af2b837e9e5e732c160a99f32",
     "app/database-inspection/runner.cjs": "32265046ec123e4248845436a523f67ff069bb7ebd8bb83102fc43e249d11d20",

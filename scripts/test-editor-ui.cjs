@@ -15,6 +15,16 @@ async function setEditor(value,mode='line',position=value.length){await app.eval
  for(const[sql,mode,expected]of [['SEL','word','SELECT'],['SEL','next1','SELECT *'],['SELECT * FROM ord','line','SELECT * FROM orders;'],['SELECT * FROM customers c WHERE c.na','line','SELECT * FROM customers c WHERE c.name']]){
   await setEditor(sql,mode);check(await app.evaluate('window.__pg.accept()&&document.getElementById("editor").value==='+JSON.stringify(expected)),mode+': Tab accepts context-appropriate completion');
  }
+ const colourSql='SELECT ROUND(AVG(o.amount), 2), COUNT(*), COALESCE(SUM(o.amount), 0), ROW_NUMBER() OVER (ORDER BY o.amount) FROM orders o;';
+ await setEditor(colourSql);await until('document.querySelectorAll("#sqlEditor .sql-fn").length===6');
+ await app.evaluate('('+function(sql){const box=document.createElement('div');box.id='function-colour-fixture';document.getElementById('chatLog').appendChild(box);window.__pg.rich(box,'```sql\n'+sql+'\n```');}+')('+JSON.stringify(colourSql)+')');
+ for(const theme of ['dark','leaf','light']){
+  while(await app.evaluate('window.__pg.theme()')!==theme)await app.evaluate('window.__pg.toggleTheme()');
+  const colours=await app.evaluate('(()=>{const collect=selector=>Array.from(document.querySelectorAll(selector)).map(node=>({word:node.textContent,colour:getComputedStyle(node).color}));return {editor:collect("#sqlEditor .sql-fn"),chat:collect("#function-colour-fixture .sql-fn"),text:getComputedStyle(document.querySelector("#sqlEditor .cm-content")).color};})()');
+  check(colours.editor.length===6&&colours.editor.every(token=>colours.chat.some(other=>other.word===token.word&&other.colour===token.colour))&&colours.editor.every(token=>token.colour!==colours.text),theme+': editor functions use the same visible colours as chat');
+ }
+ await setEditor('SELECT ROUN(amount) FROM orders;','word',11);await app.evaluate('document.getElementById("editor").focus()');await app.send('Input.insertText',{text:'D'});await until('document.querySelector("#sqlEditor .sql-fn")?.textContent==="ROUND"');check(await app.evaluate('document.getElementById("editor").value==="SELECT ROUND(amount) FROM orders;"'),'Typing the final function character immediately applies the function colour');
+ await app.evaluate('document.getElementById("function-colour-fixture").remove()');
  const middle='SELECT c.na FROM customers c';await setEditor(middle,'line',11);
  await until('!document.getElementById("editorSuggestion").classList.contains("hidden")');
  check(await app.evaluate('!document.querySelector("#sqlEditor .ghost")&&!document.getElementById("editorSuggestion").classList.contains("hidden")'),'Mid-line hints never displace the existing highlighted suffix');
