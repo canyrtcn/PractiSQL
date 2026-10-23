@@ -6,11 +6,11 @@
 
 Yerel SQLite, AI öğretmen, görsel şema ve uygulamalı öğrenmeyi, bu akışları birlikte yöneten bir **AI harness** ile buluşturan masaüstü SQL çalışma alanı.
 
-[AI öğretmene sor](#soru-sorarak-sql-öğren) · [Alıştırmalar](#sqlin-yapısını-çalış) · [PDF defterleri](#kapsamlı-çalışma-defterini-yanında-götür) · [AI harness](#sohbetin-arkasındaki-ai-harness) · [Başlarken](#başlarken)
+<p align="center"><a href="#soru-sorarak-sql-öğren">AI öğretmene sor</a> · <a href="#sqlin-yapısını-çalış">Alıştırmalar</a> · <a href="#kapsamlı-çalışma-defterini-yanında-götür">PDF defterleri</a> · <a href="#sohbetin-arkasındaki-ai-harness">AI harness</a> · <a href="#başlarken">Başlarken</a></p>
 
-<a href="https://github.com/canyrtcn/PractiSQL/releases"><img src="docs/assets/download-windows.tr.svg" width="328" height="64" alt="Windows için PractiSQL indir"></a>
+<p align="center"><a href="https://github.com/canyrtcn/PractiSQL/releases"><img src="docs/assets/download-windows.tr.svg" width="328" height="64" alt="Windows için PractiSQL indir"></a></p>
 
-**Windows x64 · v3.4.269** · **macOS hazırlanıyor.**
+<p align="center"><strong>Windows x64 · v3.4.269</strong> · <strong>macOS hazırlanıyor.</strong></p>
 
 Düğme, Windows x64 kurucusunun bulunduğu Releases sayfasını açar. İndirmek için GitHub hesabı gerekmez.
 
