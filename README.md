@@ -4,7 +4,7 @@
 
 <h3 align="center">Learn SQL. Run it. Understand it.</h3>
 
-A desktop SQL learning workspace that brings local SQLite, an AI tutor, visual schemas and hands-on practice together through a coordinated **AI harness**.
+A desktop SQL learning workspace that brings local SQLite, an AI tutor, visual schemas, and hands-on practice together through a coordinated **AI harness**.
 
 <p align="center"><a href="#learn-sql-by-asking-questions">Ask the tutor</a> · <a href="#practise-the-structure-of-sql">Practice</a> · <a href="#take-a-complete-study-workbook-with-you">PDF workbooks</a> · <a href="#the-ai-harness-behind-the-conversation">AI harness</a> · <a href="#get-started">Get started</a></p>
 
