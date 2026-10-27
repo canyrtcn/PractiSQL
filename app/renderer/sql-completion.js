@@ -12,6 +12,22 @@
  const joins=['JOIN','LEFT JOIN','INNER JOIN','CROSS JOIN','RIGHT JOIN','FULL JOIN'];
  const followingSource=['WHERE',...joins,'GROUP BY','ORDER BY','LIMIT'];
  const followingPredicate=['AND','OR','GROUP BY','ORDER BY','LIMIT'];
+ function outputAliases(tokens,position){
+  // Projection names belong to one SELECT, never a CTE, sibling or UNION arm.
+  if(tokens.some(token=>is(token,'UNION','INTERSECT','EXCEPT')))return [];
+  const begin=tokens.findLastIndex(token=>token.start<position&&is(token,'SELECT'));if(begin<0)return [];
+  const finish=tokens.findIndex((token,index)=>index>begin&&is(token,'FROM','WHERE','GROUP','HAVING','ORDER','LIMIT','WINDOW'));
+  const projection=tokens.slice(begin+1,finish<0?undefined:finish),groups=[[]];
+  for(const token of projection){if(token.value===','&&!token.quoted)groups.push([]);else groups.at(-1).push(token);}
+  const names=[];
+  for(const group of groups){
+   const alias=group.at(-1),previous=group.at(-2);if(!alias||!previous||alias.string||!alias.quoted&&(!/^[\p{L}_][\p{L}\p{N}_$]*$/u.test(alias.value)||reserved.has(alias.upper)))continue;
+   const explicit=is(previous,'AS')&&group.length>2;
+   const implicit=!is(previous,'AS','COLLATE')&&previous.end<alias.start&&(previous.quoted||previous.value===')'||is(previous,'END')||/^[\p{L}\p{N}_]/u.test(previous.value)&&!reserved.has(previous.upper));
+   if(explicit||implicit)names.push(alias.value);
+  }
+  return names.filter((name,index)=>names.findIndex(other=>other.toLowerCase()===name.toLowerCase())===index&&names.filter(other=>other.toLowerCase()===name.toLowerCase()).length===1).map(spelling);
+ }
  function joinCondition(a,b){
   const possibilities=[];
   for(const [child,parent]of [[a,b],[b,a]]){
@@ -110,7 +126,8 @@
    const qualifier=last?.value==='.'?tokens.at(-2)?.value:null;
    const wildcard=upper==='*'&&(is(tokens.at(-2),'SELECT','DISTINCT')||tokens.at(-2)?.value==='.'||clause==='SELECT'&&!insideExpression&&tokens.at(-2)?.value===',');
    const operand=last&&(wildcard||last.quoted||last.value===')'||is(last,'END','NULL','TRUE','FALSE')||/^[\p{L}\p{N}_]/u.test(last.value)&&!reserved.has(last.upper));
-   const expression=[...columnNames,...funcs,'CASE','NULL'];
+   const aliases=!windowScope&&['ORDER','HAVING'].includes(clause)?outputAliases(allSame,position):[];
+   const expression=[...aliases,...columnNames,...funcs,'CASE','NULL'];
    const frame=windowScope&&['ROWS','RANGE','GROUPS'].includes(clause);
    const frameTokens=frame?local.slice(local.findLastIndex(t=>is(t,'ROWS','RANGE','GROUPS'))+1):[];
    const frameBetween=frameTokens.some(t=>is(t,'BETWEEN')),frameEnd=frameTokens.some(t=>is(t,'AND'));
