@@ -56,6 +56,8 @@ Use the editor for your own SQL, inspect a query plan, revisit query history or 
 
 **Use Tab to accept a suggestion that follows your current schema.** Choose word completion, the next word, the next three words or the rest of a line. Suggestions use local SQL vocabulary, table names and columns. This editor assistance works without an AI account or model call; asking the tutor to generate SQL is a separate feature.
 
+Longer completion modes extend a suggestion only when the continuation is unambiguous. Choosing the next three words does not force three guessed words: the editor may offer a shorter completion when several tables, columns or SQL clauses would be valid. Accepting a suggestion preserves the SQL after the cursor. See the [editor architecture](docs/en/architecture.md) for how local workers handle completion and highlighting.
+
 ## Learn a concept, then try it
 
 ![A SELECT lesson with explanations and SQL examples](docs/showcase/cards/guided-learning.en.png)

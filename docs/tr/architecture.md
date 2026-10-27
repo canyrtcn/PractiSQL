@@ -6,6 +6,8 @@ PractiSQL, cihazda çalışan bir SQLite çalışma alanını isteğe bağlı bi
 
 SQL editörü, CodeMirror ile metnin değişen bölümünü işler. Yerel iş parçacıkları SQL renklendirmesini ve tamamlama önerilerini hesaplar; arayüz yalnızca görünür kod aralıklarının renklerini çizer. Böylece büyük bir sorguda her tuş basışında metnin tamamının renkli görünümü yeniden oluşturulmaz. Öneriler, tablo kayıtlarını sorgulamadan önbellekteki şema tanımlarını, sütunları, takma adları ve tanımlı dış anahtarları kullanır. Renklendirme, tamamlama, seçim ve kopyalama büyük sorgularda da kullanılabilir. Bu görsel işlemler SQL çalıştırmaz ve aşağıda açıklanan yürütme yollarını değiştirmez.
 
+Tamamlama motoru mevcut komutu, SELECT kapsamını ve SQL'in hangi bölümünde yazıldığını izler. Tablo takma adı kendi sütunlarını gösterir; sonuç takma adları başka bir komuta, iç sorguya veya pencere fonksiyonunun kapsamına taşınmaz. Uzun modlar, devamı belirsiz olmadığında öneriyi genişletir; tanımlı bir dış anahtara dayanan JOIN koşulu da buna dahildir. Motor ilişki uydurmaz ve belirsiz bir konumu rastgele bir sütunla doldurmaz. Tab tuşu önerilen metni kabul ederken imleçten sonraki SQL'i korur.
+
 ![PractiSQL AI harness: bağlam, model araçları, SQL kontrolleri ve öğrenme akışları](../architecture/ai-harness.tr.svg)
 
 Şema üç ana katmanı birlikte gösterir: kaynak kimliğiyle saklanan bağlam ve bellek, model ve araç çağrılarının yönetimi, yerel SQLite yürütmesi ve gerçekleşen işlem kayıtları. Alt sıradaki öğrenme yolları bu temeli kendi veri ve değerlendirme kurallarıyla kullanır. Yeşil oklar istek/yürütme yolunu, kesikli çizgiler kaynak getirmeyi ve geri beslemeyi, kehribar çizgiler tek ve koşullu düzeltmeyi gösterir.
