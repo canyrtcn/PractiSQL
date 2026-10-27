@@ -10,7 +10,7 @@ Yerel SQLite, AI öğretmen, görsel şema ve uygulamalı öğrenmeyi, bu akış
 
 <p align="center"><a href="https://github.com/canyrtcn/PractiSQL/releases"><img src="docs/assets/download-windows.tr.svg" width="328" height="64" alt="Windows için PractiSQL indir"></a></p>
 
-<p align="center"><strong>Windows x64 · v3.4.270</strong> · <strong>macOS hazırlanıyor.</strong></p>
+<p align="center"><strong>Windows x64 · v3.4.271</strong> · <strong>macOS hazırlanıyor.</strong></p>
 
 Düğme, Windows x64 kurucusunun bulunduğu Releases sayfasını açar. İndirmek için GitHub hesabı gerekmez.
 
@@ -184,7 +184,7 @@ Hesabında kullanılabilen model seçeneğini kullan. Model adları ve erişim d
 3. Desteklenen veritabanını veya dosyanı yükle ya da hazır bir öğrenme örneği aç. SQL yazmaya ve çalıştırmaya hemen başlayabilirsin.
 4. Açıklama, sorgu üretimi veya AI destekli öğrenme akışları istediğinde AI bağlantısı ekle. Bu adımı sonraya bırakabilirsin.
 
-[Sürüm notları](docs/releases/v3.4.270.md) · [Kaynaktan çalıştır](#geliştirme-ve-repo-düzeni)
+[Sürüm notları](docs/releases/v3.4.271.md) · [Kaynaktan çalıştır](#geliştirme-ve-repo-düzeni)
 
 ## Daha fazla ekran ve belge
 
