@@ -56,6 +56,8 @@ Kendi SQL’ini yaz, sorgu planını incele, geçmiş sorgulara dön veya sohbet
 
 **Mevcut şemanı izleyen öneriyi Tab ile kabul et.** Kelime, sıradaki kelime, sonraki üç kelime veya satırın kalanı için tamamlama seçebilirsin. Öneriler yerel SQL sözlüğünü, tablo ve sütun adlarını kullanır. Editörün bu yardımı AI hesabı veya model çağrısı gerektirmez; öğretmenden sorgu yazmasını istemek ayrı bir özelliktir.
 
+Uzun tamamlama modları, devamı belirsiz olmadığında öneriyi genişletir. Sonraki üç kelimeyi seçmek, her durumda üç kelime önerileceği anlamına gelmez: birden fazla tablo, sütun veya SQL ifadesi uygun olduğunda öneri daha kısa kalabilir. Öneriyi kabul etmek, imleçten sonraki SQL'i korur. Yerel iş parçacıklarının tamamlamayı ve renklendirmeyi nasıl işlediğini [editör mimarisinde](docs/tr/architecture.md) inceleyebilirsin.
+
 ## Bir kavram öğren, sonra dene
 
 ![Açıklamalar ve SQL örnekleriyle SELECT dersi](docs/showcase/cards/guided-learning.tr.png)
