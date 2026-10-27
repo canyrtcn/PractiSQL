@@ -82,7 +82,7 @@
     "test:workshop": "node scripts/test-home-workshop.cjs",
     "test:interface-details": "node scripts/test-interface-details.cjs",
     "editor:build": "node scripts/build-sql-editor.cjs",
-    "test:editor": "node --test scripts/test-editor-policy.cjs scripts/test-sql-completion-context.cjs scripts/test-sql-output-aliases.cjs scripts/test-sql-case-completion.cjs scripts/test-sql-highlight.cjs && node scripts/test-editor-ui.cjs && node scripts/test-sql-completion-ui.cjs && node scripts/test-workspace-responsiveness.cjs",
+    "test:editor": "node --test scripts/test-editor-policy.cjs scripts/test-sql-completion-context.cjs scripts/test-sql-output-aliases.cjs scripts/test-sql-case-completion.cjs scripts/test-sql-between-completion.cjs scripts/test-sql-highlight.cjs && node scripts/test-editor-ui.cjs && node scripts/test-sql-completion-ui.cjs && node scripts/test-workspace-responsiveness.cjs",
     "test:layout": "node --test scripts/test-window-layout.cjs scripts/test-interface-scale.cjs",
     "postinstall": "node scripts/prepare-runtime.cjs",
     "docs:assets": "node scripts/build-repository-assets.cjs",

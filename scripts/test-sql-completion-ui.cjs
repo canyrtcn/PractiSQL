@@ -33,6 +33,8 @@ LEFT JOIN installments AS i ON l.loan_id = i.loan_id`;
    const completedCase=await accept(marked,expected,value+': native Tab completes the correct CASE branch keyword '+expected);
    await app.evaluate('window.__pg.run('+JSON.stringify(completedCase)+')');check(await app.evaluate('!window.__pg.lastErr()&&window.__pg.resultSets()[0].values[0][0]===1'),value+': completed CASE executes with its original suffix');
   }
+  await editor('SELECT CASE WHEN due_amount BETWEEN 10 TH¦ FROM installments');await wait(120);check(await app.evaluate('!document.querySelector("#sqlEditor .ghost")&&!document.getElementById("editorSuggestion").textContent'),value+': an incomplete BETWEEN never offers THEN');
+  const completedRange=await accept('SELECT CASE WHEN due_amount BETWEEN 10 AN¦ 200 THEN 1 ELSE 0 END FROM installments','AND',value+': BETWEEN requires its AND separator');await app.evaluate('window.__pg.run('+JSON.stringify(completedRange)+')');check(await app.evaluate('!window.__pg.lastErr()&&window.__pg.resultSets()[0].values[0][0]===1'),value+': completed BETWEEN executes successfully');
  }
  await mode('next3');await accept('SELECT AVG(due_amount) AS "average amount" FROM installments ORDER BY aver¦ DESC','"average amount"','Quoted output aliases are accepted as complete identifiers');
  await editor('SELECT SUM(due_amount) AS total_revenue FROM installments; SELECT * FROM customers ORDER BY total_rev¦');await wait(150);check(await app.evaluate('!document.querySelector("#sqlEditor .ghost")&&!document.getElementById("editorSuggestion").textContent'),'Output aliases from a previous statement are never suggested in a new query');
