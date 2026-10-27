@@ -5,6 +5,7 @@
  const reserved=new Set(('SELECT FROM WHERE GROUP ORDER BY HAVING LIMIT OFFSET JOIN INNER LEFT RIGHT FULL CROSS OUTER NATURAL ON USING UNION ALL INTERSECT EXCEPT AS AND OR NOT SET VALUES RETURNING WHEN THEN ELSE END ASC DESC INTO UPDATE DELETE INSERT WITH RECURSIVE DISTINCT IS IN LIKE BETWEEN EXISTS NULL CASE OVER PARTITION WINDOW ROWS RANGE GROUPS UNBOUNDED PRECEDING FOLLOWING CURRENT ROW NULLS FIRST LAST COLLATE FILTER').split(' '));
  const keywords=('SELECT FROM WHERE GROUP BY ORDER BY HAVING LIMIT OFFSET JOIN LEFT JOIN INNER JOIN CROSS JOIN ON USING AS AND OR NOT IN IS NULL LIKE BETWEEN EXISTS DISTINCT WITH RECURSIVE UNION ALL ASC DESC INSERT INTO UPDATE SET DELETE FROM CREATE TABLE VALUES RETURNING CASE WHEN THEN ELSE END').split(' ');
  const functions=['COUNT','SUM','AVG','MIN','MAX','COALESCE','NULLIF','ROUND','LOWER','UPPER','LENGTH','SUBSTR','ROW_NUMBER','LAG','LEAD','DATE','STRFTIME'];
+ const aggregates=new Set(['AVG','COUNT','SUM','TOTAL','MIN','MAX','GROUP_CONCAT','STRING_AGG','JSON_GROUP_ARRAY','JSON_GROUP_OBJECT','JSONB_GROUP_ARRAY','JSONB_GROUP_OBJECT','MEDIAN','PERCENTILE','PERCENTILE_CONT','PERCENTILE_DISC']);
  const quote=name=>'"'+String(name).replaceAll('"','""')+'"';
  const spelling=name=>/^[\p{L}_][\p{L}\p{N}_$]*$/u.test(name)&&!reserved.has(name.toUpperCase())?name:quote(name);
  const is=(token,...values)=>token&&!token.quoted&&values.includes(token.upper);
@@ -40,7 +41,24 @@
   }
   return stack.at(-1);
  }
- function outputAliases(tokens,position){
+ function groupableExpression(tokens){
+  for(let index=0;index<tokens.length;index++){
+   const token=tokens[index],next=tokens[index+1];
+   // A scalar subquery has its own aggregation and window scope.
+   if(token.value==='('&&!token.quoted&&is(next,'SELECT','WITH')){
+    const close=tokens.findIndex((end,at)=>at>index&&end.value===')'&&!end.quoted&&end.depth===token.depth);
+    if(close<0)return false;index=close;continue;
+   }
+   if(is(token,'OVER')&&tokens[index-1]?.value!=='.')return false;
+   if(token.string||!aggregates.has(token.upper)||next?.value!=='('||next.quoted)continue;
+   if(!['MIN','MAX'].includes(token.upper))return false;
+   // SQLite's two-or-more-argument MIN/MAX are scalar functions.
+   const close=tokens.findIndex((end,at)=>at>index+1&&end.value===')'&&!end.quoted&&end.depth===next.depth);
+   if(close<0||!tokens.slice(index+2,close).some(arg=>arg.value===','&&!arg.quoted&&arg.depth===next.depth+1))return false;
+  }
+  return true;
+ }
+ function outputAliases(tokens,position,groupTokens){
   // Projection names belong to one SELECT, never a CTE, sibling or UNION arm.
   if(tokens.some(token=>is(token,'UNION','INTERSECT','EXCEPT')))return [];
   const begin=tokens.findLastIndex(token=>token.start<position&&is(token,'SELECT'));if(begin<0)return [];
@@ -52,9 +70,9 @@
    const alias=group.at(-1),previous=group.at(-2);if(!alias||!previous||alias.string||!alias.quoted&&(!/^[\p{L}_][\p{L}\p{N}_$]*$/u.test(alias.value)||reserved.has(alias.upper)))continue;
    const explicit=is(previous,'AS')&&group.length>2;
    const implicit=!is(previous,'AS','COLLATE')&&previous.end<alias.start&&(previous.quoted||previous.value===')'||is(previous,'END')||/^[\p{L}\p{N}_]/u.test(previous.value)&&!reserved.has(previous.upper));
-   if(explicit||implicit)names.push(alias.value);
+   if(explicit||implicit)names.push({name:alias.value,groupable:!groupTokens||groupableExpression(groupTokens.filter(token=>token.start>=group[0].start&&token.end<=(explicit?previous.start:alias.start)))});
   }
-  return names.filter((name,index)=>names.findIndex(other=>other.toLowerCase()===name.toLowerCase())===index&&names.filter(other=>other.toLowerCase()===name.toLowerCase()).length===1).map(spelling);
+  return names.filter(({name,groupable})=>groupable&&names.filter(other=>other.name.toLowerCase()===name.toLowerCase()).length===1).map(({name})=>spelling(name));
  }
  function joinCondition(a,b){
   const possibilities=[];
@@ -154,7 +172,7 @@
    const qualifier=last?.value==='.'?tokens.at(-2)?.value:null;
    const wildcard=upper==='*'&&(is(tokens.at(-2),'SELECT','DISTINCT')||tokens.at(-2)?.value==='.'||clause==='SELECT'&&!insideExpression&&tokens.at(-2)?.value===',');
    const operand=last&&(wildcard||last.quoted||last.value===')'||is(last,'END','NULL','TRUE','FALSE')||/^[\p{L}\p{N}_]/u.test(last.value)&&!reserved.has(last.upper));
-   const aliases=!windowScope&&['ORDER','HAVING'].includes(clause)?outputAliases(allSame,position):[];
+   const aliases=!windowScope&&['ORDER','HAVING','GROUP'].includes(clause)?outputAliases(allSame,position,clause==='GROUP'?entire:null):[];
    const expression=[...aliases,...columnNames,...funcs,'CASE','NULL'];
    const activeCase=caseContext(tokens,scopeStart),caseLevel=activeCase?.depth===parsed.depth;
    const between=betweenContext(tokens,scopeStart),needsBetweenAnd=between?.depth===parsed.depth&&operand;
