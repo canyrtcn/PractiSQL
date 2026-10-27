@@ -12,6 +12,21 @@
  const joins=['JOIN','LEFT JOIN','INNER JOIN','CROSS JOIN','RIGHT JOIN','FULL JOIN'];
  const followingSource=['WHERE',...joins,'GROUP BY','ORDER BY','LIMIT'];
  const followingPredicate=['AND','OR','GROUP BY','ORDER BY','LIMIT'];
+ function betweenContext(tokens,scopeStart){
+  const pending=[];let caseLevel=0;
+  for(let index=0;index<tokens.length;index++){
+   const token=tokens[index];if(token.start<scopeStart||token.quoted||tokens[index-1]?.value==='.')continue;
+   if(token.value===')'){for(let i=pending.length-1;i>=0;i--)if(pending[i].depth>token.depth)pending.splice(i,1);}
+   if(is(token,'CASE'))caseLevel++;
+   else if(is(token,'END','WHEN','THEN','ELSE')){
+    for(let i=pending.length-1;i>=0;i--)if(pending[i].depth===token.depth&&pending[i].caseLevel===caseLevel)pending.splice(i,1);
+    if(is(token,'END'))caseLevel=Math.max(0,caseLevel-1);
+   }
+   else if(is(token,'BETWEEN'))pending.push({depth:token.depth,caseLevel});
+   else if(is(token,'AND')){const at=pending.findLastIndex(bound=>bound.depth===token.depth&&bound.caseLevel===caseLevel);if(at>=0)pending.splice(at,1);}
+  }
+  return pending.at(-1);
+ }
  function caseContext(tokens,scopeStart){
   const stack=[];
   for(let index=0;index<tokens.length;index++){
@@ -142,13 +157,15 @@
    const aliases=!windowScope&&['ORDER','HAVING'].includes(clause)?outputAliases(allSame,position):[];
    const expression=[...aliases,...columnNames,...funcs,'CASE','NULL'];
    const activeCase=caseContext(tokens,scopeStart),caseLevel=activeCase?.depth===parsed.depth;
+   const between=betweenContext(tokens,scopeStart),needsBetweenAnd=between?.depth===parsed.depth&&operand;
    const frame=windowScope&&['ROWS','RANGE','GROUPS'].includes(clause);
    const frameTokens=frame?local.slice(local.findLastIndex(t=>is(t,'ROWS','RANGE','GROUPS'))+1):[];
    const frameBetween=frameTokens.some(t=>is(t,'BETWEEN')),frameEnd=frameTokens.some(t=>is(t,'AND'));
    let candidates=[];
    if(qualifier){const source=uniqueSources.find(s=>(s.alias||s.table.name).toLowerCase()===qualifier.toLowerCase())||(!uniqueSources.length&&tables.has(qualifier.toLowerCase())?{table:tables.get(qualifier.toLowerCase())}:null);candidates=columns(source).map(spelling);}
+   else if(needsBetweenAnd)candidates=['AND'];
    else if(caseLevel&&upper==='CASE')candidates=['WHEN',...expression];
-   else if(caseLevel&&['WHEN','THEN','ELSE'].includes(upper))candidates=[...expression,...(upper==='WHEN'?['NOT','EXISTS']:[])];
+   else if(upper==='BETWEEN'||caseLevel&&['WHEN','THEN','ELSE'].includes(upper))candidates=[...expression,...(upper==='WHEN'?['NOT','EXISTS']:[])];
    else if(caseLevel&&operand){
     if(activeCase.phase==='base')candidates=['WHEN'];
     else if(activeCase.phase==='WHEN')candidates=['THEN','AND','OR','IS','IN','LIKE','BETWEEN'];
@@ -193,7 +210,7 @@
    let matches=[...new Set(candidates)].filter(c=>!typed||c.replace(/^"/,'').toLowerCase().startsWith(typed.toLowerCase()));
    // Never choose an unrelated first table or column when the next token is ambiguous.
    if(!typed&&matches.length>1){if(upper==='SELECT')matches=['*'];else if(['LEFT','RIGHT','FULL'].includes(upper))matches=['JOIN'];else return null;}
-   if(!typed&&operand&&!qualifier&&!caseLevel){if(clause==='SELECT')matches=!hasFrom?['FROM']:[];else if(clause==='JOIN'&&currentJoin)matches=['ON '+currentJoin];else return null;}
+   if(!typed&&operand&&!qualifier&&!caseLevel&&!needsBetweenAnd){if(clause==='SELECT')matches=!hasFrom?['FROM']:[];else if(clause==='JOIN'&&currentJoin)matches=['ON '+currentJoin];else return null;}
    let top=matches[0];if(!top)return null;
    if(mode!=='word'){
     const completed=top.toUpperCase();
