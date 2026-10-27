@@ -25,7 +25,13 @@ LEFT JOIN installments AS i ON l.loan_id = i.loan_id`;
  for(const value of ['word','next1','next3','line']){
   await mode(value);const completed=await accept(query,'DESC',value+': native Tab accepts DESC inside the window without changing the suffix');
   await app.evaluate('window.__pg.run('+JSON.stringify(completed)+')');check(await app.evaluate('!window.__pg.lastErr()&&window.__pg.resultSets()[0].values[0][5]===1'),value+': the completed window query executes through the existing SQLite engine');
+  for(const clause of ['ORDER BY tot¦ DESC','HAVING tot¦ > 0']){
+   const aliased=await accept('SELECT SUM(due_amount) AS total_revenue FROM installments '+clause,'total_revenue',value+': native Tab completes a SELECT output alias in '+clause.split(' ')[0]);
+   await app.evaluate('window.__pg.run('+JSON.stringify(aliased)+')');check(await app.evaluate('!window.__pg.lastErr()&&window.__pg.resultSets()[0].values[0][0]===120'),value+': accepted output alias executes with the original query suffix');
+  }
  }
+ await mode('next3');await accept('SELECT AVG(due_amount) AS "average amount" FROM installments ORDER BY aver¦ DESC','"average amount"','Quoted output aliases are accepted as complete identifiers');
+ await editor('SELECT SUM(due_amount) AS total_revenue FROM installments; SELECT * FROM customers ORDER BY total_rev¦');await wait(150);check(await app.evaluate('!document.querySelector("#sqlEditor .ghost")&&!document.getElementById("editorSuggestion").textContent'),'Output aliases from a previous statement are never suggested in a new query');
  await mode('next3');await accept(query.replace('D¦','DESC')+'\nLE¦','LEFT JOIN','A new JOIN follows the completed ON predicate instead of a left-prefixed column');
  for(const [value,expected]of [['word','LEFT'],['next1','LEFT JOIN'],['next3','LEFT JOIN loans ON'],['line','LEFT JOIN loans ON loans.customer_id = c.customer_id']]){await mode(value);await accept('SELECT * FROM customers c LE¦',expected,value+': native Tab uses the configured continuation budget');}
  await mode('next3');await accept('SELECT * FROM customers c LEFT¦','LEFT JOIN loans ON','A fully typed keyword can still extend into a multi-word suggestion');
