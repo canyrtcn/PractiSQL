@@ -12,6 +12,19 @@
  const joins=['JOIN','LEFT JOIN','INNER JOIN','CROSS JOIN','RIGHT JOIN','FULL JOIN'];
  const followingSource=['WHERE',...joins,'GROUP BY','ORDER BY','LIMIT'];
  const followingPredicate=['AND','OR','GROUP BY','ORDER BY','LIMIT'];
+ function caseContext(tokens,scopeStart){
+  const stack=[];
+  for(let index=0;index<tokens.length;index++){
+   const token=tokens[index];if(token.start<scopeStart||token.quoted||tokens[index-1]?.value==='.')continue;
+   if(token.value===')'){while(stack.length&&stack.at(-1).depth>token.depth)stack.pop();}
+   if(is(token,'CASE'))stack.push({depth:token.depth,phase:'base'});
+   else if(stack.at(-1)?.depth===token.depth){
+    if(is(token,'END'))stack.pop();
+    else if(is(token,'WHEN','THEN','ELSE'))stack.at(-1).phase=token.upper;
+   }
+  }
+  return stack.at(-1);
+ }
  function outputAliases(tokens,position){
   // Projection names belong to one SELECT, never a CTE, sibling or UNION arm.
   if(tokens.some(token=>is(token,'UNION','INTERSECT','EXCEPT')))return [];
@@ -128,11 +141,20 @@
    const operand=last&&(wildcard||last.quoted||last.value===')'||is(last,'END','NULL','TRUE','FALSE')||/^[\p{L}\p{N}_]/u.test(last.value)&&!reserved.has(last.upper));
    const aliases=!windowScope&&['ORDER','HAVING'].includes(clause)?outputAliases(allSame,position):[];
    const expression=[...aliases,...columnNames,...funcs,'CASE','NULL'];
+   const activeCase=caseContext(tokens,scopeStart),caseLevel=activeCase?.depth===parsed.depth;
    const frame=windowScope&&['ROWS','RANGE','GROUPS'].includes(clause);
    const frameTokens=frame?local.slice(local.findLastIndex(t=>is(t,'ROWS','RANGE','GROUPS'))+1):[];
    const frameBetween=frameTokens.some(t=>is(t,'BETWEEN')),frameEnd=frameTokens.some(t=>is(t,'AND'));
    let candidates=[];
    if(qualifier){const source=uniqueSources.find(s=>(s.alias||s.table.name).toLowerCase()===qualifier.toLowerCase())||(!uniqueSources.length&&tables.has(qualifier.toLowerCase())?{table:tables.get(qualifier.toLowerCase())}:null);candidates=columns(source).map(spelling);}
+   else if(caseLevel&&upper==='CASE')candidates=['WHEN',...expression];
+   else if(caseLevel&&['WHEN','THEN','ELSE'].includes(upper))candidates=[...expression,...(upper==='WHEN'?['NOT','EXISTS']:[])];
+   else if(caseLevel&&operand){
+    if(activeCase.phase==='base')candidates=['WHEN'];
+    else if(activeCase.phase==='WHEN')candidates=['THEN','AND','OR','IS','IN','LIKE','BETWEEN'];
+    else if(activeCase.phase==='THEN')candidates=['WHEN','ELSE','END'];
+    else if(activeCase.phase==='ELSE')candidates=['END'];
+   }
    else if(['FROM','JOIN','INTO','UPDATE'].includes(upper))candidates=schema.map(t=>spelling(t.name));
    else if(['ORDER','GROUP','PARTITION'].includes(upper))candidates=['BY'];
    else if(['LEFT','RIGHT','FULL'].includes(upper))candidates=['JOIN','OUTER JOIN'];
@@ -171,7 +193,7 @@
    let matches=[...new Set(candidates)].filter(c=>!typed||c.replace(/^"/,'').toLowerCase().startsWith(typed.toLowerCase()));
    // Never choose an unrelated first table or column when the next token is ambiguous.
    if(!typed&&matches.length>1){if(upper==='SELECT')matches=['*'];else if(['LEFT','RIGHT','FULL'].includes(upper))matches=['JOIN'];else return null;}
-   if(!typed&&operand&&!qualifier){if(clause==='SELECT')matches=!hasFrom?['FROM']:[];else if(clause==='JOIN'&&currentJoin)matches=['ON '+currentJoin];else return null;}
+   if(!typed&&operand&&!qualifier&&!caseLevel){if(clause==='SELECT')matches=!hasFrom?['FROM']:[];else if(clause==='JOIN'&&currentJoin)matches=['ON '+currentJoin];else return null;}
    let top=matches[0];if(!top)return null;
    if(mode!=='word'){
     const completed=top.toUpperCase();
