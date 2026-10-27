@@ -29,6 +29,10 @@ LEFT JOIN installments AS i ON l.loan_id = i.loan_id`;
    const aliased=await accept('SELECT SUM(due_amount) AS total_revenue FROM installments '+clause,'total_revenue',value+': native Tab completes a SELECT output alias in '+clause.split(' ')[0]);
    await app.evaluate('window.__pg.run('+JSON.stringify(aliased)+')');check(await app.evaluate('!window.__pg.lastErr()&&window.__pg.resultSets()[0].values[0][0]===120'),value+': accepted output alias executes with the original query suffix');
   }
+  for(const [marked,expected]of [['SELECT CASE WHEN due_amount>100 TH¦ 1 ELSE 0 END AS bucket FROM installments','THEN'],['SELECT CASE WHEN due_amount>100 THEN 1 EL¦ 0 END AS bucket FROM installments','ELSE'],['SELECT CASE WHEN due_amount>100 THEN 1 ELSE 0 EN¦ AS bucket FROM installments','END']]){
+   const completedCase=await accept(marked,expected,value+': native Tab completes the correct CASE branch keyword '+expected);
+   await app.evaluate('window.__pg.run('+JSON.stringify(completedCase)+')');check(await app.evaluate('!window.__pg.lastErr()&&window.__pg.resultSets()[0].values[0][0]===1'),value+': completed CASE executes with its original suffix');
+  }
  }
  await mode('next3');await accept('SELECT AVG(due_amount) AS "average amount" FROM installments ORDER BY aver¦ DESC','"average amount"','Quoted output aliases are accepted as complete identifiers');
  await editor('SELECT SUM(due_amount) AS total_revenue FROM installments; SELECT * FROM customers ORDER BY total_rev¦');await wait(150);check(await app.evaluate('!document.querySelector("#sqlEditor .ghost")&&!document.getElementById("editorSuggestion").textContent'),'Output aliases from a previous statement are never suggested in a new query');
