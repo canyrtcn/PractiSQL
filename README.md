@@ -182,7 +182,7 @@ Choose an available model entry in your account. Model names and access can vary
 ## Get started
 
 1. Download the Windows x64 installer from [Releases](https://github.com/canyrtcn/PractiSQL/releases).
-2. Run the installer and choose your language during first-run setup. macOS is in preparation.
+2. Run the installer and choose your language during first-run setup.
 3. Load a supported database or file, or open a built-in learning example. Start writing and running SQL immediately.
 4. Connect AI when you want guided explanations, generated queries or AI-backed learning workflows. You can leave this step for later.
 
