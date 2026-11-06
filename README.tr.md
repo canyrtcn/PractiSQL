@@ -6,7 +6,7 @@
 
 Yerel SQLite, AI öğretmen, görsel şema ve uygulamalı öğrenmeyi, bu akışları birlikte yöneten bir **AI harness** ile buluşturan masaüstü SQL çalışma alanı.
 
-<p align="center"><a href="#soru-sorarak-sql-öğren">AI öğretmene sor</a> · <a href="#sqlin-yapısını-çalış">Alıştırmalar</a> · <a href="#kapsamlı-çalışma-defterini-yanında-götür">PDF defterleri</a> · <a href="#sohbetin-arkasındaki-ai-harness">AI harness</a> · <a href="#başlarken">Başlarken</a></p>
+<p align="center"><a href="#soru-sorarak-sql-öğren">AI öğretmene sor</a> · <a href="#sqlin-yapısını-çalış">Alıştırmalar</a> · <a href="#kapsamlı-çalışma-defterini-yanında-götür">PDF defterleri</a> · <a href="#sohbetin-arkasındaki-ai-harness">AI harness</a> · <a href="#daha-fazla-ekran-ve-belge">Ekran görüntüleri</a> · <a href="#başlarken">Başlarken</a></p>
 
 <p align="center"><a href="https://github.com/canyrtcn/PractiSQL/releases"><img src="docs/assets/download-windows.tr.svg" width="328" height="64" alt="Windows için PractiSQL indir"></a></p>
 
