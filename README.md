@@ -40,7 +40,7 @@ The AI harness supplies the relevant schema, conversation and observations, then
 
 1. **Open an example or import a database.** Built-in learning workspaces give you tables and records to explore immediately.
 2. **Run a query and inspect the rows.** Keep the editor, results and visual schema together as you change the SQL.
-3. **Add a tutor when you want one.** Connect a ChatGPT account or an API provider, ask about the result and compare the explanation with the actual table.
+3. **Add a tutor when you want one.** Connect a ChatGPT account or an [API provider](#connect-the-ai-provider-you-prefer), ask about the result and compare the explanation with the actual table.
 
 ## Write SQL and inspect what it does
 
