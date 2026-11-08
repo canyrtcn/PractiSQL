@@ -190,7 +190,7 @@ Choose an available model entry in your account. Model names and access can vary
 
 ## More screens and documentation
 
-[Browse 90 application screens](docs/en/screenshots.md) · [English and Turkish presentation visuals](docs/assets/README.md) · [Architecture](docs/en/architecture.md)
+[Browse application screens](docs/en/screenshots.md) · [English and Turkish presentation visuals](docs/assets/README.md) · [Architecture](docs/en/architecture.md)
 
 The creator's name and photo appear with permission. Demonstration workspaces, conversations, retail records and learning statistics are synthetic. Screens come from the actual application; teaching and exam copy is prepared demonstration content. SQL results and local checks were executed in the app.
 
