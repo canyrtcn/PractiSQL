@@ -12,7 +12,7 @@ A desktop SQL learning workspace that brings local SQLite, an AI tutor, visual s
 
 <p align="center"><strong>Windows x64 · v3.4.271</strong> · <strong>macOS is in preparation.</strong></p>
 
-The button opens Releases, where the Windows x64 installer is available. No GitHub account is required to download it.
+The download button opens GitHub Releases, where the Windows x64 installer is available. No GitHub account is required to download it.
 
 ![PractiSQL workspace with an SQL query, local results and an AI explanation](docs/showcase/cards/product-overview.en.png)
 
