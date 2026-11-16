@@ -188,7 +188,7 @@ Hesabında kullanılabilen model seçeneğini kullan. Model adları ve erişim d
 
 ## Daha fazla ekran ve belge
 
-[90 uygulama ekranını incele](docs/tr/screenshots.md) · [Türkçe ve İngilizce sunum görselleri](docs/assets/README.md) · [Mimari](docs/tr/architecture.md)
+[Uygulama ekranlarını incele](docs/tr/screenshots.md) · [Türkçe ve İngilizce sunum görselleri](docs/assets/README.md) · [Mimari](docs/tr/architecture.md)
 
 Geliştiricinin adı ve fotoğrafı izniyle kullanılır. Tanıtım çalışma alanları, sohbetler, perakende kayıtları ve öğrenme istatistikleri sentetiktir. Ekranlar gerçek uygulamadan alınır; öğretim ve sınav metinleri hazırlanmış demo içeriğidir. SQL sonuçları ve yerel kontroller uygulamada çalıştırılmıştır.
 
