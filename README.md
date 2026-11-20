@@ -206,7 +206,7 @@ The creator's name and photo appear with permission. Demonstration workspaces, c
 
 ## Development and repository layout
 
-Use Node.js 22 or newer and npm.
+Use [Node.js 22 or newer](https://nodejs.org/en/download) and npm.
 
 ```sh
 npm ci
