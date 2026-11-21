@@ -204,7 +204,7 @@ Geliştiricinin adı ve fotoğrafı izniyle kullanılır. Tanıtım çalışma a
 
 ## Geliştirme ve repo düzeni
 
-Node.js 22 veya üzerini ve npm kullan.
+[Node.js 22 veya üzerini](https://nodejs.org/en/download) ve npm kullan.
 
 ```sh
 npm ci
